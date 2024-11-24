@@ -93,10 +93,7 @@ const App = () => {
 
             {onSale != null && (
                 <div
-                    className={`grid grid-cols-${Math.min(
-                        onSale.length,
-                        3
-                    )} gap-4 justify-items-center p-4`}
+                    className={`grid grid-cols-3 gap-4 justify-items-center p-4`}
                 >
                     {onSale.map((car, index) => (
                         <motion.div
