@@ -100,7 +100,7 @@ const App = () => {
                             key={car.id}
                             initial={{ opacity: 0 }}
                             animate={cardAnimate}
-                            className="w-96 h-96 flex flex-col justify-around bg-[#00042a] p-4 rounded-md"
+                            className="w-96 h-96 flex flex-col justify-around bg-[#00041a] p-4 rounded-md"
                         >
                             <h1 className="text-center font-bold text-3xl text-white">
                                 {car.name}
