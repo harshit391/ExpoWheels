@@ -100,13 +100,13 @@ const App = () => {
                             key={car.id}
                             initial={{ opacity: 0 }}
                             animate={cardAnimate}
-                            className="w-96 h-96 flex flex-col justify-around bg-white p-4 rounded-md"
+                            className="w-96 h-96 flex flex-col justify-around bg-[#00042a] p-4 rounded-md"
                         >
-                            <h1 className="text-center font-bold text-3xl text-black">
+                            <h1 className="text-center font-bold text-3xl text-white">
                                 {car.name}
                             </h1>
                             <img src={car.image} alt="Car 1" />
-                            <p className="text-center font-semibold text-black text-xl">
+                            <p className="text-center font-semibold text-white text-xl">
                                 {`Price :- ${car.price}`}
                             </p>
                         </motion.div>
