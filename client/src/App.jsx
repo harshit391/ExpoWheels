@@ -75,8 +75,8 @@ const App = () => {
 
     return (
         <div
-            style={{ fontFamily: "Poppins" }}
-            className="flex flex-col p-4 gap-4 min-h-screen bg-gradient-to-r from-[#25f1d3] to-[#00045a]"
+            style={{ fontFamily: "Poppins" }} // 25f1d3
+            className="flex flex-col p-4 gap-4 min-h-screen bg-gradient-to-r from-[#00045a] to-[#00041a]"
         >
             <motion.div
                 initial={{ opacity: 0, y: 250 }}
@@ -100,13 +100,13 @@ const App = () => {
                             key={car.id}
                             initial={{ opacity: 0 }}
                             animate={cardAnimate}
-                            className="w-96 h-96 flex flex-col justify-around bg-[#00041a] p-4 rounded-md"
+                            className="w-96 h-96 flex flex-col justify-around bg-[#caf0f8] p-4 rounded-md"
                         >
-                            <h1 className="text-center font-bold text-3xl text-white">
+                            <h1 className="text-center font-bold text-3xl text-black">
                                 {car.name}
                             </h1>
                             <img src={car.image} alt="Car 1" />
-                            <p className="text-center font-semibold text-white text-xl">
+                            <p className="text-center font-semibold text-black text-xl">
                                 {`Price :- ${car.price}`}
                             </p>
                         </motion.div>
