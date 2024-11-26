@@ -100,7 +100,7 @@ const Title = () => {
             </motion.div>
 
             {onSale != null && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center p-4">
                     {onSale.map((car, index) => (
                         <motion.div
                             key={car.id}
@@ -118,7 +118,7 @@ const Title = () => {
                                     }}
                                     src={car.image}
                                     alt={car.name}
-                                    className="rounded-md w-80 h-40 object-cover"
+                                    className="rounded-md w-full object-cover"
                                 />
                             </div>
                             <p className="text-center font-semibold text-white text-xl">
