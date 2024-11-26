@@ -76,17 +76,17 @@ const App = () => {
     return (
         <div
             style={{ fontFamily: "Poppins" }} // 25f1d3
-            className="flex flex-col p-4 gap-4 min-h-screen bg-gradient-to-r from-[#00045a] to-[#00041a]"
+            className="flex flex-col p-4 gap-4 min-h-screen bg-gradient-to-r from-[#00000a] to-[#00041a]"
         >
             <motion.div
                 initial={{ opacity: 0, y: 250 }}
                 animate={animate}
                 className="flex flex-col gap-1 max-h-max p-4"
             >
-                <h1 className="text-8xl text-center font-bold text-white uppercase tracking-tight">
+                <h1 className="text-8xl text-left ml-64 font-bold text-white uppercase tracking-tight">
                     Expo Wheels
                 </h1>
-                <p className="text-2xl text-center text-white tracking-wide">
+                <p className="text-2xl text-right mr-96 text-white tracking-wide">
                     Drive Your Dream, Your Way
                 </p>
             </motion.div>
