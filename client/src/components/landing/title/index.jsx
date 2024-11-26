@@ -100,13 +100,13 @@ const Title = () => {
             </motion.div>
 
             {onSale != null && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center p-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center p-8">
                     {onSale.map((car, index) => (
                         <motion.div
                             key={car.id}
                             initial={{ opacity: 0 }}
                             animate={cardAnimate}
-                            className="w-96 h-96 flex flex-col justify-around backdrop-blur-md bg-white/20 border-2 border-solid border-white p-4 rounded-md"
+                            className="w-full h-full flex flex-col gap-4 justify-around backdrop-blur-md bg-white/20 border-2 border-solid border-white p-4 rounded-md"
                         >
                             <h1 className="text-center font-bold text-3xl text-white tracking-wider">
                                 {car.name}
