@@ -1,5 +1,5 @@
 import React from "react";
-import Title from "./components/landing/title";
+import Title from "./components/landing";
 
 const App = () => {
     return (

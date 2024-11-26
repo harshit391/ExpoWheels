@@ -22,20 +22,6 @@ const carData = [
     },
 ];
 
-const containerStyle = {
-    background: "rgba(0, 0, 0, 0.2)", // Blue tint
-    backdropFilter: "blur(15px)", // Glass blur effect
-    WebkitBackdropFilter: "blur(15px)", // Safari compatibility
-    border: "1px solid rgba(255, 255, 255, 0.3)", // Subtle border
-    borderRadius: "15px", // Rounded corners
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", // Depth shadow
-    padding: "2D0px",
-    width: "300px",
-    textAlign: "center",
-    color: "#fff", // Text color
-    margin: "50px auto", // Center alignment
-};
-
 const Title = () => {
     const animate = useAnimationControls();
     const cardAnimate = useAnimationControls();
