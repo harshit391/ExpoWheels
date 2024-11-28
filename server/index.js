@@ -18,7 +18,7 @@ app.use('*', (req, res, next) => {
 /* Setting up the body parser by using Default Express parse for JSON */
 app.use(express.json());
 
-/* ========== ROUTES =============== */
+/* =============== ROUTES =============== */
 app.get("/", (req, res) => {
     res.send({ message: "Hello World!" });
 });
