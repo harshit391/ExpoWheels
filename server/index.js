@@ -1,5 +1,6 @@
 import express from "express";
 import { connectDB } from "./connection/db.connection.js";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use('*', (req, res, next) => {
 app.use(express.json());
 
 /* =============== ROUTES =============== */
+app.use("/api/user", userRoutes);
+
 app.get("/", (req, res) => {
     res.send({ message: "Hello World!" });
 });
