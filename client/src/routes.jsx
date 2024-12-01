@@ -1,6 +1,6 @@
 import { Children } from "react";
 import Layout from "./components/layout";
-import Title from "./components/landing";
+import Landing from "./components/landing/page";
 
 const routes = [
     {
@@ -9,11 +9,7 @@ const routes = [
         children: [
             {
                 path: "/",
-                element: <Title />
-            },
-            {
-                path: "/test",
-                element: <Title />
+                element: <Landing />
             }
         ]
     }
