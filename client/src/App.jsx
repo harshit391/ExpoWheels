@@ -1,12 +1,15 @@
 import React from "react";
-import Title from "./components/landing";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import routes from "./routes";
 
 const App = () => {
+    const router = createBrowserRouter(routes);
+
     return (
-        <div>
-            <Title />
-        </div>
-    );
+        <>
+            <RouterProvider router={router} />
+        </>
+    )
 };
 
 export default App;
