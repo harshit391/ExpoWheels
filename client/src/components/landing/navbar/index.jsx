@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const Navbar = () => {
-    const [useLoggedIn, setUserLoggedIn] = useState(true);
+    const [useLoggedIn, setUserLoggedIn] = useState(false);
 
-    const [collapse, setCollapse] = useState(false);
+    const [collapse, setCollapse] = useState(true);
 
     return (
-        <div
-            className={`flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center`}
-        >
+        <div className="flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center">
             <div className="flex justify-between w-full md:w-max">
                 <div className="flex gap-2">
                     <img
@@ -26,33 +24,65 @@ const Navbar = () => {
                         <h1>WHEELS</h1>
                     </div>
                 </div>
-                <div className={`flex md:hidden`}>
+                <div className="flex md:hidden">
                     <button
                         onClick={() => setCollapse(!collapse)}
                         className="bg-black text-white p-2 rounded-md"
                     >
-                        {collapse ? "Close" : "Menu"}
+                        {collapse ? "Menu" : "Close"}
                     </button>
                 </div>
             </div>
-            <div className={`flex md:flex-row flex-col ${collapse ? "hidden" : "flex"} md:flex gap-4 font-semibold`}>
+            <motion.div
+                initial={{ opacity: 0, y: -50 }}
+                animate={
+                    collapse ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }
+                }
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+                className={`flex md:flex-row flex-col ${
+                    collapse ? "hidden" : "flex"
+                } md:flex gap-4 font-semibold`}
+            >
                 <div>Home</div>
                 <div>About Us</div>
                 <div>Buy Cars</div>
                 <div>Sell Cars</div>
                 <div>Rent Cars</div>
                 <div>Contact Us</div>
-            </div>
+            </motion.div>
             {!useLoggedIn && (
-                <div className="flex gap-2 font-semibold">
-                    <div>Login</div>
-                    <div>Register</div>
-                </div>
+                <motion.div
+                    initial={{ opacity: 0, y: -50 }}
+                    animate={
+                        collapse ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }
+                    }
+                    exit={{ opacity: 0, y: -50 }}
+                    transition={{ duration: 0.5 }}
+                    style={{
+                        boxShadow: "2px 4px 15px black",
+                    }}
+                    className={`flex ${
+                        collapse ? "hidden" : "flex"
+                    } md:flex gap-4 font-semibold bg-black text-white px-4 py-2 rounded max-w-max`}
+                >
+                    <div>Login / Register</div>
+                </motion.div>
             )}
             {useLoggedIn && (
-                <div className="flex gap-2 font-semibold">
+                <motion.div
+                    initial={{ opacity: 0, y: -50 }}
+                    animate={
+                        collapse ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }
+                    }
+                    exit={{ opacity: 0, y: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className={`flex ${
+                        collapse ? "hidden" : "flex"
+                    } md:flex gap-4 font-semibold`}
+                >
                     <div>Logout</div>
-                </div>
+                </motion.div>
             )}
         </div>
     );

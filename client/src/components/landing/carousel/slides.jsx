@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import "./slides.css"
+import "./slides.css";
 
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
@@ -10,7 +10,6 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 
 const Slides = ({ slides }) => {
-
     const [timeLeft, setTimeLeft] = useState([]);
 
     useEffect(() => {
@@ -58,17 +57,14 @@ const Slides = ({ slides }) => {
     const mySwiper = useRef(null);
 
     useEffect(() => {
-
         const id = setInterval(() => {
-
-            if (mySwiper.current)
-            {
+            if (mySwiper.current) {
                 mySwiper.current.slideNext();
             }
-        }, 5000)
+        }, 5000);
 
         return () => clearInterval(id);
-    }, [])
+    }, []);
 
     return (
         <div className="flex flex-col justify-between overflow-x-hidden">
@@ -78,6 +74,7 @@ const Slides = ({ slides }) => {
                     spaceBetween={30}
                     slidesPerView={1}
                     navigation
+                    speed={1000}
                     loop={true}
                     modules={[Navigation, Pagination]}
                     pagination={{ clickable: true }}
@@ -93,53 +90,58 @@ const Slides = ({ slides }) => {
                                         className="w-full h-auto object-cover"
                                     />
                                 </div>
-                                <div className="w-full md:w-1/2 flex flex-col gap-4">
-                                    <h1
-                                        className="text-white text-3xl md:text-4xl font-bold"
-                                        style={{
-                                            fontFamily: "SuperBrigadeTitle",
-                                        }}
-                                    >
-                                        {s.name}
-                                    </h1>
-                                    <h3
-                                        className="text-white text-xl md:text-2xl font-semibold"
-                                        style={{
-                                            fontFamily: "SuperBrigadeCondensed",
-                                            letterSpacing: "0.1rem",
-                                        }}
-                                    >
-                                        Price: {s.price}
-                                    </h3>
-                                    {timeLeft[i] && (
-                                        <div>
-                                            <h5
-                                                className="text-white text-md md:text-lg font-semibold"
-                                                style={{
-                                                    fontFamily:
-                                                        "SuperBrigadeCondensed",
-                                                    letterSpacing: "0.15rem",
-                                                }}
-                                            >
-                                                Time Left:
-                                            </h5>
-                                            <h5
-                                                className="text-white text-xl md:text-2xl font-semibold"
-                                                style={{
-                                                    fontFamily:
-                                                        "SuperBrigadeCondensed",
-                                                    letterSpacing: "0.15rem",
-                                                }}
-                                            >
-                                                {`
+                                <div className="w-full md:w-1/2 flex justify-center gap-4 p-6">
+                                    <div className="flex flex-col gap-4">
+                                        <h1
+                                            className="text-white text-3xl md:text-4xl font-bold"
+                                            style={{
+                                                fontFamily: "SuperBrigadeTitle",
+                                            }}
+                                        >
+                                            {s.name}
+                                        </h1>
+                                        <h3
+                                            className="text-white text-xl md:text-2xl font-semibold"
+                                            style={{
+                                                fontFamily:
+                                                    "SuperBrigadeCondensed",
+                                                letterSpacing: "0.1rem",
+                                            }}
+                                        >
+                                            Price: {s.price}
+                                        </h3>
+                                        {timeLeft[i] && (
+                                            <div>
+                                                <h5
+                                                    className="text-white text-md md:text-lg font-semibold"
+                                                    style={{
+                                                        fontFamily:
+                                                            "SuperBrigadeCondensed",
+                                                        letterSpacing:
+                                                            "0.15rem",
+                                                    }}
+                                                >
+                                                    Time Left:
+                                                </h5>
+                                                <h5
+                                                    className="text-white text-xl md:text-2xl font-semibold"
+                                                    style={{
+                                                        fontFamily:
+                                                            "SuperBrigadeCondensed",
+                                                        letterSpacing:
+                                                            "0.15rem",
+                                                    }}
+                                                >
+                                                    {`
                                                 ${timeLeft[i].days}d 
                                                 ${timeLeft[i].hours}h 
                                                 ${timeLeft[i].minutes}m 
                                                 ${timeLeft[i].seconds}s
                                             `}
-                                            </h5>
-                                        </div>
-                                    )}
+                                                </h5>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </SwiperSlide>
