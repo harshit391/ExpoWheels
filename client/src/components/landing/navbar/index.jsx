@@ -5,7 +5,7 @@ const Navbar = () => {
     const [useLoggedIn, setUserLoggedIn] = useState(false);
 
     return (
-        <div className="flex gap-4 p-4 justify-between items-center">
+        <div className="flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center">
             <div className="flex gap-2">
                 <img src="/EXPOWHEELS.png" width={40} height={40} alt="logo" />
                 <div
@@ -16,7 +16,7 @@ const Navbar = () => {
                     <h1>WHEELS</h1>
                 </div>
             </div>
-            <div className="flex gap-4 font-semibold">
+            <div className="flex md:flex-row flex-col gap-4 font-semibold">
                 <div>Home</div>
                 <div>About Us</div>
                 <div>Buy Cars</div>

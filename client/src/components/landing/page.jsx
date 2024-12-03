@@ -2,38 +2,13 @@ import React, { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Navbar from "./navbar";
 import Carousel from "./carousel";
-
-const carData = [
-    {
-        id: 1,
-        name: "Lamborghini Urus VII",
-        price: 20000,
-        image: "/Sample/Car1.png",
-    },
-    {
-        id: 2,
-        name: "Car 2",
-        price: 30000,
-        image: "/Sample/Car2.png",
-    },
-    {
-        id: 3,
-        name: "Car 3",
-        price: 40000,
-        image: "/Sample/Car1.png",
-    },
-];
+import Welcome from "./main";
 
 const Title = () => {
     const animate = useAnimationControls();
     const cardAnimate = useAnimationControls();
 
     const [show, setShow] = useState(true);
-    const [onSale, setOnSale] = useState(null);
-
-    useEffect(() => {
-        setOnSale(carData);
-    });
 
     useEffect(() => {
         animate
@@ -70,7 +45,7 @@ const Title = () => {
     return (
         <div
             style={{ fontFamily: "Poppins" }} // 25f1d3
-            className="flex flex-col gap-4 min-h-screen"
+            className="flex flex-col min-h-screen w-full"
         >
             <motion.div
                 initial={{
@@ -126,7 +101,8 @@ const Title = () => {
                 }}
                 animate={cardAnimate}
             >
-                <Carousel data={onSale} />
+                <Carousel />
+                <Welcome />
             </motion.div>
         </div>
     );
