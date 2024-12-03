@@ -1,6 +1,6 @@
-import { Children } from "react";
 import Layout from "./components/layout";
 import Landing from "./components/landing/page";
+import NotFound from "./components/notfound";
 
 const routes = [
     {
@@ -10,6 +10,10 @@ const routes = [
             {
                 path: "/",
                 element: <Landing />
+            },
+            {
+                path: "/:any",
+                element: <NotFound />
             }
         ]
     }

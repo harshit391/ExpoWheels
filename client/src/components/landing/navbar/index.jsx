@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";   
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const [useLoggedIn, setUserLoggedIn] = useState(false);
-
     const [collapse, setCollapse] = useState(true);
 
     return (
         <div className="flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center">
+    
             <div className="flex justify-between w-full md:w-max">
                 <div className="flex gap-2">
                     <img
@@ -33,32 +33,23 @@ const Navbar = () => {
                     </button>
                 </div>
             </div>
-            <motion.div
-                initial={{ opacity: 0, y: -50 }}
-                animate={
-                    collapse ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }
-                }
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
+
+            <div
                 className={`flex md:flex-row flex-col ${
                     collapse ? "hidden" : "flex"
                 } md:flex gap-4 font-semibold`}
             >
-                <div>Home</div>
-                <div>About Us</div>
-                <div>Buy Cars</div>
-                <div>Sell Cars</div>
-                <div>Rent Cars</div>
-                <div>Contact Us</div>
-            </motion.div>
+                <Link to="/">Home</Link>
+                <Link to="/about">About Us</Link>
+                <Link to="/buy">Buy Cars</Link>
+                <Link to="/sell">Sell Cars</Link>
+                <Link to="/rend">Rent Cars</Link>
+                <Link to="/contact">Contact Us</Link>
+            </div>
+
+            {/* Login/Logout Section */}
             {!useLoggedIn && (
-                <motion.div
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={
-                        collapse ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }
-                    }
-                    exit={{ opacity: 0, y: -50 }}
-                    transition={{ duration: 0.5 }}
+                <Link to="/login"
                     style={{
                         boxShadow: "2px 4px 15px black",
                     }}
@@ -67,22 +58,19 @@ const Navbar = () => {
                     } md:flex gap-4 font-semibold bg-black text-white px-4 py-2 rounded max-w-max`}
                 >
                     <div>Login / Register</div>
-                </motion.div>
+                </Link>
             )}
             {useLoggedIn && (
-                <motion.div
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={
-                        collapse ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }
-                    }
-                    exit={{ opacity: 0, y: -50 }}
-                    transition={{ duration: 0.5 }}
+                <div
+                    style={{
+                        boxShadow: "2px 4px 15px black",
+                    }}
                     className={`flex ${
                         collapse ? "hidden" : "flex"
                     } md:flex gap-4 font-semibold`}
                 >
                     <div>Logout</div>
-                </motion.div>
+                </div>
             )}
         </div>
     );
