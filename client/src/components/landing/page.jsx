@@ -66,7 +66,7 @@ const Title = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 250 }}
                     animate={animate}
-                    className="flex flex-col gap-1 max-h-max p-4"
+                    className="flex flex-col items-center gap-1 max-h-max p-4"
                 >
                     <div className="grid grid-cols-4">
                         <h1

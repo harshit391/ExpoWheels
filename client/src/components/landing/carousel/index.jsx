@@ -26,7 +26,7 @@ const Carousel = () => {
     ];
 
     return (
-        <div className="flex flex-col min-h-[60dvh] justify-center w-full bg-gradient-to-r from-black via-[#222222] to-[#000000]">
+        <div className="flex flex-col min-h-[50vh] justify-center w-full bg-gradient-to-r from-black via-[#222222] to-[#000000]">
             <Slides slides={carData} />
         </div>
     );

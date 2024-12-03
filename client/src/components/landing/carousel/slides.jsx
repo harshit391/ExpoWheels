@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import {
-    BsFillArrowRightCircleFill,
-    BsFillArrowLeftCircleFill,
-} from "react-icons/bs";
+
+import "./slides.css"
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import { Navigation, Pagination } from "swiper/modules";
 
 const Slides = ({ slides }) => {
-    const [current, setCurrent] = useState(0);
 
     const [timeLeft, setTimeLeft] = useState([]);
 
@@ -51,38 +55,20 @@ const Slides = ({ slides }) => {
         return () => clearInterval(timerId); // Cleanup interval on unmount
     }, [slides]);
 
-    const prevSlide = () => {
-        if (current == 0) setCurrent(slides.length - 1);
-        else setCurrent(current - 1);
-    };
-
-    const nextSlide = () => {
-        if (current == slides.length - 1) setCurrent(0);
-        else setCurrent(current + 1);
-    };
-
     return (
         <div className="flex flex-col justify-between overflow-x-hidden">
-            <div className="flex">
-                <button
-                    onClick={prevSlide}
-                    className="hidden sm:flex justify-center items-center text-lg md:text-4xl text-white w-[10%] z-40"
+            <div className="flex items-center">
+                <Swiper
+                    spaceBetween={30}
+                    slidesPerView={1}
+                    navigation
+                    modules={[Navigation, Pagination]}
+                    pagination={{ clickable: true }}
+                    className="swiper-container flex"
                 >
-                    <BsFillArrowLeftCircleFill />
-                </button>
-                <div className="w-full md:w-4/5 overflow-hidden">
-                    <div
-                        className="flex"
-                        style={{
-                            transform: `translateX(${-current * 100}%)`,
-                            transition: "transform 500ms ease-in",
-                        }}
-                    >
-                        {slides.map((s, i) => (
-                            <div
-                                key={s.name}
-                                className="w-full flex flex-col md:flex-row items-center justify-center flex-shrink-0 gap-4 p-4"
-                            >
+                    {slides.map((s, i) => (
+                        <SwiperSlide key={s.name}>
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-4 p-4">
                                 <div className="w-full md:w-1/2">
                                     <img
                                         src={s.image}
@@ -129,39 +115,19 @@ const Slides = ({ slides }) => {
                                                 }}
                                             >
                                                 {`
-                                                    ${timeLeft[i].days}d 
-                                                    ${timeLeft[i].hours}h 
-                                                    ${timeLeft[i].minutes}m 
-                                                    ${timeLeft[i].seconds}s
-                                                `}
+                                                ${timeLeft[i].days}d 
+                                                ${timeLeft[i].hours}h 
+                                                ${timeLeft[i].minutes}m 
+                                                ${timeLeft[i].seconds}s
+                                            `}
                                             </h5>
                                         </div>
                                     )}
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
-
-                <button
-                    onClick={nextSlide}
-                    className="hidden sm:flex justify-center items-center text-lg md:text-4xl text-white w-[10%] z-40"
-                >
-                    <BsFillArrowRightCircleFill />
-                </button>
-            </div>
-            <div className="flex gap-2 justify-center items-center mt-4">
-                {slides.map((s, i) => (
-                    <div
-                        key={s.name}
-                        onClick={() => setCurrent(i)}
-                        className={`cursor-pointer rounded-full ${
-                            i === current
-                                ? "w-6 h-6 bg-white"
-                                : "w-4 h-4 bg-gray-500"
-                        }`}
-                    ></div>
-                ))}
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
             </div>
         </div>
     );
