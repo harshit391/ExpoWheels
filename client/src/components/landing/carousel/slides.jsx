@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import "./slides.css"
 
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -55,13 +55,30 @@ const Slides = ({ slides }) => {
         return () => clearInterval(timerId); // Cleanup interval on unmount
     }, [slides]);
 
+    const mySwiper = useRef(null);
+
+    useEffect(() => {
+
+        const id = setInterval(() => {
+
+            if (mySwiper.current)
+            {
+                mySwiper.current.slideNext();
+            }
+        }, 5000)
+
+        return () => clearInterval(id);
+    }, [])
+
     return (
         <div className="flex flex-col justify-between overflow-x-hidden">
             <div className="flex items-center">
                 <Swiper
+                    onSwiper={(s) => (mySwiper.current = s)}
                     spaceBetween={30}
                     slidesPerView={1}
                     navigation
+                    loop={true}
                     modules={[Navigation, Pagination]}
                     pagination={{ clickable: true }}
                     className="swiper-container flex"
