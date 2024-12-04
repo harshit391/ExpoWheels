@@ -47,21 +47,6 @@ const Title = () => {
             style={{ fontFamily: "Poppins" }} // 25f1d3
             className="flex flex-col min-h-screen w-full"
         >
-            <motion.div
-                initial={{
-                    opacity: 0,
-                }}
-                animate={{
-                    opacity: 1,
-                    transition: {
-                        delay: 1,
-                        duration: 1,
-                    },
-                }}
-            >
-                <Navbar />
-            </motion.div>
-
             {show && (
                 <motion.div
                     initial={{ opacity: 0, y: 250 }}

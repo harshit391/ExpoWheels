@@ -6,8 +6,11 @@ const Navbar = () => {
     const [collapse, setCollapse] = useState(true);
 
     return (
-        <div className="flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center">
-    
+        <div 
+        style={{
+            boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.7)",
+        }}
+        className="flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center">
             <div className="flex justify-between w-full md:w-max">
                 <div className="flex gap-2">
                     <img
