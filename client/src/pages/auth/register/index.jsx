@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { createUser } from "../../../utils/auth";
 import { motion } from "framer-motion";
+import { FaChevronLeft } from "react-icons/fa";
 
 const Login = () => {
     const [details, setDetails] = useState({
@@ -53,6 +54,20 @@ const Login = () => {
                 }}
                 className="flex flex-col min-h-screen justify-center w-full"
             >
+                <div
+                    style={{
+                        fontFamily: "Poppins",
+                        boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.7)",
+                    }}
+                >
+                    <Link
+                        to="/"
+                        className="absolute top-7 flex gap-2 justify-center items-center left-7 p-4  bg-white text-black rounded font-bold"
+                    >
+                        <FaChevronLeft />
+                        <div className="text-xl">Go Back</div>
+                    </Link>
+                </div>
                 <div
                     className="text-4xl text-white text-center"
                     style={{
@@ -181,7 +196,7 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="flex flex-col justify-center p-4">
-                            <div className="p-4 text-center text-white">
+                            <div className="p-4 text-center font-bold text-white">
                                 Already Have an Account ?{" "}
                                 <Link to="/login" className="hover:underline">
                                     Login

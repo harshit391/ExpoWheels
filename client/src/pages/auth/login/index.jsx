@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { signUser } from "../../../utils/auth";
+import { FaChevronLeft } from "react-icons/fa";
 
 const Login = () => {
     const [details, setDetails] = useState({
         email: "",
         password: "",
     });
+
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setDetails({
@@ -15,10 +19,19 @@ const Login = () => {
         });
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await signUser(details);
+        } catch (error) {
+            alert(error.message);
+        }
+        setLoading(false);
+    };
+
     return (
-        <div
-            className="flex min-h-screen items-center"
-        >
+        <div className="flex min-h-screen items-center">
             <div
                 style={{
                     backgroundImage:
@@ -28,6 +41,20 @@ const Login = () => {
                 }}
                 className="flex flex-col min-h-screen justify-center w-full"
             >
+                <div
+                    style={{
+                        fontFamily: "Poppins",
+                        boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.7)",
+                    }}
+                >
+                    <Link
+                        to="/"
+                        className="absolute top-7 flex gap-2 justify-center items-center left-7 p-4  bg-white text-black rounded font-bold"
+                    >
+                        <FaChevronLeft />
+                        <div className="text-xl">Go Back</div>
+                    </Link>
+                </div>
                 <div
                     className="text-4xl text-white text-center"
                     style={{
@@ -48,16 +75,16 @@ const Login = () => {
             </div>
             <div className="w-full p-4 flex justify-center">
                 <motion.div
-                initial={{
-                    opacity: 0,
-                }}
-                animate={{
-                    opacity: 1,
-                    transition: {
-                        delay: 0.1,
-                        duration: 0.25,
-                    },
-                }}
+                    initial={{
+                        opacity: 0,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        transition: {
+                            delay: 0.1,
+                            duration: 0.25,
+                        },
+                    }}
                     style={{
                         boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.7)",
                     }}
@@ -72,10 +99,7 @@ const Login = () => {
                     >
                         Login
                     </div>
-                    <div
-                        
-                        className="w-4/5 flex flex-col justify-center"
-                    >
+                    <div className="w-4/5 flex flex-col justify-center">
                         <div className="flex flex-col gap-4 p-4">
                             <div className="flex flex-col gap-2">
                                 <label className="text-white" htmlFor="email">
@@ -108,7 +132,7 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="flex flex-col justify-center p-4">
-                            <div className="p-4 text-center text-white">
+                            <div className="p-4 text-center font-bold text-white">
                                 New to ExpoWheels ?{" "}
                                 <Link
                                     to="/register"
@@ -118,9 +142,19 @@ const Login = () => {
                                 </Link>
                             </div>
                             <div className="flex justify-center w-full">
-                                <button className="bg-white px-4 w-full py-2 rounded">
-                                    Login
-                                </button>
+                                {!loading && (
+                                    <button
+                                        onClick={handleSubmit}
+                                        className="bg-white px-4 w-full py-2 rounded"
+                                    >
+                                        Login
+                                    </button>
+                                )}
+                                {loading && (
+                                    <button className="bg-white px-4 w-full py-2 rounded">
+                                        {"Please Wait..."}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

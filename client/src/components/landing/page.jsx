@@ -47,6 +47,7 @@ const Title = () => {
             style={{ fontFamily: "Poppins" }} // 25f1d3
             className="flex flex-col min-h-screen w-full"
         >
+            <Navbar />
             {show && (
                 <motion.div
                     initial={{ opacity: 0, y: 250 }}
