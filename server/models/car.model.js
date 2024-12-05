@@ -58,18 +58,10 @@ const carSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
-    // images: [
-    //     {
-    //         url: {
-    //             type: String,
-    //             required: true,
-    //         },
-    //         altText: {
-    //             type: String,
-    //             default: "Car image",
-    //         },
-    //     },
-    // ],
+    image: {
+        type: String,
+        required: true,
+    },
     location: {
         city: {
             type: String,

@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { verifyToken } from "../auth";
 import { useState, useEffect } from "react";
 import { SECRET_KEY } from "../constants";
@@ -7,6 +7,8 @@ const HighlyProtectedRoute = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -20,7 +22,7 @@ const HighlyProtectedRoute = ({ children }) => {
                         setIsAuthenticated(true);
                         setIsAdmin(false);
 
-                        if (res.user.role === SECRET_KEY) {
+                        if (res.role === SECRET_KEY) {
                             setIsAuthenticated(true);
                             setIsAdmin(true);
                         }
@@ -44,11 +46,11 @@ const HighlyProtectedRoute = ({ children }) => {
         return <div>Loading...</div>;
     }
 
-    return isAuthenticated && isAdmin ? (
-        <Navigate to="/" replace /> // Redirect if already logged in
-    ) : (
-        children // Render the child components if not authenticated
-    );
+    if (isAuthenticated && isAdmin) {
+        return children;
+    } else {
+        navigate("/login");
+    }
 };
 
 export default HighlyProtectedRoute;

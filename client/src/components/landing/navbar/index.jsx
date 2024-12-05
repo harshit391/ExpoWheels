@@ -50,6 +50,7 @@ const Navbar = () => {
         localStorage.removeItem("eWauthToken");
         alert("Logged Out Successfully");
         setUserLoggedIn(false);
+        window.location.reload();
     };
 
     return (
