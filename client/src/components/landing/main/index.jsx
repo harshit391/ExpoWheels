@@ -30,7 +30,7 @@ const Welcome = () => {
                         fontFamily: "SuperBrigadeTitle",
                         letterSpacing: "-0.2rem",
                     }}
-                    className="text-6xl text-center font-bold"
+                    className="text-5xl md:text-6xl text-center font-bold"
                 >
                     Expo Wheels
                 </h1>
@@ -38,12 +38,12 @@ const Welcome = () => {
                     style={{
                         fontFamily: "SuperBrigadeCondensed",
                     }}
-                    className="text-center text-2xl"
+                    className="text-center text-lg md:text-2xl"
                 >
                     Drive Your Dream, Your Way
                 </p>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card item={cards[0]} />
                 <Card item={cards[1]} />
                 <Card item={cards[2]} />
