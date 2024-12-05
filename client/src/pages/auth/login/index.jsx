@@ -3,9 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { signUser } from "../../../utils/auth";
 import { FaChevronLeft } from "react-icons/fa";
+import { useAuth } from "../../../context/context";
+import { SECRET_KEY } from "../../../utils/constants";
 
 const Login = () => {
     const navigate = useNavigate();
+
+    const { setUser, setAdmin } = useAuth();
 
     const [details, setDetails] = useState({
         email: "",
@@ -29,6 +33,12 @@ const Login = () => {
             if (response)
             {
                 alert(response.message);
+                setUser(response.user);
+
+                if (response.user.role === SECRET_KEY)
+                {
+                    setAdmin(response.user);
+                }
                 navigate("/");
             }
             else

@@ -1,56 +1,16 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { verifyToken } from "../../../utils/auth";
-import { SECRET_KEY } from "../../../utils/constants";  
+import { useAuth } from "../../../context/context";
+import { useState } from "react";
 
 const Navbar = () => {
-    const [useLoggedIn, setUserLoggedIn] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { user, admin, setUser, setAdmin } = useAuth();
     const [collapse, setCollapse] = useState(true);
-
-    useEffect(() => {
-        const fetchToken = async () => {
-            try {
-                console.log("Fetching Token....");
-
-                const token = localStorage.getItem("eWauthToken");
-
-                console.log(token);
-
-                if (!token) throw Error("No Token Found");
-
-                const response = await verifyToken(token);
-
-                console.log(response);
-
-                if (response.ok) {
-                    setUserLoggedIn(true);
-                    setIsAdmin(false);
-
-                    if (response.role === SECRET_KEY) {
-                        setIsAdmin(true);
-                        setUserLoggedIn(true);
-                    }
-                } else {
-                    setUserLoggedIn(false);
-                    setIsAdmin(false);
-                }
-            } catch (error) {
-                setUserLoggedIn(false);
-                setIsAdmin(false);
-            }
-        };
-
-        fetchToken();
-        console.log("User Logged In :- ", useLoggedIn);
-        console.log("User is Admin :- ", isAdmin); 
-    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("eWauthToken");
         alert("Logged Out Successfully");
-        setUserLoggedIn(false);
-        window.location.reload();
+        setUser(null);
+        setAdmin(null);
     };
 
     return (
@@ -98,11 +58,11 @@ const Navbar = () => {
                 <Link to="/sell">Sell Cars</Link>
                 <Link to="/rend">Rent Cars</Link>
                 <Link to="/contact">Contact Us</Link>
-                {isAdmin && <Link to="/admin">Admin</Link>}
+                {admin && <Link to="/admin">Admin</Link>}
             </div>
 
             {/* Login/Logout Section */}
-            {!useLoggedIn && (
+            {!user && (
                 <Link
                     to="/login"
                     style={{
@@ -115,7 +75,7 @@ const Navbar = () => {
                     <div>Login / Register</div>
                 </Link>
             )}
-            {useLoggedIn && (
+            {user && (
                 <div
                     onClick={handleLogout}
                     style={{

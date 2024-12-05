@@ -30,7 +30,7 @@ router.post("/register", (req, res) => {
         (dbres) => {
             res.status(201).send({
                 message: "User Creation Successfully",
-                token: dbres,
+                data: dbres,
             });
         },
 
@@ -61,7 +61,7 @@ router.post("/signin", (req, res) => {
             console.log("The User Object :- ", dbres);
             res.status(201).send({
                 message: "User Authenticated Successfully",
-                token: dbres,
+                data: dbres,
             });
         },
 

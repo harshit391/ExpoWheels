@@ -4,10 +4,14 @@ import { createUser } from "../../../utils/auth";
 import { motion } from "framer-motion";
 import { FaChevronLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/context";
+import { SECRET_KEY } from "../../../utils/constants";
 
 const Login = () => {
 
     const navigate = useNavigate();
+
+    const { setUser, setAdmin } = useAuth();
 
     const [details, setDetails] = useState({
         name: "",
@@ -36,6 +40,15 @@ const Login = () => {
             if (response) 
             {
                 alert(response.message);
+                setUser(response.user);
+                if (response.user.role === SECRET_KEY)
+                {
+                    setAdmin(response.user);
+                } 
+                else 
+                {
+                    setAdmin(null);
+                }
                 navigate("/");
                 
             } 

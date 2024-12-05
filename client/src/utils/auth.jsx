@@ -25,13 +25,15 @@ export const createUser = async (details) => {
 
     const data = await response.json();
 
-    localStorage.setItem("eWauthToken", data.token);
+    console.log("Data :- ", data);
 
     if (data.error) {
         throw Error(data.error);
     }
 
-    return { message: "User Created Successfully" };
+    localStorage.setItem("eWauthToken", data.data.token);
+
+    return { message: "User Created Successfully", user: data.data.user };
 };
 
 export const signUser = async (details) => {
@@ -49,13 +51,15 @@ export const signUser = async (details) => {
 
     const data = await response.json();
 
-    localStorage.setItem("eWauthToken", data.token);
+    console.log("Data :- ", data);
 
     if (data.error) {
         throw Error(data.error);
     }
 
-    return { message: "User Login Successfull" };
+    localStorage.setItem("eWauthToken", data.data.token);
+
+    return { message: "User Login Successfull", user: data.data.user };
 };
 
 export const verifyToken = async (token) => {
@@ -75,6 +79,5 @@ export const verifyToken = async (token) => {
         throw Error(data.error);
     }
 
-    return { ok: "Valid Token", role: data.user.role};
+    return { ok: "Valid Token", role: data.user.role, id: data.user.id };
 };
-
