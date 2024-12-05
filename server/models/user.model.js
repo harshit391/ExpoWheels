@@ -90,14 +90,15 @@ UserModel.addUser = async (user, sucessCallBack, errorCallback) => {
             }
         }
 
-        const newUser = await UserModel.insertMany([{ ...user, password: encryptedPassword }]);
+        const newUser = await UserModel.insertMany([
+            { ...user, password: encryptedPassword },
+        ]);
 
         console.log("Post | SignUp :- ", newUser[0]);
         console.log("Post | SignUpID :- ", newUser[0]._id);
-        
 
         const token = jwt.sign(
-            { userId: newUser[0]._id, email: user.email },
+            { userId: newUser[0]._id, email: user.email, role: newUser[0].role },
             JWT_SECRET_KEY,
             { expiresIn: "7d" }
         );
@@ -133,7 +134,7 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
             if (isPasswordMatch) {
                 // Creating a JWT Token if Password Matches
                 const token = jwt.sign(
-                    { userId: dbRes._id, email: dbRes.email },
+                    { userId: dbRes._id, email: dbRes.email, role: dbRes.role },
                     JWT_SECRET_KEY,
                     { expiresIn: "1h" }
                 );

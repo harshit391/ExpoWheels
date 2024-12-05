@@ -3,7 +3,9 @@ import Landing from "./components/landing/page";
 import NotFound from "./components/notfound";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
-import UnProtectedRoute from "./utils/unprotectedRoute";
+import UnProtectedRoute from "./utils/routeProtection/unprotectedRoute";
+import HighlyProtectedRoute from "./utils/routeProtection/highlyProtectedRoute";
+import Admin from "./pages/admin";
 
 const routes = [
     {
@@ -28,6 +30,14 @@ const routes = [
                     <UnProtectedRoute>
                         <Register />
                     </UnProtectedRoute>
+                ),
+            },
+            {
+                path: "/admin",
+                element: (
+                    <HighlyProtectedRoute>
+                        <Admin />
+                    </HighlyProtectedRoute>
                 ),
             },
             {

@@ -69,11 +69,12 @@ export const verifyToken = async (token) => {
 
     const data = await response.json();
 
-    console.log(data);
+    console.log("Data :- ", data);
 
     if (data.error) {
         throw Error(data.error);
     }
 
-    return { ok: "Valid Token" };
+    return { ok: "Valid Token", role: data.user.role};
 };
+

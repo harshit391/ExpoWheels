@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { verifyToken } from "../../../utils/auth";
-
+import { SECRET_KEY } from "../../../utils/constants";  
 
 const Navbar = () => {
     const [useLoggedIn, setUserLoggedIn] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [collapse, setCollapse] = useState(true);
 
     useEffect(() => {
@@ -24,19 +25,30 @@ const Navbar = () => {
 
                 if (response.ok) {
                     setUserLoggedIn(true);
+                    setIsAdmin(false);
+
+                    if (response.role === SECRET_KEY) {
+                        setIsAdmin(true);
+                        setUserLoggedIn(true);
+                    }
                 } else {
                     setUserLoggedIn(false);
+                    setIsAdmin(false);
                 }
             } catch (error) {
                 setUserLoggedIn(false);
+                setIsAdmin(false);
             }
         };
 
         fetchToken();
+        console.log("User Logged In :- ", useLoggedIn);
+        console.log("User is Admin :- ", isAdmin); 
     }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("eWauthToken");
+        alert("Logged Out Successfully");
         setUserLoggedIn(false);
     };
 
@@ -44,6 +56,7 @@ const Navbar = () => {
         <div
             style={{
                 boxShadow: "0 0 20px rgba(0, 0, 0, 0.75)",
+                fontFamily: "Poppins",
             }}
             className="z-50 flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center"
         >
@@ -74,7 +87,7 @@ const Navbar = () => {
             </div>
 
             <div
-                className={`flex md:flex-row flex-col ${
+                className={`flex md:flex-row font-bold flex-col ${
                     collapse ? "hidden" : "flex"
                 } md:flex gap-4 font-semibold`}
             >
@@ -84,6 +97,7 @@ const Navbar = () => {
                 <Link to="/sell">Sell Cars</Link>
                 <Link to="/rend">Rent Cars</Link>
                 <Link to="/contact">Contact Us</Link>
+                {isAdmin && <Link to="/admin">Admin</Link>}
             </div>
 
             {/* Login/Logout Section */}
