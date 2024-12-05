@@ -13,7 +13,7 @@ const Card = ({ item }) => {
         >
             <div className="flex gap-4 flex-col text-white items-center justify-center w-full">
                 <h2
-                    className="font-black text-3xl md:text-4xl"
+                    className="font-black text-3xl text-center md:text-4xl"
                     style={{
                         fontFamily: "SuperBrigade",
                         letterSpacing: "0.15rem",

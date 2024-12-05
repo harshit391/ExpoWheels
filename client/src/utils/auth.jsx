@@ -6,7 +6,7 @@ export const createUser = async (details) => {
         !details.email ||
         !details.password ||
         !details.confirmPassword ||
-        !details.userType
+        !details.role
     ) {
         throw Error("Please fill in all fields");
     }
@@ -14,8 +14,6 @@ export const createUser = async (details) => {
     if (details.password !== details.confirmPassword) {
         throw Error("Passwords do not match");
     }
-
-    setTimeout(() => {}, 2000);
 
     const response = await fetch(`${API_URL_EWS}/auth/register`, {
         method: "POST",
@@ -27,11 +25,13 @@ export const createUser = async (details) => {
 
     const data = await response.json();
 
+    localStorage.setItem("eWauthToken", data.token);
+
     if (data.error) {
         throw Error(data.error);
     }
 
-    return { user: "Found" };
+    return { message: "User Created Successfully" };
 };
 
 export const signUser = async (details) => {
@@ -39,9 +39,7 @@ export const signUser = async (details) => {
         throw Error("Please fill in all fields");
     }
 
-    setTimeout(() => {}, 2000);
-
-    const response = await fetch(`${API_URL_EWS}/auth/login`, {
+    const response = await fetch(`${API_URL_EWS}/auth/signin`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -51,9 +49,31 @@ export const signUser = async (details) => {
 
     const data = await response.json();
 
+    localStorage.setItem("eWauthToken", data.token);
+
     if (data.error) {
         throw Error(data.error);
     }
 
-    return { user: "Found" };
+    return { message: "User Login Successfull" };
+};
+
+export const verifyToken = async (token) => {
+    const response = await fetch(`${API_URL_EWS}/auth/verify`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.error) {
+        throw Error(data.error);
+    }
+
+    return { ok: "Valid Token" };
 };

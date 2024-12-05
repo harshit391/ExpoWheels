@@ -3,6 +3,7 @@ import Landing from "./components/landing/page";
 import NotFound from "./components/notfound";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
+import UnProtectedRoute from "./utils/unprotectedRoute";
 
 const routes = [
     {
@@ -11,22 +12,30 @@ const routes = [
         children: [
             {
                 path: "/",
-                element: <Landing />
+                element: <Landing />,
             },
             {
                 path: "/login",
-                element: <Login />
+                element: (
+                    <UnProtectedRoute>
+                        <Login />
+                    </UnProtectedRoute>
+                ),
             },
             {
                 path: "/register",
-                element: <Register />
+                element: (
+                    <UnProtectedRoute>
+                        <Register />
+                    </UnProtectedRoute>
+                ),
             },
             {
                 path: "/:any",
-                element: <NotFound />
-            }
-        ]
-    }
+                element: <NotFound />,
+            },
+        ],
+    },
 ];
 
 export default routes;

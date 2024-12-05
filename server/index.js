@@ -10,8 +10,8 @@ connectDB();
 
 /* Setting up the CORS policy */
 app.use("*", (req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-    res.setHeader("Access-Control-Allow-Headers", "http://localhost:8080");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "*");
     res.setHeader(
         "Access-Control-Allow-Methods",
         "GET, POST, PUT, DELETE, OPTIONS"
@@ -23,7 +23,7 @@ app.use("*", (req, res, next) => {
 app.use(express.json());
 
 /* =============== ROUTES =============== */
-app.use("/api/user", userRoutes);
+app.use("/api/auth", userRoutes);
 
 app.get("/", (req, res) => {
     res.send({ message: "Hello World!" });

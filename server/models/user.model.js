@@ -5,11 +5,7 @@ import { JWT_SECRET_KEY } from "../connection/db.constants.js";
 
 const userScheme = new mongoose.Schema(
     {
-        firstName: {
-            type: String,
-            required: true,
-        },
-        lastName: {
+        name: {
             type: String,
             required: true,
         },
@@ -23,8 +19,8 @@ const userScheme = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ["buyer", "seller", "admin"],
-            default: "buyer",
+            enum: ["Buyer", "Seller", "Admin"],
+            default: "Buyer",
         },
         lastLogin: {
             type: Date,
@@ -83,11 +79,31 @@ UserModel.addUser = async (user, sucessCallBack, errorCallback) => {
     }
 
     try {
-        const dbRes = await UserModel.insertMany([
-            { ...user, password: encryptedPassword },
-        ]);
-        console.log("Post | dbres is: ", dbRes);
-        sucessCallBack(dbRes);
+        const userAlreadyExists = await UserModel.findOne({
+            email: user.email,
+        });
+
+        if (userAlreadyExists) {
+            if (userAlreadyExists.role == user.role) {
+                errorCallback("User Already Exists");
+                return;
+            }
+        }
+
+        const newUser = await UserModel.insertMany([{ ...user, password: encryptedPassword }]);
+
+        console.log("Post | SignUp :- ", newUser[0]);
+        console.log("Post | SignUpID :- ", newUser[0]._id);
+        
+
+        const token = jwt.sign(
+            { userId: newUser[0]._id, email: user.email },
+            JWT_SECRET_KEY,
+            { expiresIn: "7d" }
+        );
+
+        console.log("Post | token is: ", token);
+        sucessCallBack(token);
     } catch (error) {
         console.error("Post | dbErr is: ", error);
         errorCallback(error);
@@ -116,15 +132,15 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
 
             if (isPasswordMatch) {
                 // Creating a JWT Token if Password Matches
-                const authToken = jwt.sign(
-                    { _id: dbRes._id, email: dbRes.email },
+                const token = jwt.sign(
+                    { userId: dbRes._id, email: dbRes.email },
                     JWT_SECRET_KEY,
                     { expiresIn: "1h" }
                 );
 
-                console.log("Post | authToken is: ", authToken);
+                console.log("Post | authToken is: ", token);
 
-                sucessCallBack(authToken);
+                sucessCallBack(token);
             } else {
                 errorCallback("Invalid Password");
             }
@@ -136,4 +152,26 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
         errorCallback(error);
     }
 };
+
+UserModel.verifyToken = async (token, sucessCallBack, errorCallback) => {
+    try {
+        const decodedToken = jwt.verify(token, JWT_SECRET_KEY);
+        console.log("Decoded Token :- ", decodedToken);
+
+        const userExists = await UserModel.findById(decodedToken.userId);
+
+        console.log("User Exists :- ", userExists);
+
+        if (!userExists) {
+            errorCallback("User Not Found");
+            return;
+        }
+
+        sucessCallBack(decodedToken);
+    } catch (error) {
+        console.error("Error in verifying token: ", error);
+        errorCallback(error);
+    }
+};
+
 export default UserModel;

@@ -1,9 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { verifyToken } from "../../../utils/auth";
+
 
 const Navbar = () => {
     const [useLoggedIn, setUserLoggedIn] = useState(false);
     const [collapse, setCollapse] = useState(true);
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            try {
+                console.log("Fetching Token....");
+
+                const token = localStorage.getItem("eWauthToken");
+
+                console.log(token);
+
+                if (!token) throw Error("No Token Found");
+
+                const response = await verifyToken(token);
+
+                console.log(response);
+
+                if (response.ok) {
+                    setUserLoggedIn(true);
+                } else {
+                    setUserLoggedIn(false);
+                }
+            } catch (error) {
+                setUserLoggedIn(false);
+            }
+        };
+
+        fetchToken();
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("eWauthToken");
+        setUserLoggedIn(false);
+    };
 
     return (
         <div
@@ -67,12 +102,13 @@ const Navbar = () => {
             )}
             {useLoggedIn && (
                 <div
+                    onClick={handleLogout}
                     style={{
                         boxShadow: "2px 4px 15px black",
                     }}
                     className={`flex ${
                         collapse ? "hidden" : "flex"
-                    } md:flex gap-4 font-semibold`}
+                    } md:flex gap-4 cursor-pointer font-semibold bg-black text-white px-4 py-2 rounded max-w-max`}
                 >
                     <div>Logout</div>
                 </div>

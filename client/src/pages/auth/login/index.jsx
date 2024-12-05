@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { signUser } from "../../../utils/auth";
 import { FaChevronLeft } from "react-icons/fa";
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [details, setDetails] = useState({
         email: "",
         password: "",
@@ -23,7 +25,17 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await signUser(details);
+            const response = await signUser(details);
+            if (response)
+            {
+                alert(response.message);
+                navigate("/");
+            }
+            else
+            {
+                alert("Error Signing In");
+            }
+
         } catch (error) {
             alert(error.message);
         }

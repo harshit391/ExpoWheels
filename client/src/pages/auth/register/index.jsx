@@ -3,14 +3,18 @@ import { Link } from "react-router-dom";
 import { createUser } from "../../../utils/auth";
 import { motion } from "framer-motion";
 import { FaChevronLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
+    const navigate = useNavigate();
+
     const [details, setDetails] = useState({
         name: "",
         email: "",
         password: "",
         confirmPassword: "",
-        userType: "Buyer",
+        role: "Buyer",
     });
 
     const handleChange = (e) => {
@@ -25,19 +29,30 @@ const Login = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        try {
+        try 
+        {
             const response = await createUser(details);
-            if (response) {
-                alert("User Created Successfully");
-                setDetails({
-                    name: "",
-                    email: "",
-                    password: "",
-                    confirmPassword: "",
-                    userType: "",
-                });
+
+            if (response) 
+            {
+                alert(response.message);
+                navigate("/");
+                
+            } 
+            else 
+            {
+                alert("User Not Created");
             }
-        } catch (error) {
+            setDetails({
+                name: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+                role: "",
+            });
+        } 
+        catch (error) 
+        {
             alert(error.message);
         }
         setLoading(false);
@@ -186,7 +201,7 @@ const Login = () => {
                                     onChange={(e) =>
                                         setDetails({
                                             ...details,
-                                            userType: e.target.value,
+                                            role: e.target.value,
                                         })
                                     }
                                 >

@@ -20,7 +20,7 @@ router.get("/:id", verifyToken, (req, res) => {
     );
 });
 
-router.post("/signup", (req, res) => {
+router.post("/register", (req, res) => {
     const user = req.body;
 
     UserModel.addUser(
@@ -30,7 +30,7 @@ router.post("/signup", (req, res) => {
         (dbres) => {
             res.status(201).send({
                 message: "User Creation Successfully",
-                product: dbres,
+                token: dbres,
             });
         },
 
@@ -61,7 +61,7 @@ router.post("/signin", (req, res) => {
             console.log("The User Object :- ", dbres);
             res.status(201).send({
                 message: "User Authenticated Successfully",
-                user: dbres,
+                token: dbres,
             });
         },
 
@@ -74,5 +74,30 @@ router.post("/signin", (req, res) => {
         }
     );
 });
+
+router.post("/verify", (req, res) => {
+
+    const token = req.body.token;
+
+    UserModel.verifyToken(
+        token,
+
+        // Success Callback
+        (dbres) => {
+            res.status(201).send({
+                message: "Token Verified Successfully",
+                user: dbres,
+            });
+        },
+
+        // Error Callback
+        (dbres) => {
+            res.status(401).send({
+                message: "Token Verification Failed",
+                error: dbres,
+            });
+        }
+    );
+})
 
 export default router;
