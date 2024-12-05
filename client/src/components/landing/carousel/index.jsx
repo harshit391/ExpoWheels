@@ -4,23 +4,23 @@ const Carousel = () => {
     const carData = [
         {
             id: 1,
-            name: "Lamborghini Urus VII",
+            name: "Lamborghini Aventador VI",
             price: 20000,
-            image: "/Sample/Car1.png",
+            image: "/cars/pic20.jpg",
             deadline: 1733820121000,
         },
         {
             id: 2,
-            name: "Car 2",
+            name: "Lamborghini Aventador VII",
             price: 30000,
-            image: "/Sample/Car2.png",
+            image: "/cars/pic19.jpg",
             deadline: 1733820121000,
         },
         {
             id: 3,
-            name: "Car 3",
+            name: "Lamborghini Aventador VIII",
             price: 40000,
-            image: "/Sample/Car1.png",
+            image: "/cars/pic16.jpg",
             deadline: 1733820121000,
         },
     ];

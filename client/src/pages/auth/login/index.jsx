@@ -39,6 +39,10 @@ const Login = () => {
                 {
                     setAdmin(response.user);
                 }
+                else
+                {
+                    setAdmin(null);
+                }
                 navigate("/");
             }
             else

@@ -157,11 +157,11 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
 UserModel.verifyToken = async (token, sucessCallBack, errorCallback) => {
     try {
         const decodedToken = jwt.verify(token, JWT_SECRET_KEY);
-        console.log("Decoded Token :- ", decodedToken);
+        // console.log("Decoded Token :- ", decodedToken);
 
         const userExists = await UserModel.findById(decodedToken.userId);
 
-        console.log("User Exists :- ", userExists);
+        // console.log("User Exists :- ", userExists);
 
         if (!userExists) {
             errorCallback("User Not Found");

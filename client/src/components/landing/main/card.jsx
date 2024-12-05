@@ -9,7 +9,7 @@ const Card = ({ item }) => {
                 backgroundPosition: "center",
             }}
             to={item.link}
-            className="p-4 w-full h-64 flex justify-center items-center w-full rounded hover:transform hover:scale-105 transition-transform duration-500"
+            className="p-4 w-full h-64 flex justify-center items-center rounded hover:transform hover:scale-105 transition-transform duration-500"
         >
             <div className="flex gap-4 flex-col text-white items-center justify-center w-full">
                 <h2

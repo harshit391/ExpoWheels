@@ -83,13 +83,14 @@ const Slides = ({ slides }) => {
                     {slides.map((s, i) => (
                         <SwiperSlide key={s.name}>
                             <div className="flex flex-col md:flex-row items-center justify-center gap-4 p-4">
-                                <div className="w-full md:w-1/2">
+                                <div className="w-2/5 h-64 flex justify-center items-center">
                                     <img
                                         src={s.image}
                                         alt={s.name}
                                         className="w-full h-auto object-cover"
                                     />
                                 </div>
+
                                 <div className="w-full md:w-1/2 flex justify-center gap-4 p-6">
                                     <div className="flex flex-col gap-4">
                                         <h1

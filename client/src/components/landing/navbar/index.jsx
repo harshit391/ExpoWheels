@@ -19,7 +19,7 @@ const Navbar = () => {
                 boxShadow: "0 0 20px rgba(0, 0, 0, 0.75)",
                 fontFamily: "Poppins",
             }}
-            className="z-50 flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center"
+            className="z-50 flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center sticky w-full top-0 bg-white"
         >
             <div className="flex justify-between w-full md:w-max">
                 <div className="flex gap-2">
