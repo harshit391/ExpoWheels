@@ -44,7 +44,7 @@ const Login = () => {
     };
 
     return (
-        <div className="flex min-h-screen">
+        <div className="flex md:flex-row flex-col p-0 min-h-screen">
             <div
                 style={{
                     backgroundImage:
@@ -52,7 +52,7 @@ const Login = () => {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}
-                className="flex flex-col min-h-screen justify-center w-full"
+                className="flex flex-col py-8 pt-20 md:min-h-screen justify-center w-full"
             >
                 <div
                     style={{
@@ -62,14 +62,14 @@ const Login = () => {
                 >
                     <Link
                         to="/"
-                        className="absolute top-7 flex gap-2 justify-center items-center left-7 p-4  bg-white text-black rounded font-bold"
+                        className="absolute top-4 md:top-7 flex gap-2 justify-center items-center left-4 md:left-7 p-2 md:p-4 bg-white text-black rounded font-bold"
                     >
                         <FaChevronLeft />
-                        <div className="text-xl">Go Back</div>
+                        <div className="text-sm md:text-xl">Go Back</div>
                     </Link>
                 </div>
                 <div
-                    className="text-4xl text-white text-center"
+                    className="text-2xl md:text-4xl text-white text-center"
                     style={{
                         fontFamily: "SuperBrigadeTitle",
                     }}
@@ -77,16 +77,16 @@ const Login = () => {
                     Welcome to Expo Wheels
                 </div>
                 <div
-                    className="text-2xl text-white text-center p-4"
+                    className="text-md md:text-2xl text-white text-center p-4"
                     style={{
                         fontFamily: "SuperBrigadeCondensed",
-                        letterSpacing: "0.2rem",
+                        letterSpacing: "0.1rem",
                     }}
                 >
                     Drive your dream, Your way
                 </div>
             </div>
-            <div className="w-full flex justify-center">
+            <div className="w-full p-8 md:p-4 flex justify-center items-center">
                 <motion.div
                     initial={{
                         opacity: 0,
@@ -101,7 +101,7 @@ const Login = () => {
                     style={{
                         boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.7)",
                     }}
-                    className="flex m-16 flex-col items-center w-3/5 px-4 py-8 justify-around bg-black border-2 border-solid border-black gap-4 rounded"
+                    className="flex flex-col justify-center items-center w-full md:w-3/5 px-4 py-8 bg-black border-2 border-solid border-black gap-4 rounded"
                 >
                     <div
                         className="font-bold text-3xl text-white text-center"
@@ -112,7 +112,7 @@ const Login = () => {
                     >
                         Sign Up
                     </div>
-                    <div className="w-4/5 flex flex-col justify-center">
+                    <div className="md:w-4/5 w-full flex flex-col justify-center">
                         <div className="flex flex-col gap-4 p-4">
                             <div className="flex flex-col gap-2">
                                 <label className="text-white" htmlFor="name">
