@@ -112,7 +112,7 @@ const Login = () => {
                     >
                         Sign Up
                     </div>
-                    <div className="md:w-4/5 w-full flex flex-col justify-center">
+                    <div className="md:w-4/5 w-full flex flex-col gap-4 justify-center">
                         <div className="flex flex-col gap-4 p-4">
                             <div className="flex flex-col gap-2">
                                 <label className="text-white" htmlFor="name">
@@ -195,14 +195,14 @@ const Login = () => {
                                 </select>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center p-4">
-                            <div className="p-4 text-center font-bold text-white">
+                        <div className="flex flex-col gap-2 justify-center">
+                            <div className="text-center font-bold text-white">
                                 Already Have an Account ?{" "}
                                 <Link to="/login" className="hover:underline">
                                     Login
                                 </Link>
                             </div>
-                            <div className="flex justify-center w-full">
+                            <div className="flex justify-center w-full px-4">
                                 {!loading ? (
                                     <button
                                         onClick={handleFormSubmit}
