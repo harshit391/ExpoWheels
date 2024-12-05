@@ -11,6 +11,32 @@ const Title = () => {
     const [show, setShow] = useState(true);
 
     useEffect(() => {
+        const animationKey = "expoWheelsAnimation";
+        const expirationKey = "expoWheelsAnimationExpiration";
+        const expirationTime = 4 * 60 * 60 * 1000;
+
+        const hasAnimationPlayed = localStorage.getItem(animationKey);
+        const savedTime = localStorage.getItem(expirationKey);
+
+        if (hasAnimationPlayed && savedTime) {
+            const now = Date.now();
+            const isExpired = now - parseInt(savedTime, 10) > expirationTime;
+
+            if (!isExpired) {
+                setShow(false);
+                cardAnimate.start({
+                    opacity: 1,
+                    transition: {
+                        duration: 1,
+                    },
+                });
+                return;
+            } else {
+                localStorage.removeItem(animationKey);
+                localStorage.removeItem(expirationKey);
+            }
+        }
+
         animate
             .start({
                 opacity: 1,
@@ -31,6 +57,8 @@ const Title = () => {
             })
             .then(() => {
                 setShow(false);
+                localStorage.setItem(animationKey, "true");
+                localStorage.setItem(expirationKey, Date.now().toString());
             })
             .then(() => {
                 cardAnimate.start({
@@ -87,8 +115,8 @@ const Title = () => {
                 }}
                 animate={cardAnimate}
             >
-                <Carousel />
                 <Welcome />
+                <Carousel />
             </motion.div>
         </div>
     );

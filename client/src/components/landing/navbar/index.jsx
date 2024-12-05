@@ -1,4 +1,4 @@
-import { useState } from "react";   
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -6,11 +6,12 @@ const Navbar = () => {
     const [collapse, setCollapse] = useState(true);
 
     return (
-        <div 
-        style={{
-            boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.7)",
-        }}
-        className="flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center">
+        <div
+            style={{
+                boxShadow: "0 0 20px rgba(0, 0, 0, 0.75)",
+            }}
+            className="z-50 flex md:flex-row flex-col gap-4 p-4 justify-between md:items-center"
+        >
             <div className="flex justify-between w-full md:w-max">
                 <div className="flex gap-2">
                     <img
@@ -52,7 +53,8 @@ const Navbar = () => {
 
             {/* Login/Logout Section */}
             {!useLoggedIn && (
-                <Link to="/login"
+                <Link
+                    to="/login"
                     style={{
                         boxShadow: "2px 4px 15px black",
                     }}

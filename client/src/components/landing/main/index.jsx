@@ -1,27 +1,52 @@
+import Card from "./card";
+
 const Welcome = () => {
+    const cards = [
+        {
+            title: "Buy Car",
+            description: "Buy your dream car at the best price",
+            link: "/buy",
+            image: "/cards/buy.jpg",
+        },
+        {
+            title: "Sell Car",
+            description: "Sell your car at the best price",
+            link: "/sell",
+            image: "/cards/sell.jpg",
+        },
+        {
+            title: "Rent Car",
+            description: "Rent a car for your needs",
+            link: "/rent",
+            image: "/cards/rent.jpg",
+        },
+    ];
+
     return (
-        <div className="p-4">
-            <h1
-                style={{
-                    fontFamily: "SuperBrigadeTitle",
-                    letterSpacing: "-0.2rem",
-                }}
-                className="text-4xl text-center font-bold"
-            >
-                Expo Wheels
-            </h1>
-            <p
-                style={{
-                    fontFamily: "SuperBrigadeCondensed",
-                }}
-                className="text-center"
-            >
-                Drive Your Dream, Your Way
-            </p>
-            <div className="grid grid-cols-3">
-                {/* <Card item={carData[0]} />
-                <Card item={carData[1]} />
-                <Card item={carData[2]} /> */}
+        <div className="flex flex-col items-center p-8 gap-16">
+            <div className="flex flex-col gap-2">
+                <h1
+                    style={{
+                        fontFamily: "SuperBrigadeTitle",
+                        letterSpacing: "-0.2rem",
+                    }}
+                    className="text-6xl text-center font-bold"
+                >
+                    Expo Wheels
+                </h1>
+                <p
+                    style={{
+                        fontFamily: "SuperBrigadeCondensed",
+                    }}
+                    className="text-center text-2xl"
+                >
+                    Drive Your Dream, Your Way
+                </p>
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+                <Card item={cards[0]} />
+                <Card item={cards[1]} />
+                <Card item={cards[2]} />
             </div>
         </div>
     );
