@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/context";
 import { SECRET_KEY } from "../../../utils/constants";
 
-const Login = () => {
+const Register = () => {
 
     const navigate = useNavigate();
 
@@ -18,7 +18,6 @@ const Login = () => {
         email: "",
         password: "",
         confirmPassword: "",
-        role: "Buyer",
     });
 
     const handleChange = (e) => {
@@ -200,28 +199,6 @@ const Login = () => {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className="flex gap-4 mt-2 items-center w-full">
-                                <label
-                                    className="text-white w-3/5"
-                                    htmlFor="confirmPassword"
-                                >
-                                    User Type
-                                </label>
-                                <select
-                                    className="p-2 border-2 w-full text-black border-black border-solid rounded"
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    onChange={(e) =>
-                                        setDetails({
-                                            ...details,
-                                            role: e.target.value,
-                                        })
-                                    }
-                                >
-                                    <option value="Buyer">Buyer</option>
-                                    <option value="Seller">Seller</option>
-                                </select>
-                            </div>
                         </div>
                         <div className="flex flex-col gap-2 justify-center">
                             <div className="text-center font-bold text-white">
@@ -252,4 +229,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
