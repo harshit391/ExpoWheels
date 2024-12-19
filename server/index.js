@@ -16,6 +16,12 @@ app.use("*", (req, res, next) => {
         "Access-Control-Allow-Methods",
         "GET, POST, PUT, DELETE, OPTIONS"
     );
+
+    // Handle preflight requests
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+
     next();
 });
 

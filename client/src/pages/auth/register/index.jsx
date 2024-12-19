@@ -60,7 +60,6 @@ const Register = () => {
                 email: "",
                 password: "",
                 confirmPassword: "",
-                role: "",
             });
         } 
         catch (error) 

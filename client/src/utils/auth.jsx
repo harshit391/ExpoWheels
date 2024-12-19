@@ -5,8 +5,7 @@ export const createUser = async (details) => {
         !details.name ||
         !details.email ||
         !details.password ||
-        !details.confirmPassword ||
-        !details.role
+        !details.confirmPassword
     ) {
         throw Error("Please fill in all fields");
     }
