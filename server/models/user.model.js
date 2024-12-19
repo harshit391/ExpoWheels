@@ -19,8 +19,8 @@ const userScheme = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ["Buyer", "Seller", "Admin"],
-            default: "Buyer",
+            enum: ["User", "Admin"],
+            default: "User",
         },
         lastLogin: {
             type: Date,
