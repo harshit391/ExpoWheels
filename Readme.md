@@ -56,7 +56,7 @@ Expo Wheels is a MERN stack-based platform for buying, selling, and renting cars
 
 ## Tech Stack
 
-You will Found all The Documentation in [References](#references) Tab
+You will Found all The Documentation in [References](#references--documentations) Tab
 
 ### Frontend / Client
 
