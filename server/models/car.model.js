@@ -84,7 +84,7 @@ const carSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    rentedBy: {
+    booking: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         default: null,
