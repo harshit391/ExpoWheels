@@ -5,8 +5,7 @@ export const createUser = async (details) => {
         !details.name ||
         !details.email ||
         !details.password ||
-        !details.confirmPassword ||
-        !details.role
+        !details.confirmPassword
     ) {
         throw Error("Please fill in all fields");
     }
@@ -15,7 +14,7 @@ export const createUser = async (details) => {
         throw Error("Passwords do not match");
     }
 
-    const response = await fetch(`${API_URL_EWS}/auth/register`, {
+    const response = await fetch(`${API_URL_EWS}/api/auth/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -41,7 +40,7 @@ export const signUser = async (details) => {
         throw Error("Please fill in all fields");
     }
 
-    const response = await fetch(`${API_URL_EWS}/auth/signin`, {
+    const response = await fetch(`${API_URL_EWS}/api/auth/signin`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -63,7 +62,7 @@ export const signUser = async (details) => {
 };
 
 export const verifyToken = async (token) => {
-    const response = await fetch(`${API_URL_EWS}/auth/verify`, {
+    const response = await fetch(`${API_URL_EWS}/api/auth/verify`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

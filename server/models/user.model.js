@@ -19,8 +19,8 @@ const userScheme = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ["Buyer", "Seller", "Admin"],
-            default: "Buyer",
+            enum: ["User", "Admin"],
+            default: "User",
         },
         lastLogin: {
             type: Date,
@@ -104,7 +104,7 @@ UserModel.addUser = async (user, sucessCallBack, errorCallback) => {
         );
 
         console.log("Post | token is: ", token);
-        sucessCallBack({token :token, user: newUser[0]});
+        sucessCallBack({ token: token, user: newUser[0] });
     } catch (error) {
         console.error("Post | dbErr is: ", error);
         errorCallback(error);
@@ -141,7 +141,7 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
 
                 console.log("Post | authToken is: ", token);
 
-                sucessCallBack({token: token, user: dbRes});
+                sucessCallBack({ token: token, user: dbRes });
             } else {
                 errorCallback("Invalid Password");
             }
