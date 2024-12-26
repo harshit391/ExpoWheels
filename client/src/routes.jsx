@@ -1,11 +1,13 @@
 import Layout from "./components/layout";
 import Landing from "./components/landing/page";
 import NotFound from "./pages/notfound";
-import Login from "./pages/auth/login";
-import Register from "./pages/auth/register";
+
 import UnProtectedRoute from "./utils/routeProtection/unprotectedRoute";
 import HighlyProtectedRoute from "./utils/routeProtection/highlyProtectedRoute";
+import Login from "./pages/auth/login";
+import Register from "./pages/auth/register";
 import Admin from "./pages/admin";
+import Buy from "./pages/services/buy";
 
 const routes = [
     {
@@ -39,6 +41,12 @@ const routes = [
                         <Admin />
                     </HighlyProtectedRoute>
                 ),
+            },
+            {
+                path: "/buy",
+                element: (
+                    <Buy />
+                )
             },
             {
                 path: "/:any",
