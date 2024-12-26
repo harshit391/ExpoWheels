@@ -98,7 +98,11 @@ UserModel.addUser = async (user, sucessCallBack, errorCallback) => {
         console.log("Post | SignUpID :- ", newUser[0]._id);
 
         const token = jwt.sign(
-            { userId: newUser[0]._id, email: user.email, role: newUser[0].role },
+            {
+                userId: newUser[0]._id,
+                email: user.email,
+                role: newUser[0].role,
+            },
             JWT_SECRET_KEY,
             { expiresIn: "7d" }
         );

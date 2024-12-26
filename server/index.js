@@ -1,6 +1,10 @@
 import express from "express";
 import { connectDB } from "./connection/db.connection.js";
+
+// Routes
 import userRoutes from "./routes/user.routes.js";
+import carRoutes from "./routes/cars.routes.js";
+import randomRoutes from "./routes/random.routes.js";
 
 const app = express();
 
@@ -30,6 +34,8 @@ app.use(express.json());
 
 /* =============== ROUTES =============== */
 app.use("/api/auth", userRoutes);
+app.use("/api/cars", carRoutes);
+app.use("/api/random", randomRoutes);
 
 app.get("/", (req, res) => {
     res.send({ message: "Hello World!" });

@@ -92,3 +92,83 @@ const carSchema = new mongoose.Schema({
 });
 
 const CarModel = mongoose.model("Car", carSchema);
+
+/* ============================= GET ROUTES FOR CARS MODEL ============================= */
+
+CarModel.getAll = async (successCallBack, errorCallBack) => {
+    try {
+        const cars = await CarModel.find({});
+
+        if (cars) {
+            successCallBack(cars);
+        } else {
+            errorCallBack(204, "No Cars Found");
+        }
+    } catch (error) {
+        errorCallBack(500, error);
+    }
+};
+
+CarModel.getById = async (id, successCallBack, errorCallBack) => {
+    try {
+        const userRequestedCar = CarModel.findById(id);
+
+        if (userRequestedCar) {
+            successCallBack(userRequestedCar);
+        } else {
+            errorCallBack("Car Doesn't Exists");
+        }
+    } catch (error) {
+        errorCallBack(error);
+    }
+};
+
+/* ============================= POST ROUTES FOR CARS MODEL ============================= */
+
+CarModel.addCar = async (data, successCallBack, errorCallBack) => {
+    try {
+        const newCar = new CarModel(data);
+
+        newCar.save();
+
+        successCallBack(newCar);
+    } catch (error) {
+        errorCallBack(error);
+    }
+};
+
+/* ============================= PUT ROUTES FOR CARS MODEL ============================= */
+
+CarModel.editCar = async (data, id, successCallBack, errorCallBack) => {
+    try {
+        const carToEdit = CarModel.findById(id);
+
+        if (!carToEdit) {
+            throw new Error("Car Doesn't Exists");
+        }
+
+        const newCarAfterEditing = { ...carToEdit, data };
+
+        successCallBack(newCarAfterEditing);
+    } catch (error) {
+        errorCallBack(error);
+    }
+};
+
+/* ============================= PUT ROUTES FOR CARS MODEL ============================= */
+
+CarModel.deleteCar = async (id, successCallBack, errorCallBack) => {
+    try {
+        const carToDelete = CarModel.findById(id);
+
+        if (!carToDelete) {
+            throw new Error("Car Doesn't Exists");
+        }
+
+        carToDelete.delete();
+    } catch (error) {
+        errorCallBack(error);
+    }
+};
+
+export default CarModel;
