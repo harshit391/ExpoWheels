@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
-import Navbar from "./navbar";
 import Carousel from "./carousel";
 import Welcome from "./main";
 
@@ -75,7 +74,6 @@ const Title = () => {
             style={{ fontFamily: "Poppins" }} // 25f1d3
             className="flex flex-col min-h-screen w-full"
         >
-            <Navbar />
             {show && (
                 <motion.div
                     initial={{ opacity: 0, y: 250 }}

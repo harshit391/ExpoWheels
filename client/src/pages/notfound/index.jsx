@@ -4,7 +4,6 @@ import Navbar from "../../components/landing/navbar";
 const NotFound = () => {
     return (
         <div>
-            <Navbar />
             <div
                 style={{
                     fontFamily: "SuperBrigadeTitle",
