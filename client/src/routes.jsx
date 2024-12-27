@@ -8,6 +8,8 @@ import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Admin from "./pages/admin";
 import Buy from "./pages/services/buy";
+import Car from "./components/pages/car";
+import Services from "./pages/services";
 
 const routes = [
     {
@@ -43,10 +45,18 @@ const routes = [
                 ),
             },
             {
-                path: "/buy",
-                element: (
-                    <Buy />
-                )
+                path: "/car",
+                element: <Services />,
+                children: [
+                    {
+                        path: "/car/buy",
+                        element: <Buy />,
+                    },
+                    {
+                        path: "/car/:id",
+                        element: <NotFound />,
+                    },
+                ],
             },
             {
                 path: "/:any",

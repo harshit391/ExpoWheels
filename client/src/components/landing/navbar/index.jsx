@@ -54,9 +54,9 @@ const Navbar = () => {
             >
                 <Link to="/">Home</Link>
                 <Link to="/about">About Us</Link>
-                <Link to="/buy">Buy Cars</Link>
-                <Link to="/sell">Sell Cars</Link>
-                <Link to="/rend">Rent Cars</Link>
+                <Link to="/car/buy">Buy Cars</Link>
+                <Link to="/car/sell">Sell Cars</Link>
+                <Link to="/car/rent">Rent Cars</Link>
                 <Link to="/contact">Contact Us</Link>
                 {admin && <Link to="/admin">Admin</Link>}
             </div>

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Car = ({ car }) => {
     const formatDate = (date) => {
         // 2024-12-26T15:35:14.059Z => 26-December-2024
@@ -55,42 +57,38 @@ const Car = ({ car }) => {
             </div>
             <div className="flex flex-col gap-4 p-4">
                 <p className="italic">{car.description}</p>
-                <div className="flex flex-col gap-2" style={{ fontFamily: "Poppins" }}>
+                <div
+                    className="flex flex-col gap-2"
+                    style={{ fontFamily: "Poppins" }}
+                >
                     <div className="flex justify-between items-center">
                         <span className="text-green-600 text-3xl font-bold">
                             ${car.price}
                         </span>
-                        <span className="text-2xl">
-                            {car.fuelType}
-                        </span>
+                        <span className="text-2xl">{car.fuelType}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                        <span className="font-semibold">
-                            Mileage:
-                        </span>
+                        <span className="font-semibold">Mileage:</span>
                         <span>{car.mileage} km</span>
                     </div>
                     <div className="flex justify-between items-center mt-2">
-                        <span className="font-semibold">
-                            Transmission:
-                        </span>
+                        <span className="font-semibold">Transmission:</span>
                         <span>{car.transmission}</span>
                     </div>
                     <div className="flex justify-between items-center mt-2">
-                        <span className="font-semibold">
-                            Date Listed:
-                        </span>
-                        <span>
-                            {formatDate(car.dateListed)}
-                        </span>
+                        <span className="font-semibold">Date Listed:</span>
+                        <span>{formatDate(car.dateListed)}</span>
                     </div>
                 </div>
                 {car.isAvailableForSale && (
-                    <div className="mt-6 flex flex-col gap-4">
+                    <Link
+                        to={`/car/${car._id}`}
+                        className="mt-6 flex flex-col gap-4"
+                    >
                         <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
                             View Details
                         </button>
-                    </div>
+                    </Link>
                 )}
                 {!car.isAvailableForSale && (
                     <div className="mt-6 flex flex-col gap-4">

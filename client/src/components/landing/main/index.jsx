@@ -5,19 +5,19 @@ const Welcome = () => {
         {
             title: "Buy Car",
             description: "Buy your dream car at the best price",
-            link: "/buy",
+            link: "/car/buy",
             image: "/cards/buy.jpg",
         },
         {
             title: "Sell Car",
             description: "Sell your car at the best price",
-            link: "/sell",
+            link: "/car/sell",
             image: "/cards/sell.jpg",
         },
         {
             title: "Rent Car",
             description: "Rent a car for your needs",
-            link: "/rent",
+            link: "/car/rent",
             image: "/cards/rent.jpg",
         },
     ];
