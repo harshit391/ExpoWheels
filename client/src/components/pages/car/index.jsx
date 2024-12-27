@@ -5,9 +5,7 @@ const Car = ({ car, buyOrRent }) => {
         const dateObj = new Date(date);
 
         const day = dateObj.getDate();
-
         const month = dateObj.getMonth() + 1;
-
         const year = dateObj.getFullYear();
 
         const months = [
@@ -25,9 +23,17 @@ const Car = ({ car, buyOrRent }) => {
             "December",
         ];
 
-        const formattedDate = `${months[month - 1]} ${day}, ${year}`;
+        return `${months[month - 1]} ${day}, ${year}`;
+    };
 
-        return formattedDate;
+    const getDiscountedPrice = () => {
+        const price = buyOrRent ? car.price : car.rentPrice;
+
+        if (car.onDiscountSale) {
+            const discount = car.onDiscountSale.discountPercentage || 0;
+            return (price - price * (discount / 100)).toFixed(2);
+        }
+        return price;
     };
 
     return (
@@ -54,32 +60,93 @@ const Car = ({ car, buyOrRent }) => {
                 />
             </div>
             <div className="flex flex-col gap-4 p-4">
-                <div className="flex gap-2 items-center justify-between">
-                    <p className="italic">{car.description}</p>
-                    {buyOrRent &&
-                        car.isAvailableForSale &&
-                        car.onDiscountSale !== null && (
-                            <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
-                                On Sale
-                            </div>
-                        )}
-                    {!buyOrRent &&
-                        car.isAvailableForRent &&
-                        car.onDiscountSale !== null && (
-                            <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
-                                On Sale
-                            </div>
-                        )}
-                </div>
                 <div
                     className="flex flex-col gap-2"
                     style={{ fontFamily: "Poppins" }}
                 >
-                    <div className="flex justify-between items-center">
-                        <span className="text-green-600 text-3xl font-bold">
-                            ${car.price}
-                        </span>
-                        <span className="text-2xl">{car.fuelType}</span>
+                    <div className="flex flex-col justify-between items-center">
+                        <div className="flex justify-between items-start w-full">
+                            <div className="flex flex-col">
+                                {buyOrRent &&
+                                    car.isAvailableForSale &&
+                                    (car.onDiscountSale ? (
+                                        <>
+                                            <span className="text-green-600 text-3xl font-bold">
+                                                ${getDiscountedPrice()}
+                                            </span>
+                                            <span className="text-gray-600 text-sm line-through">
+                                                $
+                                                {buyOrRent
+                                                    ? car.price
+                                                    : car.rentPrice}
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <span className="text-green-600 text-3xl font-bold">
+                                            $
+                                            {buyOrRent
+                                                ? car.price
+                                                : car.rentPrice}
+                                        </span>
+                                    ))}
+                                {!buyOrRent &&
+                                    car.isAvailableForRent &&
+                                    (car.onDiscountSale ? (
+                                        <>
+                                            <div className="flex gap-2 items-center">
+                                                <span className="text-green-600 text-3xl font-bold">
+                                                    ${getDiscountedPrice()}
+                                                </span>
+                                                <span className="text-sm">
+                                                    Per Month
+                                                </span>
+                                            </div>
+                                            <span className="text-gray-600 text-sm line-through">
+                                                ${car.rentPrice}
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <div className="flex gap-2 items-center">
+                                            <span className="text-green-600 text-3xl font-bold">
+                                                ${car.rentPrice}
+                                            </span>
+                                            <span className="text-sm">
+                                                Per Month
+                                            </span>
+                                        </div>
+                                    ))}
+                            </div>
+                            <div>
+                                {buyOrRent &&
+                                    car.isAvailableForSale &&
+                                    car.onDiscountSale !== null && (
+                                        <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
+                                            Sale (
+                                            {
+                                                car.onDiscountSale
+                                                    .discountPercentage
+                                            }
+                                            % Off)
+                                        </div>
+                                    )}
+                                {!buyOrRent &&
+                                    car.isAvailableForRent &&
+                                    car.onDiscountSale !== null && (
+                                        <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
+                                            Sale (
+                                            {
+                                                car.onDiscountSale
+                                                    .discountPercentage
+                                            }
+                                            % Off)
+                                        </div>
+                                    )}
+                            </div>
+                        </div>
+                        <div className="flex gap-2 items-center justify-between w-full">
+                            <p className="italic">{car.description}</p>
+                            <span className="text-2xl">{car.fuelType}</span>
+                        </div>
                     </div>
                     <div className="flex justify-between items-center">
                         <span className="font-semibold">Mileage:</span>

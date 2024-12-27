@@ -62,6 +62,10 @@ const routes = [
                         path: "/car/:id",
                         element: <CarDetails />,
                     },
+                    {
+                        path: "/car/sell",
+                        element: <NotFound />,
+                    },
                 ],
             },
             {
