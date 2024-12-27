@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Sale from "./sale.model.js";
 
 const carSchema = new mongoose.Schema({
     title: {
@@ -119,6 +120,18 @@ CarModel.getById = async (id, successCallBack, errorCallBack) => {
         console.log("Request at Get Car By Id :- ", id);
 
         const userRequestedCar = await CarModel.findById(id);
+
+        if (!userRequestedCar) {
+            throw new Error("Car Doesn't Exists");
+        }
+
+        const sale = await Sale.findById(userRequestedCar.onDiscountSale);
+
+        if (!sale) {
+            throw new Error("Sale Doesn't Exists");
+        }
+
+        userRequestedCar.onDiscountSale = sale;
 
         if (userRequestedCar) {
             successCallBack(userRequestedCar);
