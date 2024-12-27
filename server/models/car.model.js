@@ -126,7 +126,10 @@ CarModel.getById = async (id, successCallBack, errorCallBack) => {
     try {
         console.log("Request at Get Car By Id :- ", id);
 
-        const userRequestedCar = await CarModel.findById(id);
+        const userRequestedCar = await CarModel.findById(id).populate(
+            "owner",
+            "name email"
+        );
 
         if (!userRequestedCar) {
             throw new Error("Car Doesn't Exists");
