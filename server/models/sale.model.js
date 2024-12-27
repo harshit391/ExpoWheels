@@ -9,7 +9,10 @@ const saleSchema = new mongoose.Schema({
     },
     saleDate: {
         type: Date,
-        default: Date.now,
+        default: () => {
+            const now = new Date();
+            return new Date(now.setDate(now.getDate() + 5));
+        },
     },
     discountPercentage: {
         type: Number,
@@ -83,6 +86,48 @@ Sale.addSale = async (data, successCallBack, errorCallBack) => {
         }
 
         const dbres = await sale.save();
+
+        successCallBack(dbres);
+    } catch (error) {
+        errorCallBack(500, error);
+    }
+};
+
+Sale.removeSale = async (id, successCallBack, errorCallBack) => {
+    try {
+        const sale = await Sale.findById(id);
+
+        if (!sale) {
+            errorCallBack(404, "Sale Not Found");
+            return;
+        }
+
+        const car = await CarModel.findById(sale.car);
+
+        if (!car) {
+            errorCallBack(404, "Car Not Found");
+            return;
+        }
+
+        const newCarData = {
+            ...car._doc,
+            onDiscountSale: null,
+        };
+
+        const updatedCar = await CarModel.findByIdAndUpdate(
+            sale.car,
+            newCarData,
+            {
+                new: true,
+            }
+        );
+
+        if (!updatedCar) {
+            errorCallBack(500, "Failed to Update Car");
+            return;
+        }
+
+        const dbres = await Sale.findByIdAndDelete(id);
 
         successCallBack(dbres);
     } catch (error) {

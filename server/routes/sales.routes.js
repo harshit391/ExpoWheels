@@ -47,4 +47,26 @@ router.post("/set", (req, res) => {
     );
 });
 
+/* ============================= DELETE ROUTES FOR SALES MODEL ============================= */
+
+router.delete("/remove/:id", (req, res) => {
+    const id = req.params.id;
+
+    Sale.removeSale(
+        id,
+        (dbres) => {
+            res.status(200).send({
+                message: "Sale Removed Successfully",
+                data: dbres,
+            });
+        },
+        (status, dbres) => {
+            res.status(status).send({
+                message: "Failed to Remove Sale",
+                error: dbres,
+            });
+        }
+    );
+});
+
 export default router;

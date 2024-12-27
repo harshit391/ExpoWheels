@@ -32,6 +32,11 @@ const carSchema = new mongoose.Schema({
         required: true,
         min: 0,
     },
+    rentPrice: {
+        type: Number,
+        min: 0,
+        default: 0,
+    },
     isAvailableForRent: {
         type: Boolean,
         default: false,
@@ -100,18 +105,18 @@ const carSchema = new mongoose.Schema({
 const CarModel = mongoose.model("Car", carSchema);
 
 /* ============================= GET ROUTES FOR CARS MODEL ============================= */
-
 CarModel.getAll = async (successCallBack, errorCallBack) => {
     try {
-        const cars = await CarModel.find({});
+        // Find all cars and populate the onDiscountSale field
+        const cars = await CarModel.find({}).populate("onDiscountSale");
 
-        if (cars) {
+        if (cars && cars.length > 0) {
             successCallBack(cars);
         } else {
             errorCallBack(204, "No Cars Found");
         }
     } catch (error) {
-        errorCallBack(500, error);
+        errorCallBack(500, error.message);
     }
 };
 
@@ -124,6 +129,8 @@ CarModel.getById = async (id, successCallBack, errorCallBack) => {
         if (!userRequestedCar) {
             throw new Error("Car Doesn't Exists");
         }
+
+        console.log("User Requested Car :- ", userRequestedCar);
 
         if (userRequestedCar.onDiscountSale) {
             const sale = await Sale.findById(userRequestedCar.onDiscountSale);
