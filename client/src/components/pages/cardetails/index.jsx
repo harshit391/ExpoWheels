@@ -43,6 +43,11 @@ const CarDetails = () => {
                                 fontFamily: "Montserrat",
                             }}
                         >
+                            {carData.onDiscountSale && (
+                                <div className="flex max-w-max bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
+                                    On Sale
+                                </div>
+                            )}
                             <div>
                                 <p className="text-lg md:text-xl lg:text-3xl">
                                     <strong>Price:</strong> {carData.price}
@@ -79,7 +84,7 @@ const CarDetails = () => {
                                     <button className="bg-green-500 text-white p-2 rounded-md">
                                         Buy Now
                                     </button>
-                                ): (
+                                ) : (
                                     <button className="bg-gray-500 hover:cursor-not-allowed text-white p-2 rounded-md">
                                         Not Available for Sale
                                     </button>
