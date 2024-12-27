@@ -108,7 +108,9 @@ const CarModel = mongoose.model("Car", carSchema);
 CarModel.getAll = async (successCallBack, errorCallBack) => {
     try {
         // Find all cars and populate the onDiscountSale field
-        const cars = await CarModel.find({}).populate("onDiscountSale");
+        const cars = await CarModel.find({})
+            .populate("onDiscountSale")
+            .populate("owner", "name email");
 
         if (cars && cars.length > 0) {
             successCallBack(cars);
