@@ -140,7 +140,7 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
                 const token = jwt.sign(
                     { userId: dbRes._id, email: dbRes.email, role: dbRes.role },
                     JWT_SECRET_KEY,
-                    { expiresIn: "1h" }
+                    { expiresIn: "7d" }
                 );
 
                 console.log("Post | authToken is: ", token);

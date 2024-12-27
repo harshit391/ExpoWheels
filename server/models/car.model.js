@@ -125,13 +125,15 @@ CarModel.getById = async (id, successCallBack, errorCallBack) => {
             throw new Error("Car Doesn't Exists");
         }
 
-        const sale = await Sale.findById(userRequestedCar.onDiscountSale);
+        if (userRequestedCar.onDiscountSale) {
+            const sale = await Sale.findById(userRequestedCar.onDiscountSale);
 
-        if (!sale) {
-            throw new Error("Sale Doesn't Exists");
+            if (!sale) {
+                throw new Error("Sale Doesn't Exists");
+            }
+
+            userRequestedCar.onDiscountSale = sale;
         }
-
-        userRequestedCar.onDiscountSale = sale;
 
         if (userRequestedCar) {
             successCallBack(userRequestedCar);
