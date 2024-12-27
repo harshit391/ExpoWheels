@@ -160,6 +160,10 @@ const Car = ({ car, buyOrRent }) => {
                         <span className="font-semibold">Date Listed:</span>
                         <span>{formatDate(car.dateListed)}</span>
                     </div>
+                    <div className="flex justify-between items-center mt-2">
+                        <span className="font-semibold">Seller Name:</span>
+                        <span>{car.owner.name}</span>
+                    </div>
                 </div>
                 {buyOrRent &&
                     (car.isAvailableForSale ? (

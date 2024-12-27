@@ -72,148 +72,210 @@ const CarDetails = () => {
                     >
                         {carData.brand} {carData.model}
                     </h1>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                        <div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                        <div className="flex flex-col gap-4">
                             <img
                                 src={`/cars/${carData.image}`}
                                 alt={carData.title}
                                 className="w-full"
                             />
-                        </div>
-                        <div
-                            className="flex flex-col gap-4 justify-center"
-                            style={{
-                                fontFamily: "Montserrat",
-                            }}
-                        >
-                            {carData.onDiscountSale && (
-                                <div className="flex gap-8 items-center">
-                                    <div className="flex max-w-max bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
-                                        On Sale{" "}
-                                        {
-                                            carData.onDiscountSale
-                                                .discountPercentage
-                                        }
-                                        {"% Off"}
-                                    </div>
-                                    <div>
-                                        <p className="italic text-sm text-red-500 md:text-md lg:text-lg">
-                                            Time Remaining :{" "}
-                                            {timeRemaining || "Calculating..."}
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
-                            <div>
+                            <div className="flex flex-col gap-4 w-full justify-center">
                                 {carData.isAvailableForSale && (
-                                    <div>
-                                        <p className="text-lg md:text-xl lg:text-2xl">
-                                            <strong>Price:</strong>{" "}
-                                            {carData.onDiscountSale ? (
-                                                <>
-                                                    <span className="text-red-500 font-bold">
-                                                        $
-                                                        {(
-                                                            carData.price *
-                                                            (1 -
-                                                                carData
-                                                                    .onDiscountSale
-                                                                    .discountPercentage /
-                                                                    100)
-                                                        ).toFixed(2)}
-                                                    </span>{" "}
-                                                    <span className="line-through text-gray-500">
+                                    <button className="font-bold bg-green-500 text-white p-4 rounded-md">
+                                        Buy Now
+                                    </button>
+                                )}
+                                {carData.isAvailableForRent && (
+                                    <button className="font-bold bg-blue-500 text-white p-4 rounded-md">
+                                        Rent Now
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="flex justify-center">
+                            <table className="table-fixed w-full border-collapse border border-gray-300 shadow-lg">
+                                <thead
+                                    style={{
+                                        fontFamily: "SuperBrigadeCondensed",
+                                        letterSpacing: "0.1rem",
+                                    }}
+                                >
+                                    <tr className="bg-black text-white">
+                                        <th className="p-4 w-1/4 text-left">
+                                            Attribute
+                                        </th>
+                                        <th className="p-4 w-3/4 text-left">
+                                            Details
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody style={{ fontFamily: "Montserrat" }}>
+                                    {carData.onDiscountSale && (
+                                        <tr>
+                                            <td className="border p-4 font-semibold">
+                                                Discount
+                                            </td>
+                                            <td className="border p-4">
+                                                <div className="flex items-center lg:justify-between gap-8">
+                                                    <span className="bg-blue-500 text-white font-semibold px-4 py-2 rounded inline-block">
+                                                        On Sale{" "}
+                                                        {
+                                                            carData
+                                                                .onDiscountSale
+                                                                .discountPercentage
+                                                        }
+                                                        % Off
+                                                    </span>
+                                                    <span className="italic text-red-500 font-semibold">
+                                                        Time Remaining:{" "}
+                                                        {timeRemaining ||
+                                                            "Calculating..."}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {carData.isAvailableForSale && (
+                                        <tr>
+                                            <td className="border p-4 font-semibold">
+                                                Price
+                                            </td>
+                                            <td className="border p-4">
+                                                {carData.onDiscountSale ? (
+                                                    <>
+                                                        <span className="text-green-600 text-2xl font-bold">
+                                                            $
+                                                            {(
+                                                                carData.price *
+                                                                (1 -
+                                                                    carData
+                                                                        .onDiscountSale
+                                                                        .discountPercentage /
+                                                                        100)
+                                                            ).toFixed(2)}
+                                                        </span>
+                                                        <span className="line-through text-gray-500 ml-2">
+                                                            $
+                                                            {carData.price.toFixed(
+                                                                2
+                                                            )}
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-green-600 text-2xl font-bold">
                                                         $
                                                         {carData.price.toFixed(
                                                             2
                                                         )}
                                                     </span>
-                                                </>
-                                            ) : (
-                                                `$${carData.price.toFixed(2)}`
-                                            )}
-                                        </p>
-                                    </div>
-                                )}
-                                {carData.isAvailableForRent && (
-                                    <div>
-                                        <p className="text-lg md:text-xl lg:text-2xl">
-                                            <strong>Rent Price:</strong>{" "}
-                                            {carData.onDiscountSale ? (
-                                                <>
-                                                    <span className="text-red-500 font-bold">
-                                                        $
-                                                        {(
-                                                            carData.rentPrice *
-                                                            (1 -
-                                                                carData
-                                                                    .onDiscountSale
-                                                                    .discountPercentage /
-                                                                    100)
-                                                        ).toFixed(2)}
-                                                    </span>{" "}
-                                                    <span className="line-through text-gray-500">
+                                                )}
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {carData.isAvailableForRent && (
+                                        <tr>
+                                            <td className="border p-4 font-semibold">
+                                                Rent Price
+                                            </td>
+                                            <td className="border p-4">
+                                                {carData.onDiscountSale ? (
+                                                    <>
+                                                        <span className="text-green-600 text-2xl font-bold">
+                                                            $
+                                                            {(
+                                                                carData.rentPrice *
+                                                                (1 -
+                                                                    carData
+                                                                        .onDiscountSale
+                                                                        .discountPercentage /
+                                                                        100)
+                                                            ).toFixed(2)}
+                                                            <span className="text-sm text-gray-600 ml-2">
+                                                                {" Per Month"}
+                                                            </span>
+                                                        </span>
+                                                        <span className="line-through text-gray-500 ml-2">
+                                                            $
+                                                            {carData.rentPrice.toFixed(
+                                                                2
+                                                            )}
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-green-600 text-2xl font-bold">
                                                         $
                                                         {carData.rentPrice.toFixed(
                                                             2
                                                         )}
-                                                    </span>{" "}
-                                                </>
-                                            ) : (
-                                                `$${carData.rentPrice.toFixed(
-                                                    2
-                                                )}`
-                                            )}
-                                        </p>
-                                    </div>
-                                )}
-                                <p className="text-lg md:text-xl lg:text-2xl">
-                                    <strong>Year:</strong> {carData.year}
-                                </p>
-                                <p className="text-lg md:text-xl lg:text-2xl">
-                                    <strong>Fuel Type:</strong>{" "}
-                                    {carData.fuelType}
-                                </p>
-                                <p className="text-lg md:text-xl lg:text-2xl">
-                                    <strong>Mileage:</strong> {carData.mileage}{" "}
-                                    km/l
-                                </p>
-                                <p className="text-lg md:text-xl lg:text-2xl">
-                                    <strong>Transmission:</strong>{" "}
-                                    {carData.transmission}
-                                </p>
-                                <p className="text-lg md:text-xl lg:text-2xl">
-                                    <strong>Location:</strong>{" "}
-                                    {`${carData.location.city}, ${carData.location.state}, ${carData.location.country} - ${carData.location.zipCode}`}
-                                </p>
-                                <p className="text-lg md:text-xl lg:text-2xl">
-                                    <strong>Date Listed:</strong>{" "}
-                                    {new Date(
-                                        carData.dateListed
-                                    ).toLocaleDateString()}
-                                </p>
-                            </div>
-                            {/* Buy and Rent Now Buttons */}
-                            <div className="flex gap-4">
-                                {carData.isAvailableForSale ? (
-                                    <button className="bg-green-500 text-white p-2 rounded-md">
-                                        Buy Now
-                                    </button>
-                                ) : (
-                                    <button className="bg-gray-500 hover:cursor-not-allowed text-white p-2 rounded-md">
-                                        Not Available for Sale
-                                    </button>
-                                )}
-                                {carData.isAvailableForRent ? (
-                                    <button className="bg-blue-500 text-white p-2 rounded-md">
-                                        Rent Now
-                                    </button>
-                                ) : (
-                                    <button className="bg-gray-500 hover:cursor-not-allowed text-white p-2 rounded-md">
-                                        Not Available for Rent
-                                    </button>
-                                )}
-                            </div>
+                                                        <span className="text-sm text-gray-600 ml-2">
+                                                            {" Per Month"}
+                                                        </span>
+                                                    </span>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    )}
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Year
+                                        </td>
+                                        <td className="border p-4">
+                                            {carData.year}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Fuel Type
+                                        </td>
+                                        <td className="border p-4">
+                                            {carData.fuelType}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Mileage
+                                        </td>
+                                        <td className="border p-4">
+                                            {carData.mileage} km/l
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Transmission
+                                        </td>
+                                        <td className="border p-4">
+                                            {carData.transmission}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Location
+                                        </td>
+                                        <td className="border p-4">
+                                            {`${carData.location.city}, ${carData.location.state}, ${carData.location.country} - ${carData.location.zipCode}`}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Date Listed
+                                        </td>
+                                        <td className="border p-4">
+                                            {new Date(
+                                                carData.dateListed
+                                            ).toLocaleDateString()}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Seller
+                                        </td>
+                                        <td className="border p-4">
+                                            {carData.owner.name}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
