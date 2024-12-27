@@ -11,8 +11,6 @@ const Buy = () => {
 
             const data = await response.json();
 
-            console.log(data.data);
-
             setCarsData(data.data);
         };
 
@@ -39,7 +37,7 @@ const Buy = () => {
                 >
                     Buy a Car
                 </h1>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                     {carsData.map((car) => (
                         <Car key={car._id} car={car} />
                     ))}

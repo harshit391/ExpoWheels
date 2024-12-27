@@ -24,8 +24,6 @@ export const createUser = async (details) => {
 
     const data = await response.json();
 
-    console.log("Data :- ", data);
-
     if (data.error) {
         throw Error(data.error);
     }
@@ -50,8 +48,6 @@ export const signUser = async (details) => {
 
     const data = await response.json();
 
-    console.log("Data :- ", data);
-
     if (data.error) {
         throw Error(data.error);
     }
@@ -71,8 +67,6 @@ export const verifyToken = async (token) => {
     });
 
     const data = await response.json();
-
-    console.log("Data :- ", data);
 
     if (data.error) {
         throw Error(data.error);
