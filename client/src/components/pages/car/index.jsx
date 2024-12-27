@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Car = ({ car }) => {
+const Car = ({ car, buyOrRent }) => {
     const formatDate = (date) => {
         // 2024-12-26T15:35:14.059Z => 26-December-2024
 
@@ -80,23 +80,40 @@ const Car = ({ car }) => {
                         <span>{formatDate(car.dateListed)}</span>
                     </div>
                 </div>
-                {car.isAvailableForSale && (
-                    <Link
-                        to={`/car/${car._id}`}
-                        className="mt-6 flex flex-col gap-4"
-                    >
-                        <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
-                            View Details
-                        </button>
-                    </Link>
-                )}
-                {!car.isAvailableForSale && (
-                    <div className="mt-6 flex flex-col gap-4">
-                        <button className="w-full bg-gray-500 text-white font-semibold py-2 rounded hover:cursor-not-allowed transition">
-                            Currently Not Available
-                        </button>
-                    </div>
-                )}
+                {buyOrRent &&
+                    (car.isAvailableForSale ? (
+                        <Link
+                            to={`/car/${car._id}`}
+                            className="mt-6 flex flex-col gap-4"
+                        >
+                            <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
+                                View Details
+                            </button>
+                        </Link>
+                    ) : (
+                        <div className="mt-6 flex flex-col gap-4">
+                            <button className="w-full bg-gray-500 text-white font-semibold py-2 rounded hover:cursor-not-allowed transition">
+                                Currently Not Available
+                            </button>
+                        </div>
+                    ))}
+                {!buyOrRent &&
+                    (car.isAvailableForRent ? (
+                        <Link
+                            to={`/car/${car._id}`}
+                            className="mt-6 flex flex-col gap-4"
+                        >
+                            <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
+                                View Details
+                            </button>
+                        </Link>
+                    ) : (
+                        <div className="mt-6 flex flex-col gap-4">
+                            <button className="w-full bg-gray-500 text-white font-semibold py-2 rounded hover:cursor-not-allowed transition">
+                                Currently Not Available
+                            </button>
+                        </div>
+                    ))}
             </div>
         </div>
     );

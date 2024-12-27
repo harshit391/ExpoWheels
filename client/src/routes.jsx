@@ -11,6 +11,7 @@ import Buy from "./pages/services/buy";
 import Car from "./components/pages/car";
 import Services from "./pages/services";
 import CarDetails from "./components/pages/cardetails";
+import Rent from "./pages/services/rent";
 
 const routes = [
     {
@@ -52,6 +53,10 @@ const routes = [
                     {
                         path: "/car/buy",
                         element: <Buy />,
+                    },
+                    {
+                        path: "/car/rent",
+                        element: <Rent />,
                     },
                     {
                         path: "/car/:id",

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { API_URL_EWS } from "../../../utils/constants";
 import Car from "../../../components/pages/car";
 
-const Buy = () => {
+const Rent = () => {
     const [carsData, setCarsData] = useState(null);
 
     useEffect(() => {
@@ -35,11 +35,11 @@ const Buy = () => {
                     }}
                     className="text-2xl md:text-5xl text-center py-8 col-span-1 md:col-span-3 uppercase"
                 >
-                    Buy a Car
+                    Rent a Car
                 </h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                     {carsData.map((car) => (
-                        <Car key={car._id} car={car} buyOrRent={true} />
+                        <Car key={car._id} car={car} buyOrRent={false} />
                     ))}
                 </div>
                 <div></div>
@@ -48,4 +48,4 @@ const Buy = () => {
     }
 };
 
-export default Buy;
+export default Rent;
