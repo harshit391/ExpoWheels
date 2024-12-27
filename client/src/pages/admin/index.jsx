@@ -1,12 +1,8 @@
-import Navbar from "../../components/landing/navbar";
-
 const Admin = () => {
     return (
         <div>
-            <Navbar />
             <div className="grid grid-cols-3 gap-8 justify-items-center p-4">
-                {[...Array(32)].map((_, i) => {
-                    if (i != 21 && i != 31)
+                {[...Array(28)].map((_, i) => {
                     return <div
                         className="w-4/5 max-h-64 flex flex-col justify-center items-center p-4 gap-2"
                         key={i}

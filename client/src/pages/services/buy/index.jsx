@@ -39,7 +39,7 @@ const Buy = () => {
                 >
                     Buy a Car
                 </h1>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
                     {carsData.map((car) => (
                         <Car key={car._id} car={car} />
                     ))}

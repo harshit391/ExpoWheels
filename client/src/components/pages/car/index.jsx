@@ -25,13 +25,13 @@ const Car = ({ car }) => {
             "December",
         ];
 
-        const formattedDate = `${day}-${months[month - 1]}-${year}`;
+        const formattedDate = `${months[month - 1]} ${day}, ${year}`;
 
         return formattedDate;
     };
 
     return (
-        <div className="flex flex-col gap-4 border border-solid border-black p-4">
+        <div className="flex flex-col gap-4 rounded-md p-4 shadow-2xl justify-between md:hover:scale-105 cursor-pointer transition">
             <div className="flex flex-col gap-4 w-full">
                 <h1
                     className="text-lg md:text-2xl text-center py-4 col-span-1 md:col-span-3 uppercase"
@@ -53,30 +53,52 @@ const Car = ({ car }) => {
                     className="rounded-md"
                 />
             </div>
-            <div className="flex flex-col items-center">
-                <p
-                    style={{
-                        fontFamily: "Poppins",
-                    }}
-                    className="italic w-full text-center"
-                >
-                    {car.description}
-                </p>
-                <div className="flex flex-col w-full">
-                    <div className="flex gap-4">
-                        <div>
-                            Price :- {car.price}
-                        </div>
+            <div className="flex flex-col gap-4 p-4">
+                <p className="italic">{car.description}</p>
+                <div className="flex flex-col gap-2" style={{ fontFamily: "Poppins" }}>
+                    <div className="flex justify-between items-center">
+                        <span className="text-green-600 text-3xl font-bold">
+                            ${car.price}
+                        </span>
+                        <span className="text-2xl">
+                            {car.fuelType}
+                        </span>
                     </div>
-                    <div className="flex gap-4">
-                        <p>{car.fuelType}</p>
-                        <p>{car.mileage}</p>
+                    <div className="flex justify-between items-center">
+                        <span className="font-semibold">
+                            Mileage:
+                        </span>
+                        <span>{car.mileage} km</span>
                     </div>
-                    <div className="flex gap-4">
-                        <p>{car.transmission}</p>
-                        <p>{formatDate(car.dateListed)}</p>
+                    <div className="flex justify-between items-center mt-2">
+                        <span className="font-semibold">
+                            Transmission:
+                        </span>
+                        <span>{car.transmission}</span>
+                    </div>
+                    <div className="flex justify-between items-center mt-2">
+                        <span className="font-semibold">
+                            Date Listed:
+                        </span>
+                        <span>
+                            {formatDate(car.dateListed)}
+                        </span>
                     </div>
                 </div>
+                {car.isAvailableForSale && (
+                    <div className="mt-6 flex flex-col gap-4">
+                        <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
+                            View Details
+                        </button>
+                    </div>
+                )}
+                {!car.isAvailableForSale && (
+                    <div className="mt-6 flex flex-col gap-4">
+                        <button className="w-full bg-gray-500 text-white font-semibold py-2 rounded hover:cursor-not-allowed transition">
+                            Currently Not Available
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
