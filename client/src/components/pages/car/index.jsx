@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 
 const Car = ({ car, buyOrRent }) => {
     const formatDate = (date) => {
-        // 2024-12-26T15:35:14.059Z => 26-December-2024
-
         const dateObj = new Date(date);
 
         const day = dateObj.getDate();
@@ -56,7 +54,23 @@ const Car = ({ car, buyOrRent }) => {
                 />
             </div>
             <div className="flex flex-col gap-4 p-4">
-                <p className="italic">{car.description}</p>
+                <div className="flex gap-2 items-center justify-between">
+                    <p className="italic">{car.description}</p>
+                    {buyOrRent &&
+                        car.isAvailableForSale &&
+                        car.onDiscountSale !== null && (
+                            <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
+                                On Sale
+                            </div>
+                        )}
+                    {!buyOrRent &&
+                        car.isAvailableForRent &&
+                        car.onDiscountSale !== null && (
+                            <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
+                                On Sale
+                            </div>
+                        )}
+                </div>
                 <div
                     className="flex flex-col gap-2"
                     style={{ fontFamily: "Poppins" }}
@@ -80,11 +94,6 @@ const Car = ({ car, buyOrRent }) => {
                         <span>{formatDate(car.dateListed)}</span>
                     </div>
                 </div>
-                {car.onDiscountSale !== null && (
-                    <div className="bg-green-500 text-white font-semibold py-2 rounded mt-4 text-center">
-                        On Sale
-                    </div>
-                )}
                 {buyOrRent &&
                     (car.isAvailableForSale ? (
                         <Link
