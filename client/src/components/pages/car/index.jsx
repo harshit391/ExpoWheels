@@ -80,6 +80,11 @@ const Car = ({ car, buyOrRent }) => {
                         <span>{formatDate(car.dateListed)}</span>
                     </div>
                 </div>
+                {car.onDiscountSale !== null && (
+                    <div className="bg-green-500 text-white font-semibold py-2 rounded mt-4 text-center">
+                        On Sale
+                    </div>
+                )}
                 {buyOrRent &&
                     (car.isAvailableForSale ? (
                         <Link
