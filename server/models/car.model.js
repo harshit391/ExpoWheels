@@ -111,7 +111,9 @@ CarModel.getAll = async (successCallBack, errorCallBack) => {
 
 CarModel.getById = async (id, successCallBack, errorCallBack) => {
     try {
-        const userRequestedCar = CarModel.findById(id);
+        console.log("Request at Get Car By Id :- ", id);
+
+        const userRequestedCar = await CarModel.findById(id);
 
         if (userRequestedCar) {
             successCallBack(userRequestedCar);

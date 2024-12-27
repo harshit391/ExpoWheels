@@ -10,6 +10,7 @@ import Admin from "./pages/admin";
 import Buy from "./pages/services/buy";
 import Car from "./components/pages/car";
 import Services from "./pages/services";
+import CarDetails from "./components/pages/cardetails";
 
 const routes = [
     {
@@ -54,7 +55,7 @@ const routes = [
                     },
                     {
                         path: "/car/:id",
-                        element: <NotFound />,
+                        element: <CarDetails />,
                     },
                 ],
             },

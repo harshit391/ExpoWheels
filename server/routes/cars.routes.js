@@ -26,7 +26,10 @@ router.get("/get", async (req, res) => {
 });
 
 router.get("/get/:id", (req, res) => {
+    const id = req.params.id;
+
     CarModel.getById(
+        id,
         (dbres) => {
             res.status(200).send({
                 message: "Cars Details Fetched Successfully",
