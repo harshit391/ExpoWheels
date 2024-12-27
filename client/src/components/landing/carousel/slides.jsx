@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import "./slides.css";
 
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -82,8 +82,8 @@ const Slides = ({ slides }) => {
                 >
                     {slides.map((s, i) => (
                         <SwiperSlide key={s.name}>
-                            <div className="flex flex-col md:flex-row items-center justify-center gap-4 p-4">
-                                <div className="w-2/5 h-64 flex justify-center items-center">
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-4 p-4 md:p-8 lg:p-16">
+                                <div className="flex justify-center items-center">
                                     <img
                                         src={s.image}
                                         alt={s.name}
@@ -94,7 +94,7 @@ const Slides = ({ slides }) => {
                                 <div className="w-full md:w-1/2 flex justify-center gap-4 p-6">
                                     <div className="flex flex-col gap-4">
                                         <h1
-                                            className="text-white text-3xl md:text-4xl font-bold"
+                                            className="text-white text-2xl md:text-4xl font-bold"
                                             style={{
                                                 fontFamily: "SuperBrigadeTitle",
                                             }}

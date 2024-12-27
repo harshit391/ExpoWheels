@@ -1,6 +1,23 @@
+import { useEffect, useState } from "react";
 import Slides from "./slides";
+import { API_URL_EWS } from "../../../utils/constants";
 
 const Carousel = () => {
+    const [salesData, setSalesData] = useState([]);
+
+    // useEffect(() => {
+    //     const fetchSalesData = async () => {
+    //         try {
+    //             const response = await fetch(`${API_URL_EWS}/api/sales`);
+    //             const data = await response.json();
+    //             setSalesData(data);
+    //         } catch (err) {
+    //             console.error(err);
+    //         }
+    //     };
+
+    //     fetchSalesData();
+    // }, []);
     const carData = [
         {
             id: 1,
