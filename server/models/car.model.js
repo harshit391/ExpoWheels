@@ -39,6 +39,11 @@ const carSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    onDiscountSale: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Sale",
+        default: null,
+    },
     fuelType: {
         type: String,
         enum: ["Petrol", "Diesel", "Electric", "Hybrid", "CNG", "LPG"],
