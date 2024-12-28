@@ -72,5 +72,5 @@ export const verifyToken = async (token) => {
         throw Error(data.error);
     }
 
-    return { ok: "Valid Token", role: data.user.role, id: data.user.id };
+    return { ok: "Valid Token", role: data.user.role, id: data.user.userId };
 };

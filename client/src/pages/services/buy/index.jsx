@@ -1,9 +1,24 @@
 import { useEffect, useState } from "react";
 import { API_URL_EWS } from "../../../utils/constants";
 import Car from "../../../components/pages/car";
+import { useAuth } from "../../../context/context";
 
 const Buy = () => {
     const [carsData, setCarsData] = useState(null);
+
+    const { user, admin, loading } = useAuth();
+
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        if (!loading) {
+            if (user) {
+                setUserId(user.id);
+            } else {
+                setUserId(null);
+            }
+        }
+    }, [user, loading]);
 
     useEffect(() => {
         const fetchCarData = async () => {
@@ -39,7 +54,12 @@ const Buy = () => {
                 </h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                     {carsData.map((car) => (
-                        <Car key={car._id} car={car} buyOrRent={true} />
+                        <Car
+                            key={car._id}
+                            car={car}
+                            buyOrRent={true}
+                            userId={userId}
+                        />
                     ))}
                 </div>
                 <div></div>

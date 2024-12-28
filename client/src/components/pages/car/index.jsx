@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Car = ({ car, buyOrRent }) => {
+const Car = ({ car, buyOrRent, userId }) => {
     const formatDate = (date) => {
         const dateObj = new Date(date);
 
@@ -37,7 +37,7 @@ const Car = ({ car, buyOrRent }) => {
     };
 
     return (
-        <div className="flex flex-col gap-4 rounded-md p-4 shadow-2xl justify-between md:hover:scale-105 cursor-pointer transition">
+        <div className="flex flex-col gap-4 rounded-md p-4 shadow-2xl md:hover:scale-105 cursor-pointer transition">
             <div className="flex flex-col gap-4 w-full">
                 <h1
                     className="text-lg md:text-2xl text-center py-4 col-span-1 md:col-span-3 uppercase"
@@ -59,19 +59,19 @@ const Car = ({ car, buyOrRent }) => {
                     className="rounded-md"
                 />
             </div>
-            <div className="flex flex-col gap-4 p-4">
+            <div className="flex h-full justify-between flex-col gap-4 p-4">
                 <div
-                    className="flex flex-col gap-2"
+                    className="flex flex-col h-full justify-center gap-2"
                     style={{ fontFamily: "Poppins" }}
                 >
-                    <div className="flex flex-col justify-between items-center">
-                        <div className="flex justify-between items-start w-full">
+                    <div className="flex flex-col justify-between gap-4 items-center">
+                        <div className="flex justify-between gap-4 items-center w-full">
                             <div className="flex flex-col">
                                 {buyOrRent &&
                                     car.isAvailableForSale &&
                                     (car.onDiscountSale ? (
                                         <>
-                                            <span className="text-green-600 text-3xl font-bold">
+                                            <span className="text-green-600 text-2xl lg:text-3xl font-bold">
                                                 ${getDiscountedPrice()}
                                             </span>
                                             <span className="text-gray-600 text-sm line-through">
@@ -82,7 +82,7 @@ const Car = ({ car, buyOrRent }) => {
                                             </span>
                                         </>
                                     ) : (
-                                        <span className="text-green-600 text-3xl font-bold">
+                                        <span className="text-green-600 text-2xl lg:text-3xl font-bold">
                                             $
                                             {buyOrRent
                                                 ? car.price
@@ -94,11 +94,11 @@ const Car = ({ car, buyOrRent }) => {
                                     (car.onDiscountSale ? (
                                         <>
                                             <div className="flex gap-2 items-center">
-                                                <span className="text-green-600 text-3xl font-bold">
+                                                <span className="text-green-600 text-2xl lg:text-3xl font-bold">
                                                     ${getDiscountedPrice()}
                                                 </span>
                                                 <span className="text-sm">
-                                                    Per Month
+                                                    Per Day
                                                 </span>
                                             </div>
                                             <span className="text-gray-600 text-sm line-through">
@@ -107,11 +107,11 @@ const Car = ({ car, buyOrRent }) => {
                                         </>
                                     ) : (
                                         <div className="flex gap-2 items-center">
-                                            <span className="text-green-600 text-3xl font-bold">
+                                            <span className="text-green-600 text-2xl lg:text-3xl font-bold">
                                                 ${car.rentPrice}
                                             </span>
                                             <span className="text-sm">
-                                                Per Month
+                                                Per Day
                                             </span>
                                         </div>
                                     ))}
@@ -120,7 +120,7 @@ const Car = ({ car, buyOrRent }) => {
                                 {buyOrRent &&
                                     car.isAvailableForSale &&
                                     car.onDiscountSale !== null && (
-                                        <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
+                                        <div className="bg-blue-500 text-sm px-2 py-1 text-white font-semibold md:text-xl md:px-4 md:py-2 rounded text-center">
                                             Sale (
                                             {
                                                 car.onDiscountSale
@@ -165,18 +165,23 @@ const Car = ({ car, buyOrRent }) => {
                         <span>{car.owner.name}</span>
                     </div>
                 </div>
+                {userId && userId === car.owner._id && (
+                    <div className="italic text-2xl text-blue-700 font-semibold rounded text-center">
+                        Owned By You
+                    </div>
+                )}
                 {buyOrRent &&
                     (car.isAvailableForSale ? (
                         <Link
                             to={`/car/${car._id}`}
-                            className="mt-6 flex flex-col gap-4"
+                            className="flex flex-col gap-4"
                         >
                             <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
                                 View Details
                             </button>
                         </Link>
                     ) : (
-                        <div className="mt-6 flex flex-col gap-4">
+                        <div className="flex flex-col gap-4">
                             <button className="w-full bg-gray-500 text-white font-semibold py-2 rounded hover:cursor-not-allowed transition">
                                 Currently Not Available
                             </button>
@@ -186,14 +191,14 @@ const Car = ({ car, buyOrRent }) => {
                     (car.isAvailableForRent ? (
                         <Link
                             to={`/car/${car._id}`}
-                            className="mt-6 flex flex-col gap-4"
+                            className="flex flex-col gap-4"
                         >
                             <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
                                 View Details
                             </button>
                         </Link>
                     ) : (
-                        <div className="mt-6 flex flex-col gap-4">
+                        <div className="flex flex-col gap-4">
                             <button className="w-full bg-gray-500 text-white font-semibold py-2 rounded hover:cursor-not-allowed transition">
                                 Currently Not Available
                             </button>

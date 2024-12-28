@@ -79,14 +79,20 @@ const CarDetails = () => {
                                 alt={carData.title}
                                 className="w-full"
                             />
-                            <div className="flex flex-col gap-4 w-full justify-center">
+                            <div
+                                className="flex flex-col gap-4 w-full justify-center"
+                                style={{
+                                    fontFamily: "SuperBrigadeCondensed",
+                                    letterSpacing: "0.1rem",
+                                }}
+                            >
                                 {carData.isAvailableForSale && (
-                                    <button className="font-bold bg-green-500 text-white p-4 rounded-md">
+                                    <button className="font-bold bg-black text-white p-4 rounded-md">
                                         Buy Now
                                     </button>
                                 )}
                                 {carData.isAvailableForRent && (
-                                    <button className="font-bold bg-blue-500 text-white p-4 rounded-md">
+                                    <button className="font-bold bg-black text-white p-4 rounded-md">
                                         Rent Now
                                     </button>
                                 )}
@@ -192,7 +198,7 @@ const CarDetails = () => {
                                                                         100)
                                                             ).toFixed(2)}
                                                             <span className="text-sm text-gray-600 ml-2">
-                                                                {" Per Month"}
+                                                                {" Per Day"}
                                                             </span>
                                                         </span>
                                                         <span className="line-through text-gray-500 ml-2">
@@ -209,7 +215,7 @@ const CarDetails = () => {
                                                             2
                                                         )}
                                                         <span className="text-sm text-gray-600 ml-2">
-                                                            {" Per Month"}
+                                                            {" Per Day"}
                                                         </span>
                                                     </span>
                                                 )}
