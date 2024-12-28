@@ -165,8 +165,6 @@ UserModel.verifyToken = async (token, sucessCallBack, errorCallback) => {
 
         const userExists = await UserModel.findById(decodedToken.userId);
 
-        // console.log("User Exists :- ", userExists);
-
         if (!userExists) {
             errorCallback("User Not Found");
             return;
