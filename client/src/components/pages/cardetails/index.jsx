@@ -9,7 +9,7 @@ const CarDetails = () => {
     const [carData, setCarData] = useState(null);
     const [timeRemaining, setTimeRemaining] = useState(null);
 
-    const { user, admin, loading } = useAuth();
+    const { user, loading } = useAuth();
 
     const [userId, setUserId] = useState(null);
 
@@ -31,7 +31,6 @@ const CarDetails = () => {
 
             setCarData(data.data);
 
-            // Initialize the timer if the saleDate exists
             if (data.data.onDiscountSale?.saleDate) {
                 const saleEndDate = new Date(
                     data.data.onDiscountSale.saleDate
@@ -43,7 +42,6 @@ const CarDetails = () => {
 
         fetchCarData();
 
-        // Clean up the timer when the component unmounts
         return () => clearInterval(timerId);
     }, [id]);
 

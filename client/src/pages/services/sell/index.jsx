@@ -121,7 +121,25 @@ const Sell = () => {
                     formDataToSubmit.append(locKey, formData.location[locKey]);
                 }
             } else {
-                if (!formData[key]) {
+                if (key === "isAvailableForRent") {
+                    if (!formData.isAvailableForRent) {
+                        continue;
+                    }
+
+                    if (!formData.rentPrice) {
+                        alert("Please fill in all the fields.");
+                        return;
+                    }
+                } else if (key === "isAvailableForSale") {
+                    if (!formData.isAvailableForSale) {
+                        continue;
+                    }
+
+                    if (!formData.price) {
+                        alert("Please fill in all the fields.");
+                        return;
+                    }
+                } else if (!formData[key]) {
                     alert("Please fill in all the fields.");
                     return;
                 }
