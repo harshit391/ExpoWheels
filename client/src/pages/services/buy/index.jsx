@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { API_URL_EWS } from "../../../utils/constants";
 import Car from "../../../components/pages/car";
 import { useAuth } from "../../../context/context";
+import Loading from "../../../components/loading";
 
 const Buy = () => {
     const [carsData, setCarsData] = useState(null);
@@ -37,7 +38,7 @@ const Buy = () => {
     if (!carsData) {
         return (
             <div>
-                <h1>Loading...</h1>
+                <Loading />
             </div>
         );
     }

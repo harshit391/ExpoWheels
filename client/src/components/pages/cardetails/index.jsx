@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { deleteSale } from "../../../utils/sales";
 import { useAuth } from "../../../context/context";
+import Loading from "../../loading";
 
 const CarDetails = () => {
     const { id } = useParams();
@@ -322,7 +323,7 @@ const CarDetails = () => {
                     </div>
                 </div>
             ) : (
-                <h1>Loading...</h1>
+                <Loading />
             )}
         </div>
     );
