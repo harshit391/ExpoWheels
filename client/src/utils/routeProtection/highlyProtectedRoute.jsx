@@ -1,37 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/context";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import Loading from "../../components/loading";
 
 const HighlyProtectedRoute = ({ children }) => {
-    const { user, admin } = useAuth();
-
+    const { user, admin, loading } = useAuth();
     const navigate = useNavigate();
 
-    const [userLoggedIn, setUserLoggedIn] = useState(null);
-
     useEffect(() => {
-        if (user && admin) {
-            setUserLoggedIn(true);
-        } else {
-            setUserLoggedIn(false);
+        if (!loading) {
+            if (!user && !admin) {
+                navigate("/");
+            }
         }
-    }, [user, admin]);
+    }, [user, admin, loading, navigate]);
 
-    useEffect(() => {
-        if (userLoggedIn !== null && !userLoggedIn) {
-            navigate("/");
-        }
-    }, [userLoggedIn, navigate]);
+    if (loading) {
+        return <Loading />;
+    }
 
-    if (userLoggedIn === null) {
+    if (!user && !admin) {
         return null;
     }
 
-    if (userLoggedIn) {
-        return children;
-    }
-
-    return null;
+    return children;
 };
 
 export default HighlyProtectedRoute;

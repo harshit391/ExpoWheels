@@ -3,13 +3,13 @@ import { useAuth } from "../../context/context";
 import { useEffect } from "react";
 import Loading from "../../components/loading";
 
-const UnProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!loading) {
-            if (user) {
+            if (!user) {
                 navigate("/");
             }
         }
@@ -19,11 +19,11 @@ const UnProtectedRoute = ({ children }) => {
         return <Loading />;
     }
 
-    if (user) {
+    if (!user) {
         return null;
     }
 
     return children;
 };
 
-export default UnProtectedRoute;
+export default ProtectedRoute;
