@@ -58,6 +58,7 @@ const Navbar = () => {
                 <Link to="/car/sell">Sell Cars</Link>
                 <Link to="/car/rent">Rent Cars</Link>
                 <Link to="/contact">Contact Us</Link>
+                {user && <Link to="/profile">Profile</Link>}
                 {admin && <Link to="/admin">Admin</Link>}
             </div>
 
