@@ -40,7 +40,10 @@ const UserModel = mongoose.model("User", userScheme);
 
 /* GET User */
 UserModel.getUser = async (req, sucessCallBack, errorCallback) => {
-    const idFromReq = req?.params?._id;
+
+    console.log("Request Params :- ", req?.params);
+
+    const idFromReq = req?.params?.id;
     const idFromAuthToken = req?.idFromToken;
 
     console.log("Id From Request :- ", idFromReq);

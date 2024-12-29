@@ -1,7 +1,26 @@
+import { useEffect, useState } from "react";
 import Card from "../../../components/landing/main/card";
-
+import { useAuth } from "../../../context/context";
+import { getUser } from "../../../utils/services/user";
+import Loading from "../../../components/loading";
 
 const User = () => {
+    const { user } = useAuth();
+
+    const [userProfile, setUserProfile] = useState(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const profile = await getUser(user.id);
+
+            console.log("Profile", profile.user);
+
+            setUserProfile(profile.user);
+        };
+
+        fetchUser();
+    }, [user]);
+
     const cards = [
         {
             title: "Cars Bought",
@@ -17,6 +36,10 @@ const User = () => {
         },
     ];
 
+    if (!userProfile) {
+        return <Loading />;
+    }
+
     return (
         <div className="flex flex-col items-center p-8 gap-16">
             <div className="flex flex-col gap-2">
@@ -29,6 +52,28 @@ const User = () => {
                 >
                     User Profile
                 </h1>
+                <h4
+                    style={{
+                        fontFamily: "Poppins",
+                    }}
+                    className="text-center italic"
+                >
+                    Welcome to your profile. Here you can view all the cars you
+                    have bought and added for sale.
+                </h4>
+                <div
+                    className="flex flex-col gap-2 font-bold border-2 py-4 m-4 text-2xl italic border-solid bolder-black rounded-md items-center"
+                    style={{
+                        fontFamily: "Montserrat",
+                    }}
+                >
+                    <div>Name :- {userProfile?.name}</div>
+                    <div>Email :- {userProfile?.email}</div>
+                    <div>
+                        Bookings :-{" "}
+                        {userProfile.bookings ? userProfile.bookings.length : 0}
+                    </div>
+                </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card item={cards[0]} />
