@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Navigation, Pagination } from "swiper/modules";
+import { API_URL_EWS } from "../../../utils/constants";
 
 const Slides = ({ slides }) => {
     const [timeLeft, setTimeLeft] = useState([]);
@@ -89,7 +90,7 @@ const Slides = ({ slides }) => {
                             <div className="flex flex-col md:flex-row items-center justify-center gap-4 p-4 md:p-8 lg:p-16">
                                 <div className="flex w-full md:w-1/2 justify-center items-center">
                                     <img
-                                        src={`/cars/${s.car.image}`}
+                                        src={`${API_URL_EWS}/${s.car.image}`}
                                         alt={s.car.title}
                                         className="w-full h-full object-cover"
                                     />

@@ -1,9 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
+import { sellCar } from "../../../utils/services/sell";
+import { useAuth } from "../../../context/context";
+import { editCar } from "../../../utils/services/car";
 
 const Sell = () => {
     const { id } = useParams();
+
+    const { user } = useAuth();
 
     const [formData, setFormData] = useState({
         title: "",
@@ -11,10 +16,10 @@ const Sell = () => {
         brand: "",
         model: "",
         year: "",
-        price: "",
-        rentPrice: "",
-        isAvailableForRent: false,
         isAvailableForSale: false,
+        price: "",
+        isAvailableForRent: false,
+        rentPrice: "",
         fuelType: "Petrol",
         mileage: "",
         transmission: "Manual",
@@ -80,9 +85,13 @@ const Sell = () => {
             img.onload = () => {
                 const width = img.width;
                 const height = img.height;
-                const aspectRatio = width / height;
 
-                if (aspectRatio !== 16 / 9) {
+                const currWidth = (width / 16).toFixed(0);
+                const currHeight = (height / 9).toFixed(0);
+
+                console.log(currWidth, currHeight);
+
+                if (currHeight !== currWidth) {
                     setFormData((prev) => ({
                         ...prev,
                         imageError: "The image must have a 16:9 aspect ratio.",
@@ -115,45 +124,52 @@ const Sell = () => {
             if (key === "location") {
                 for (const locKey in formData.location) {
                     if (!formData.location[locKey]) {
+                        console.log("1");
                         alert("Please fill in all the fields.");
                         return;
                     }
                     formDataToSubmit.append(locKey, formData.location[locKey]);
                 }
             } else {
-                if (key === "isAvailableForRent") {
-                    if (!formData.isAvailableForRent) {
-                        continue;
-                    }
-
-                    if (!formData.rentPrice) {
+                // console.log(key, typeof key);
+                if (key === "isAvailableForRent" || key === "rentPrice") {
+                    if (formData.isAvailableForRent && !formData.rentPrice) {
+                        console.log("2");
                         alert("Please fill in all the fields.");
                         return;
                     }
-                } else if (key === "isAvailableForSale") {
-                    if (!formData.isAvailableForSale) {
-                        continue;
-                    }
-
-                    if (!formData.price) {
+                } else if (key === "isAvailableForSale" || key === "price") {
+                    if (formData.isAvailableForSale && !formData.price) {
+                        console.log("3");
                         alert("Please fill in all the fields.");
                         return;
                     }
-                } else if (!formData[key]) {
+                } else if (!formData[key] && key != "imageError") {
+                    console.log("4");
+                    console.log(key);
                     alert("Please fill in all the fields.");
                     return;
                 }
+
                 formDataToSubmit.append(key, formData[key]);
             }
         }
 
         try {
-            /* const response = id
-                ? await editCar(formDataToSubmit, id)
-                : await sellCar(formDataToSubmit); */
+            formDataToSubmit.append("owner", user.id);
 
-            if (true) {
-                alert("Car added successfully!");
+            const response = id
+                ? await editCar(formDataToSubmit, id)
+                : await sellCar(formDataToSubmit);
+
+            console.log(response);
+
+            if (response.ok) {
+                if (id) {
+                    alert("Car edited successfully!");
+                } else {
+                    alert("Car added successfully!");
+                }
                 setFormData({
                     title: "",
                     description: "",
@@ -266,6 +282,16 @@ const Sell = () => {
                         >
                             Upload Image
                         </button>
+                        {id && (
+                            <div>
+                                <p className="text-red-500 text-center mt-2">
+                                    Note: Uploading a new image will replace the
+                                    existing image. So Don't upload a new image
+                                    if you don't want to replace the existing
+                                    one.
+                                </p>
+                            </div>
+                        )}
 
                         {formData.imageError && (
                             <p className="text-red-500 mt-2">

@@ -6,7 +6,7 @@ import { useAuth } from "../../../context/context";
 const Buy = () => {
     const [carsData, setCarsData] = useState(null);
 
-    const { user, admin, loading } = useAuth();
+    const { user, loading } = useAuth();
 
     const [userId, setUserId] = useState(null);
 
@@ -25,6 +25,8 @@ const Buy = () => {
             const response = await fetch(`${API_URL_EWS}/api/cars/get`);
 
             const data = await response.json();
+
+            console.log("Data", data.data);
 
             setCarsData(data.data);
         };

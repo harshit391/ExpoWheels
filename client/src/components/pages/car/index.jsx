@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { API_URL_EWS } from "../../../utils/constants";
 
 const Car = ({ car, buyOrRent, userId }) => {
     const formatDate = (date) => {
@@ -49,7 +50,7 @@ const Car = ({ car, buyOrRent, userId }) => {
                     {car.title}
                 </h1>
                 <img
-                    src={`/cars/${car.image}`}
+                    src={`${API_URL_EWS}/${car.image}`}
                     alt={car.title}
                     style={{
                         width: "100%",
@@ -166,9 +167,9 @@ const Car = ({ car, buyOrRent, userId }) => {
                     </div>
                 </div>
                 {userId && userId === car.owner._id && (
-                    <div className="italic text-2xl text-white px-4 py-2 bg-blue-700 font-semibold rounded text-center">
+                    <Link to={`/car/edit/${car._id}`} className="italic text-2xl text-white px-4 py-2 bg-blue-700 font-semibold rounded text-center">
                         Edit Details
-                    </div>
+                    </Link>
                 )}
                 {buyOrRent &&
                     (car.isAvailableForSale ? (

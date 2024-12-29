@@ -90,7 +90,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                         <div className="flex flex-col gap-4">
                             <img
-                                src={`/cars/${carData.image}`}
+                                src={`${API_URL_EWS}/${carData.image}`}
                                 alt={carData.title}
                                 className="w-full"
                             />
