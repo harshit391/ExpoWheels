@@ -1,5 +1,6 @@
 import { Router } from "express";
 import CarModel from "../models/car.model.js";
+import upload from "../utils/multer.utils.js";
 
 const router = Router();
 
@@ -49,11 +50,13 @@ router.get("/get/:id", (req, res) => {
 
 /* ============================= POST ROUTES FOR CARS MODEL ============================= */
 
-router.post("/add", (req, res) => {
+router.post("/add", upload.single("image"), (req, res) => {
     const data = req.body;
+    const file = req.file;
 
     CarModel.addCar(
         data,
+        file,
 
         (dbres) => {
             res.status(201).send({
@@ -64,6 +67,7 @@ router.post("/add", (req, res) => {
 
         // Error Callback
         (dbres) => {
+            console.log(dbres);
             res.status(500).send({
                 message: "Failed to Add Car",
                 error: dbres,
@@ -74,13 +78,15 @@ router.post("/add", (req, res) => {
 
 /* ============================= PUT ROUTES FOR CARS MODEL ============================= */
 
-router.put("/edit/:id", (req, res) => {
+router.put("/edit/:id", upload.single("image"), (req, res) => {
     const data = req.body;
     const id = req.params.id;
+    const file = req.file;
 
     CarModel.editCar(
         data,
         id,
+        file,
 
         (dbres) => {
             res.status(201).send({

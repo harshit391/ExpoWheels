@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Sale from "./sale.model.js";
+import fs from "fs";
+import path from "path";
 
 const carSchema = new mongoose.Schema({
     title: {
@@ -29,8 +31,8 @@ const carSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true,
         min: 0,
+        default: 0,
     },
     rentPrice: {
         type: Number,
@@ -40,10 +42,12 @@ const carSchema = new mongoose.Schema({
     isAvailableForRent: {
         type: Boolean,
         default: false,
+        required: true,
     },
     isAvailableForSale: {
         type: Boolean,
         default: true,
+        required: true,
     },
     onDiscountSale: {
         type: mongoose.Schema.Types.ObjectId,
@@ -159,11 +163,25 @@ CarModel.getById = async (id, successCallBack, errorCallBack) => {
 
 /* ============================= POST ROUTES FOR CARS MODEL ============================= */
 
-CarModel.addCar = async (data, successCallBack, errorCallBack) => {
+CarModel.addCar = async (data, file, successCallBack, errorCallBack) => {
     try {
-        const newCar = new CarModel(data);
+        const fileName = file.filename;
+
+        const newCar = new CarModel({
+            ...data,
+            image: fileName,
+            owner: new mongoose.Types.ObjectId(data.owner),
+            location: {
+                city: data.city,
+                state: data.state,
+                country: data.country,
+                zipCode: data.zipCode,
+            },
+        });
 
         newCar.save();
+
+        console.log("New Car Added :- ", newCar);
 
         successCallBack(newCar);
     } catch (error) {
@@ -173,17 +191,58 @@ CarModel.addCar = async (data, successCallBack, errorCallBack) => {
 
 /* ============================= PUT ROUTES FOR CARS MODEL ============================= */
 
-CarModel.editCar = async (data, id, successCallBack, errorCallBack) => {
+CarModel.editCar = async (data, id, file, successCallBack, errorCallBack) => {
     try {
-        const carToEdit = CarModel.findById(id);
+        const carToEdit = await CarModel.findById(id);
 
         if (!carToEdit) {
             throw new Error("Car Doesn't Exists");
         }
 
-        const newCarAfterEditing = { ...carToEdit, data };
+        console.log("Car To Edit", carToEdit);
 
-        successCallBack(newCarAfterEditing);
+        console.log("File Name");
+
+        if (file) {
+            const __dirname = path.resolve();
+
+            console.log("Dir Name :- ", __dirname);
+
+            const currPath = path.join(__dirname, "uploads", carToEdit.image);
+
+            console.log("Current Path :- ", currPath);
+
+            fs.rmSync(currPath);
+        }
+
+        console.log("2");
+
+        console.log("File :- ", file);
+
+        const fileName = file ? file.filename : carToEdit.image;
+
+        console.log("File Name :- ", fileName);
+
+        const newCarAfterEditing = {
+            image: fileName,
+            location: {
+                city: data.city,
+                state: data.state,
+                country: data.country,
+                zipCode: data.zipCode,
+            },
+        };
+
+        console.log("3");
+
+        const newCarAfterUpdations = await CarModel.findByIdAndUpdate(
+            id,
+            newCarAfterEditing
+        );
+
+        console.log("4", newCarAfterUpdations);
+
+        successCallBack(newCarAfterUpdations);
     } catch (error) {
         errorCallBack(error);
     }

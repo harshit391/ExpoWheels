@@ -9,11 +9,8 @@ import saleRoutes from "./routes/sales.routes.js";
 
 const app = express();
 
-// app.use("/", express.static("./../frontend/dist"))
-
 connectDB();
 
-/* Setting up the CORS policy */
 app.use("*", (req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "*");
@@ -22,7 +19,6 @@ app.use("*", (req, res, next) => {
         "GET, POST, PUT, DELETE, OPTIONS"
     );
 
-    // Handle preflight requests
     if (req.method === "OPTIONS") {
         return res.status(200).end();
     }
@@ -30,8 +26,8 @@ app.use("*", (req, res, next) => {
     next();
 });
 
-/* Setting up the body parser by using Default Express parse for JSON */
 app.use(express.json());
+app.use(express.static("./uploads"));
 
 /* =============== ROUTES =============== */
 app.use("/api/auth", userRoutes);
