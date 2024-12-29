@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [admin, setAdmin] = useState(null);
+    const [loading, setLoading] = useState(true); // Add loading state
 
     useEffect(() => {
         const checkUser = async () => {
@@ -16,32 +17,29 @@ export const AuthProvider = ({ children }) => {
                 if (!token) {
                     setUser(null);
                     setAdmin(null);
+                    setLoading(false);
                     return;
                 }
 
-                if (token) {
-                    const response = await verifyToken(token);
+                const response = await verifyToken(token);
 
-                    if (response.ok) {
-                        setUser(response);
+                if (response.ok) {
+                    setUser(response);
 
-                        if (response.role === SECRET_KEY) {
-                            setAdmin(response);
-                        } else {
-                            setAdmin(null);
-                        }
+                    if (response.role === SECRET_KEY) {
+                        setAdmin(response);
                     } else {
-                        setUser(null);
+                        setAdmin(null);
                     }
-                }
-                else
-                {
+                } else {
                     setUser(null);
                     setAdmin(null);
                 }
             } catch (err) {
                 setUser(null);
                 setAdmin(null);
+            } finally {
+                setLoading(false); // Ensure loading state is turned off once done
             }
         };
 
@@ -49,7 +47,9 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, admin, setUser, setAdmin }}>
+        <AuthContext.Provider
+            value={{ user, admin, loading, setUser, setAdmin }}
+        >
             {children}
         </AuthContext.Provider>
     );
