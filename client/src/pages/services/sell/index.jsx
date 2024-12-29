@@ -120,34 +120,56 @@ const Sell = () => {
 
         const formDataToSubmit = new FormData();
 
+        if (!formData.image) {
+            if (!id) {
+                alert("Please upload an image.");
+                return;
+            }
+        }
+
+        if (!formData.isAvailableForRent && !formData.isAvailableForSale) {
+            alert(
+                "Please select atleast 'Available For Sale' or 'Available For Rent'."
+            );
+            return;
+        }
+
         for (const key in formData) {
             if (key === "location") {
                 for (const locKey in formData.location) {
                     if (!formData.location[locKey]) {
                         console.log("1");
-                        alert("Please fill in all the fields.");
+                        alert(
+                            "Please Fill The Field " +
+                                locKey.charAt(0).toUpperCase() +
+                                locKey.slice(1) +
+                                " in Location"
+                        );
                         return;
                     }
                     formDataToSubmit.append(locKey, formData.location[locKey]);
                 }
             } else {
-                // console.log(key, typeof key);
                 if (key === "isAvailableForRent" || key === "rentPrice") {
                     if (formData.isAvailableForRent && !formData.rentPrice) {
                         console.log("2");
-                        alert("Please fill in all the fields.");
+                        alert("Please Fill The Price For Rent");
                         return;
                     }
                 } else if (key === "isAvailableForSale" || key === "price") {
                     if (formData.isAvailableForSale && !formData.price) {
                         console.log("3");
-                        alert("Please fill in all the fields.");
+                        alert("Please Fill The Price For Sale");
                         return;
                     }
                 } else if (!formData[key] && key != "imageError") {
                     console.log("4");
                     console.log(key);
-                    alert("Please fill in all the fields.");
+                    alert(
+                        "Please Fill The Field " +
+                            key.charAt(0).toUpperCase() +
+                            key.slice(1)
+                    );
                     return;
                 }
 
@@ -282,6 +304,20 @@ const Sell = () => {
                         >
                             Upload Image
                         </button>
+                        {formData.image && (
+                            <button
+                                type="button"
+                                className="font-bold bg-red-500 text-white p-4 rounded-md"
+                                onClick={() =>
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        image: null,
+                                    }))
+                                }
+                            >
+                                Remove Uploaded Photo
+                            </button>
+                        )}
                         {id && (
                             <div>
                                 <p className="text-red-500 text-center mt-2">
