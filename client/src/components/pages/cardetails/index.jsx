@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { deleteSale } from "../../../utils/sales";
 import { useAuth } from "../../../context/context";
@@ -114,9 +114,12 @@ const CarDetails = () => {
                                     </button>
                                 )}
                                 {userId && userId === carData.owner._id && (
-                                    <div className="italic text-white p-4 bg-blue-700 font-semibold rounded text-center">
+                                    <Link
+                                        to={`/car/edit/${carData._id}`}
+                                        className="italic text-white p-4 bg-blue-700 font-semibold rounded text-center"
+                                    >
                                         Edit Details
-                                    </div>
+                                    </Link>
                                 )}
                             </div>
                         </div>
