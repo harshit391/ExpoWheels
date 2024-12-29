@@ -12,6 +12,8 @@ import Car from "./components/pages/car";
 import Services from "./pages/services";
 import CarDetails from "./components/pages/cardetails";
 import Rent from "./pages/services/rent";
+import ProtectedRoute from "./utils/routeProtection/protectedRoute";
+import Sell from "./pages/services/sell";
 
 const routes = [
     {
@@ -64,7 +66,19 @@ const routes = [
                     },
                     {
                         path: "/car/sell",
-                        element: <NotFound />,
+                        element: (
+                            <ProtectedRoute>
+                                <Sell />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/car/edit/:id",
+                        element: (
+                            <ProtectedRoute>
+                                <Sell />
+                            </ProtectedRoute>
+                        ),
                     },
                 ],
             },
