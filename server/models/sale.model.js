@@ -26,31 +26,14 @@ const Sale = mongoose.model("Sale", saleSchema);
 
 Sale.getAll = async (successCallBack, errorCallBack) => {
     try {
-        const sales = await Sale.find({});
+        const sales = await Sale.find({}).populate("car");
 
         if (!sales) {
             errorCallBack(204, "No Sales Found");
             return;
         }
 
-        const cars = await CarModel.find({});
-
-        if (!cars) {
-            errorCallBack(204, "No Cars Found");
-            return;
-        }
-
-        const newSales = { ...sales };
-
-        sales.forEach((sale) => {
-            cars.forEach((car) => {
-                if (sale.car.toString() === car._id.toString()) {
-                    newSales.car = car;
-                }
-            });
-        });
-
-        successCallBack(newSales);
+        successCallBack(sales);
     } catch (error) {
         errorCallBack(500, error);
     }
