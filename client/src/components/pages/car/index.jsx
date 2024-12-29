@@ -166,8 +166,8 @@ const Car = ({ car, buyOrRent, userId }) => {
                     </div>
                 </div>
                 {userId && userId === car.owner._id && (
-                    <div className="italic text-2xl text-blue-700 font-semibold rounded text-center">
-                        Owned By You
+                    <div className="italic text-2xl text-white px-4 py-2 bg-blue-700 font-semibold rounded text-center">
+                        Edit Details
                     </div>
                 )}
                 {buyOrRent &&

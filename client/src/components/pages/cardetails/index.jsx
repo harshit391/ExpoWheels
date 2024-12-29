@@ -2,16 +2,33 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { deleteSale } from "../../../utils/sales";
+import { useAuth } from "../../../context/context";
 
 const CarDetails = () => {
     const { id } = useParams();
     const [carData, setCarData] = useState(null);
     const [timeRemaining, setTimeRemaining] = useState(null);
 
+    const { user, admin, loading } = useAuth();
+
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        if (!loading) {
+            if (user) {
+                setUserId(user.id);
+            } else {
+                setUserId(null);
+            }
+        }
+    }, [user, loading]);
+
     useEffect(() => {
         const fetchCarData = async () => {
             const response = await fetch(`${API_URL_EWS}/api/cars/get/${id}`);
             const data = await response.json();
+            console.log("Data", data.data);
+
             setCarData(data.data);
 
             // Initialize the timer if the saleDate exists
@@ -68,7 +85,7 @@ const CarDetails = () => {
                             fontFamily: "SuperBrigadeTitle",
                             letterSpacing: "-0.2rem",
                         }}
-                        className="text-2xl md:text-5xl text-center py-8 col-span-1 md:col-span-3 uppercase"
+                        className="text-2xl md:text-5xl text-center py-8 col-div-1 md:col-div-3 uppercase"
                     >
                         {carData.brand} {carData.model}
                     </h1>
@@ -96,6 +113,11 @@ const CarDetails = () => {
                                         Rent Now
                                     </button>
                                 )}
+                                {userId && userId === carData.owner._id && (
+                                    <div className="italic text-white p-4 bg-blue-700 font-semibold rounded text-center">
+                                        Edit Details
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -108,7 +130,7 @@ const CarDetails = () => {
                                     }}
                                 >
                                     <tr className="bg-black text-white">
-                                        <th className="p-4 w-1/4 text-left">
+                                        <th className="p-4 w-1/2 md:w-1/4 text-left">
                                             Attribute
                                         </th>
                                         <th className="p-4 w-3/4 text-left">
@@ -123,8 +145,8 @@ const CarDetails = () => {
                                                 Discount
                                             </td>
                                             <td className="border p-4">
-                                                <div className="flex items-center lg:justify-between gap-8">
-                                                    <span className="bg-blue-500 text-white font-semibold px-4 py-2 rounded inline-block">
+                                                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 lg:gap-8">
+                                                    <div className="bg-blue-500 text-white text-center font-semibold px-4 py-2 rounded inline-block">
                                                         On Sale{" "}
                                                         {
                                                             carData
@@ -132,12 +154,16 @@ const CarDetails = () => {
                                                                 .discountPercentage
                                                         }
                                                         % Off
-                                                    </span>
-                                                    <span className="italic text-red-500 font-semibold">
-                                                        Time Remaining:{" "}
-                                                        {timeRemaining ||
-                                                            "Calculating..."}
-                                                    </span>
+                                                    </div>
+                                                    <div className="flex md:flex-row flex-col gap-2 italic text-red-500 font-semibold">
+                                                        <div>
+                                                            Time Remaining:{" "}
+                                                        </div>
+                                                        <div>
+                                                            {timeRemaining ||
+                                                                "Calculating..."}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -149,8 +175,8 @@ const CarDetails = () => {
                                             </td>
                                             <td className="border p-4">
                                                 {carData.onDiscountSale ? (
-                                                    <>
-                                                        <span className="text-green-600 text-2xl font-bold">
+                                                    <div className="flex flex-col md:flex-row md:items-center n gap-2">
+                                                        <div className="text-green-600 text-2xl font-bold">
                                                             $
                                                             {(
                                                                 carData.price *
@@ -160,21 +186,21 @@ const CarDetails = () => {
                                                                         .discountPercentage /
                                                                         100)
                                                             ).toFixed(2)}
-                                                        </span>
-                                                        <span className="line-through text-gray-500 ml-2">
+                                                        </div>
+                                                        <div className="line-through text-gray-500">
                                                             $
                                                             {carData.price.toFixed(
                                                                 2
                                                             )}
-                                                        </span>
-                                                    </>
+                                                        </div>
+                                                    </div>
                                                 ) : (
-                                                    <span className="text-green-600 text-2xl font-bold">
+                                                    <div className="text-green-600 text-2xl font-bold">
                                                         $
                                                         {carData.price.toFixed(
                                                             2
                                                         )}
-                                                    </span>
+                                                    </div>
                                                 )}
                                             </td>
                                         </tr>
@@ -186,38 +212,40 @@ const CarDetails = () => {
                                             </td>
                                             <td className="border p-4">
                                                 {carData.onDiscountSale ? (
-                                                    <>
-                                                        <span className="text-green-600 text-2xl font-bold">
-                                                            $
-                                                            {(
-                                                                carData.rentPrice *
-                                                                (1 -
-                                                                    carData
-                                                                        .onDiscountSale
-                                                                        .discountPercentage /
-                                                                        100)
-                                                            ).toFixed(2)}
-                                                            <span className="text-sm text-gray-600 ml-2">
-                                                                {" Per Day"}
-                                                            </span>
-                                                        </span>
-                                                        <span className="line-through text-gray-500 ml-2">
+                                                    <div className="flex flex-col md:flex-row md:items-center n gap-2">
+                                                        <div className="flex items-center text-green-600 text-2xl font-bold">
+                                                            <div>
+                                                                $
+                                                                {(
+                                                                    carData.rentPrice *
+                                                                    (1 -
+                                                                        carData
+                                                                            .onDiscountSale
+                                                                            .discountPercentage /
+                                                                            100)
+                                                                ).toFixed(2)}
+                                                            </div>
+                                                            <div className="text-sm text-gray-600 ml-2">
+                                                                {"Per Day"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="line-through text-gray-500">
                                                             $
                                                             {carData.rentPrice.toFixed(
                                                                 2
                                                             )}
-                                                        </span>
-                                                    </>
+                                                        </div>
+                                                    </div>
                                                 ) : (
-                                                    <span className="text-green-600 text-2xl font-bold">
+                                                    <div className="text-green-600 text-2xl font-bold">
                                                         $
                                                         {carData.rentPrice.toFixed(
                                                             2
                                                         )}
-                                                        <span className="text-sm text-gray-600 ml-2">
+                                                        <div className="text-sm text-gray-600 ml-2">
                                                             {" Per Day"}
-                                                        </span>
-                                                    </span>
+                                                        </div>
+                                                    </div>
                                                 )}
                                             </td>
                                         </tr>
@@ -278,6 +306,13 @@ const CarDetails = () => {
                                         </td>
                                         <td className="border p-4">
                                             {carData.owner.name}
+                                            {userId &&
+                                                userId ===
+                                                    carData.owner._id && (
+                                                    <span className="text-green-500 font-bold ml-2">
+                                                        (You)
+                                                    </span>
+                                                )}
                                         </td>
                                     </tr>
                                 </tbody>
