@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Card = ({ item }) => {
+    useEffect(() => {
+        console.log("Item", item);
+    }, []);
+
     return (
         <Link
             style={{
@@ -21,7 +26,9 @@ const Card = ({ item }) => {
                 >
                     {item.title}
                 </h2>
-                <p className="text-md md:text-xl text-center">{item.description}</p>
+                <p className="text-md md:text-xl text-center">
+                    {item.description}
+                </p>
             </div>
         </Link>
     );

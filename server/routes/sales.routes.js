@@ -47,6 +47,30 @@ router.post("/set", (req, res) => {
     );
 });
 
+/* ============================= PUT ROUTES FOR SALES MODEL ============================= */
+
+router.put("/set/:id", (req, res) => {
+    const id = req.params.id;
+    const data = req.body;
+
+    Sale.editSale(
+        id,
+        data,
+        (dbres) => {
+            res.status(200).send({
+                message: "Sale Updated Successfully",
+                data: dbres,
+            });
+        },
+        (status, dbres) => {
+            res.status(status).send({
+                message: "Failed to Update Sale",
+                error: dbres,
+            });
+        }
+    );
+});
+
 /* ============================= DELETE ROUTES FOR SALES MODEL ============================= */
 
 router.delete("/remove/:id", (req, res) => {

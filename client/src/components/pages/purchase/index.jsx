@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { deleteSale } from "../../../utils/sales";
 import { useAuth } from "../../../context/context";
 import Loading from "../../loading";
 
-const CarDetails = () => {
+const Purchase = () => {
     const { id } = useParams();
+
+    const [searchParams] = useSearchParams();
+
+    const type = searchParams.get("type");
+
+    console.log("Type", type);
+
     const [carData, setCarData] = useState(null);
     const [timeRemaining, setTimeRemaining] = useState(null);
 
@@ -95,38 +102,7 @@ const CarDetails = () => {
                                 alt={carData.title}
                                 className="w-full"
                             />
-                            <div
-                                className="flex flex-col gap-4 w-full justify-center"
-                                style={{
-                                    fontFamily: "SuperBrigadeCondensed",
-                                    letterSpacing: "0.1rem",
-                                }}
-                            >
-                                {carData.isAvailableForSale && (
-                                    <Link
-                                        to={`/car/purchase/${carData._id}?type=Buy`}
-                                        className="font-bold bg-black w-full text-center text-white p-4 rounded-md"
-                                    >
-                                        Buy Now
-                                    </Link>
-                                )}
-                                {carData.isAvailableForRent && (
-                                    <Link
-                                        to={`/car/purchase/${carData._id}?type=Rent`}
-                                        className="font-bold w-full bg-black text-center text-white p-4 rounded-md"
-                                    >
-                                        Rent Now
-                                    </Link>
-                                )}
-                                {userId && userId === carData.owner._id && (
-                                    <Link
-                                        to={`/car/edit/${carData._id}`}
-                                        className="italic text-white p-4 bg-blue-700 font-semibold rounded text-center"
-                                    >
-                                        Edit Details
-                                    </Link>
-                                )}
-                            </div>
+                            
                         </div>
 
                         <div className="flex justify-center">
@@ -176,7 +152,7 @@ const CarDetails = () => {
                                             </td>
                                         </tr>
                                     )}
-                                    {carData.isAvailableForSale && (
+                                    {type === "Buy" && (
                                         <tr>
                                             <td className="border p-4 font-semibold">
                                                 Price
@@ -213,7 +189,7 @@ const CarDetails = () => {
                                             </td>
                                         </tr>
                                     )}
-                                    {carData.isAvailableForRent && (
+                                    {type === "Rent" && (
                                         <tr>
                                             <td className="border p-4 font-semibold">
                                                 Rent Price
@@ -335,4 +311,4 @@ const CarDetails = () => {
     );
 };
 
-export default CarDetails;
+export default Purchase;

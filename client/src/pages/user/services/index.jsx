@@ -24,15 +24,18 @@ const User = () => {
     const cards = [
         {
             title: "Cars Bought",
-            description: "All the cars you have bought",
             link: "/profile/bookings",
             image: "/cards/buy.jpg",
         },
         {
-            title: "Cars Added for Sale",
-            description: "All the cars you have added for sale",
+            title: "Cars Sold",
             link: "/profile/sales",
             image: "/cards/sell.jpg",
+        },
+        {
+            title: "Cars Rented",
+            link: "/profile/rentals",
+            image: "/cards/rent.jpg",
         },
     ];
 
@@ -75,9 +78,10 @@ const User = () => {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card item={cards[0]} />
                 <Card item={cards[1]} />
+                <Card item={cards[2]} />
             </div>
         </div>
     );

@@ -1,10 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/context";
 import { useState } from "react";
 
 const Navbar = () => {
     const { user, admin, setUser, setAdmin } = useAuth();
     const [collapse, setCollapse] = useState(true);
+
+    const navigate = useNavigate();
+
+    const navLinks = [
+        { name: "Home", path: "/" },
+        { name: "About Us", path: "/about" },
+        { name: "Buy Cars", path: "/car/buy" },
+        { name: "Sell Cars", path: "/car/sell" },
+        { name: "Rent Cars", path: "/car/rent" },
+        { name: "Contact Us", path: "/contact" },
+    ];
+
+    const handleNavigate = (path) => {
+        setCollapse(true);
+        navigate(path);
+    };
 
     const handleLogout = () => {
         localStorage.removeItem("eWauthToken");
@@ -52,14 +68,24 @@ const Navbar = () => {
                     collapse ? "hidden" : "flex"
                 } md:flex gap-4 font-semibold`}
             >
-                <Link to="/">Home</Link>
-                <Link to="/about">About Us</Link>
-                <Link to="/car/buy">Buy Cars</Link>
-                <Link to="/car/sell">Sell Cars</Link>
-                <Link to="/car/rent">Rent Cars</Link>
-                <Link to="/contact">Contact Us</Link>
-                {user && <Link to="/profile">Profile</Link>}
-                {admin && <Link to="/admin">Admin</Link>}
+                {navLinks.map((link, index) => (
+                    <Link
+                        key={index}
+                        to={link.path}
+                        className="cursor-pointer"
+                        onClick={() => handleNavigate(link.path)}
+                    >
+                        {link.name}
+                    </Link>
+                ))}
+                {user && (
+                    <div className="cursor-pointer" onClick={() => handleNavigate("/profile")}>
+                        Profile
+                    </div>
+                )}
+                {admin && (
+                    <div className="cursor-pointer" onClick={() => handleNavigate("/admin")}>Admin</div>
+                )}
             </div>
 
             {/* Login/Logout Section */}

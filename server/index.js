@@ -6,6 +6,7 @@ import userRoutes from "./routes/user.routes.js";
 import carRoutes from "./routes/cars.routes.js";
 import randomRoutes from "./routes/random.routes.js";
 import saleRoutes from "./routes/sales.routes.js";
+import bookingRoutes from "./routes/booking.routes.js";
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/auth", userRoutes);
 app.use("/api/cars", carRoutes);
 app.use("/api/random", randomRoutes);
 app.use("/api/sales", saleRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 app.get("/", (req, res) => {
     res.send({ message: "Hello World!" });

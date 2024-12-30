@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { sellCar } from "../../../utils/services/sell";
 import { useAuth } from "../../../context/context";
 import { editCar } from "../../../utils/services/car";
+import Sale from "../sale";
 
 const Sell = () => {
     const { id } = useParams();
+
+    const [showSaleBox, setShowSaleBox] = useState(false);
 
     const { user } = useAuth();
 
@@ -19,6 +22,7 @@ const Sell = () => {
         isAvailableForSale: false,
         price: "",
         isAvailableForRent: false,
+        onDiscountSale: null,
         rentPrice: "",
         fuelType: "Petrol",
         mileage: "",
@@ -200,6 +204,7 @@ const Sell = () => {
                     year: "",
                     price: "",
                     rentPrice: "",
+                    onDiscountSale: null,
                     isAvailableForRent: false,
                     isAvailableForSale: false,
                     fuelType: "Petrol",
@@ -304,6 +309,13 @@ const Sell = () => {
                         >
                             Upload Image
                         </button>
+                        {id && (
+                            <p className="text-red-500 text-center p-4 font-bold">
+                                Note: Uploading a new image will replace the
+                                existing image. If you don't want to change the
+                                image, leave this field empty.
+                            </p>
+                        )}
                         {formData.image && (
                             <button
                                 type="button"
@@ -317,16 +329,6 @@ const Sell = () => {
                             >
                                 Remove Uploaded Photo
                             </button>
-                        )}
-                        {id && (
-                            <div>
-                                <p className="text-red-500 text-center mt-2">
-                                    Note: Uploading a new image will replace the
-                                    existing image. So Don't upload a new image
-                                    if you don't want to replace the existing
-                                    one.
-                                </p>
-                            </div>
                         )}
 
                         {formData.imageError && (
@@ -343,6 +345,23 @@ const Sell = () => {
                                     className="w-full h-auto"
                                 />
                             </div>
+                        )}
+                        {id && (
+                            <button
+                                onClick={() => setShowSaleBox(!showSaleBox)}
+                                type="button"
+                                className="font-bold w-full bg-black text-white p-4 rounded-md"
+                            >
+                                {!showSaleBox
+                                    ? formData.onDiscountSale
+                                        ? "Edit Sale Details"
+                                        : "Add Car on Sale"
+                                    : "Close Sale Box"}
+                            </button>
+                        )}
+
+                        {showSaleBox && (
+                            <Sale saleData={formData.onDiscountSale} car={id} />
                         )}
                     </div>
 

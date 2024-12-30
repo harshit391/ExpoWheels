@@ -18,6 +18,8 @@ import User from "./pages/user/services";
 import Bookings from "./pages/user/bookings";
 import Sales from "./pages/user/sales";
 import Profile from "./pages/user";
+import Rentals from "./pages/user/rentals";
+import Purchase from "./components/pages/purchase";
 
 const routes = [
     {
@@ -84,6 +86,22 @@ const routes = [
                             </ProtectedRoute>
                         ),
                     },
+                    {
+                        path: "/car/sale/:id",
+                        element: (
+                            <ProtectedRoute>
+                                <NotFound />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/car/purchase/:id",
+                        element: (
+                            <ProtectedRoute>
+                                <Purchase />
+                            </ProtectedRoute>
+                        ),
+                    },
                 ],
             },
             {
@@ -115,6 +133,14 @@ const routes = [
                         element: (
                             <ProtectedRoute>
                                 <Sales />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/profile/rentals",
+                        element: (
+                            <ProtectedRoute>
+                                <Rentals />
                             </ProtectedRoute>
                         ),
                     },

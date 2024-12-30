@@ -48,6 +48,28 @@ router.get("/get/:id", (req, res) => {
     );
 });
 
+router.get("/user/:id", (req, res) => {
+    const id = req.params.id;
+
+    CarModel.getUserSales(
+        id,
+        (dbres) => {
+            res.status(200).send({
+                message: "Cars Details Fetched Successfully",
+                sales: dbres,
+            });
+        },
+
+        // Error Callback
+        (dbres) => {
+            res.status(500).send({
+                message: "Failed to Fetch Car Details",
+                error: dbres,
+            });
+        }
+    );
+});
+
 /* ============================= POST ROUTES FOR CARS MODEL ============================= */
 
 router.post("/add", upload.single("image"), (req, res) => {

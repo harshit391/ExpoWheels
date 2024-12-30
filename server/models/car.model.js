@@ -111,7 +111,6 @@ const CarModel = mongoose.model("Car", carSchema);
 /* ============================= GET ROUTES FOR CARS MODEL ============================= */
 CarModel.getAll = async (successCallBack, errorCallBack) => {
     try {
-        // Find all cars and populate the onDiscountSale field
         const cars = await CarModel.find({})
             .populate("onDiscountSale")
             .populate("owner", "name email");
@@ -161,8 +160,23 @@ CarModel.getById = async (id, successCallBack, errorCallBack) => {
     }
 };
 
-/* ============================= POST ROUTES FOR CARS MODEL ============================= */
+CarModel.getUserSales = async (id, successCallBack, errorCallBack) => {
+    try {
+        const userSales = await CarModel.find({
+            owner: id,
+        }).populate("onDiscountSale");
 
+        if (userSales && userSales.length > 0) {
+            successCallBack(userSales);
+        } else {
+            errorCallBack(204, "No Cars Found");
+        }
+    } catch (error) {
+        errorCallBack(500, error.message);
+    }
+};
+
+/* ============================= POST ROUTES FOR CARS MODEL ============================= */
 CarModel.addCar = async (data, file, successCallBack, errorCallBack) => {
     try {
         const fileName = file.filename;
