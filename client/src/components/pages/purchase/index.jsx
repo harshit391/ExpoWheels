@@ -12,8 +12,6 @@ const Purchase = () => {
 
     const type = searchParams.get("type");
 
-    console.log("Type", type);
-
     const [carData, setCarData] = useState(null);
     const [timeRemaining, setTimeRemaining] = useState(null);
 
@@ -31,6 +29,36 @@ const Purchase = () => {
         }
     }, [user, loading]);
 
+    const [prices, setPrices] = useState({
+        originalPrice: 0,
+        discountedPrice: 0,
+        priceAfterDiscount: 0,
+        commission: 0,
+        finalPrice: 0,
+    });
+
+    const finalPrice = (curr) => {
+        const orginalPrice = type === "Buy" ? curr.price : curr.rentPrice;
+
+        const dicountedPrice = curr.onDiscountSale
+            ? (orginalPrice * curr.onDiscountSale.discountPercentage) / 100
+            : 0;
+
+        const priceAfterDiscount = orginalPrice - dicountedPrice;
+
+        const commission = priceAfterDiscount * 0.05;
+
+        const finalPrice = priceAfterDiscount + commission;
+
+        setPrices({
+            originalPrice: orginalPrice,
+            discountedPrice: dicountedPrice,
+            priceAfterDiscount,
+            commission,
+            finalPrice,
+        });
+    };
+
     useEffect(() => {
         const fetchCarData = async () => {
             const response = await fetch(`${API_URL_EWS}/api/cars/get/${id}`);
@@ -38,6 +66,8 @@ const Purchase = () => {
             console.log("Data", data.data);
 
             setCarData(data.data);
+
+            finalPrice(data.data);
 
             if (data.data.onDiscountSale?.saleDate) {
                 const saleEndDate = new Date(
@@ -95,14 +125,169 @@ const Purchase = () => {
                     >
                         {carData.brand} {carData.model}
                     </h1>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                        <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-16">
+                        <div className="flex gap-4">
                             <img
                                 src={`${API_URL_EWS}/${carData.image}`}
                                 alt={carData.title}
                                 className="w-full"
                             />
-                            
+                            <div className="flex flex-col gap-4 w-full">
+                                <table className="table-fixed w-full border-collapse border border-gray-300 shadow-lg">
+                                    <tbody style={{ fontFamily: "Montserrat" }}>
+                                        {type === "Buy" && (
+                                            <tr>
+                                                <td className="border p-4 font-semibold">
+                                                    Price
+                                                </td>
+                                                <td className="border p-4">
+                                                    <div className="text-green-600 text-2xl font-bold">
+                                                        $
+                                                        {prices.originalPrice.toFixed(
+                                                            2
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                        {type === "Rent" && (
+                                            <tr>
+                                                <td className="border p-4 font-semibold">
+                                                    Rent Price
+                                                </td>
+                                                <td className="border p-4">
+                                                    <div className="flex flex-col md:flex-row md:items-center n gap-2">
+                                                        <div className="flex items-center text-green-600 text-2xl font-bold">
+                                                            <div>
+                                                                $
+                                                                {prices.originalPrice.toFixed(
+                                                                    2
+                                                                )}
+                                                            </div>
+                                                            <div className="text-sm text-gray-600 ml-2">
+                                                                {"Per Day"}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                        {carData.onDiscountSale && (
+                                            <tr>
+                                                <td className="border p-4 font-semibold">
+                                                    Discount
+                                                </td>
+                                                <td className="border p-4">
+                                                    <div className="flex flex-col justify-start md:flex-row md:items-center gap-2 md:gap-4 lg:gap-8">
+                                                        <div className="text-red-500 text-2xl font-semibold rounded inline-block">
+                                                            {"-$" +
+                                                                prices.discountedPrice.toFixed(
+                                                                    2
+                                                                )}
+                                                        </div>
+                                                        <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded inline-block">
+                                                            {
+                                                                carData
+                                                                    .onDiscountSale
+                                                                    .discountPercentage
+                                                            }
+                                                            % Off
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                        {type === "Buy" &&
+                                            carData.onDiscountSale && (
+                                                <tr>
+                                                    <td className="border p-4 font-semibold">
+                                                        Discounted Price
+                                                    </td>
+                                                    <td className="border p-4">
+                                                        <div className="flex flex-col md:flex-row md:items-center n gap-2">
+                                                            <div className="text-green-600 text-2xl font-bold">
+                                                                $
+                                                                {prices.priceAfterDiscount.toFixed(
+                                                                    2
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        {type === "Rent" && (
+                                            <tr>
+                                                <td className="border p-4 font-semibold">
+                                                    Discounted Rent Price
+                                                </td>
+                                                <td className="border p-4">
+                                                    <div className="flex flex-col md:flex-row md:items-center n gap-2">
+                                                        <div className="flex items-center text-green-600 text-2xl font-bold">
+                                                            <div>
+                                                                $
+                                                                {prices.priceAfterDiscount.toFixed(
+                                                                    2
+                                                                )}
+                                                            </div>
+                                                            <div className="text-sm text-gray-600 ml-2">
+                                                                {"Per Day"}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                        <tr>
+                                            <td className="border p-4 font-semibold">
+                                                Expo Wheels Commission
+                                            </td>
+                                            <td className="border p-4">
+                                                <div className="flex flex-col justify-start md:flex-row md:items-center gap-2 md:gap-4 lg:gap-8">
+                                                    <div className="text-green-600 text-2xl font-semibold rounded inline-block">
+                                                        {"+$" +
+                                                            prices.commission}
+                                                    </div>
+                                                    <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded inline-block">
+                                                        {5}%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr className="border-2 border-black border-solid">
+                                            <td
+                                                style={{
+                                                    fontFamily:
+                                                        "SuperBrigadeCondensed",
+                                                    letterSpacing: "0.1rem",
+                                                }}
+                                                className="border p-4 text-2xl font-semibold"
+                                            >
+                                                Final Price To Pay
+                                            </td>
+                                            <td className="border p-4">
+                                                <div
+                                                    style={{
+                                                        fontFamily:
+                                                            "SuperBrigadeCondensed",
+                                                        letterSpacing: "0.1rem",
+                                                    }}
+                                                    className="text-green-600 text-4xl font-bold"
+                                                >
+                                                    $
+                                                    {prices.finalPrice.toFixed(
+                                                        2
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div className="flex w-full justify-center p-4">
+                                    <div className="w-full rounded-md text-center border p-4 font-bold bg-blue-500 text-white hover:bg-blue-600 cursor-pointer">
+                                        Proceed To Checkout
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="flex justify-center">

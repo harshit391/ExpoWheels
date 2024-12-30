@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { sellCar } from "../../../utils/services/sell";
 import { useAuth } from "../../../context/context";
@@ -188,9 +188,6 @@ const Sell = () => {
         }
 
         try {
-
-            console.log(user);
-
             formDataToSubmit.append("owner", user._id);
 
             const response = id
