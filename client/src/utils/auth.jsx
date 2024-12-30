@@ -62,6 +62,7 @@ export const verifyToken = async (token) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `${localStorage.getItem("eWauthToken")}`,
         },
         body: JSON.stringify({ token }),
     });

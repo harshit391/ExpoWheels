@@ -1,9 +1,10 @@
 import { Router } from "express";
 import Booking from "../models/booking.model.js";
+import { verifyToken } from "../utils/auth.utils.js";
 
-const app = Router();
+const router = Router();
 
-app.get("/", (req, res) => {
+router.get("/", verifyToken, (req, res) => {
     Booking.getAll(
         (dbRes) => {
             res.status(201).send({
@@ -18,7 +19,7 @@ app.get("/", (req, res) => {
     );
 });
 
-app.get("/:id", (req, res) => {
+router.get("/:id", verifyToken, (req, res) => {
     Booking.getBooking(
         req.params.id,
 
@@ -35,7 +36,7 @@ app.get("/:id", (req, res) => {
     );
 });
 
-app.get("/user/:id", (req, res) => {
+router.get("/user/:id", verifyToken, (req, res) => {
     Booking.getByUserId(
         req.params.id,
         req.query.type,
@@ -53,7 +54,7 @@ app.get("/user/:id", (req, res) => {
     );
 });
 
-app.post("/buy", (req, res) => {
+router.post("/buy", verifyToken, (req, res) => {
     Booking.createBooking(
         req.body,
 
@@ -70,7 +71,7 @@ app.post("/buy", (req, res) => {
     );
 });
 
-app.post("/rent", (req, res) => {
+router.post("/rent", verifyToken, (req, res) => {
     Booking.createRentBooking(
         req.body,
 
@@ -87,7 +88,7 @@ app.post("/rent", (req, res) => {
     );
 });
 
-app.put("/:id", (req, res) => {
+router.put("/:id", verifyToken, (req, res) => {
     Booking.updateBooking(
         req.params.id,
         req.body,
@@ -105,7 +106,7 @@ app.put("/:id", (req, res) => {
     );
 });
 
-app.delete("/:id", (req, res) => {
+router.delete("/:id", verifyToken, (req, res) => {
     Booking.deleteBooking(
         req.params.id,
 
@@ -122,4 +123,4 @@ app.delete("/:id", (req, res) => {
     );
 });
 
-export default app;
+export default router;

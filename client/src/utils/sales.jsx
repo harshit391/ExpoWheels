@@ -10,6 +10,7 @@ export const addSale = async (data, car) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `${localStorage.getItem("eWauthToken")}`,
             },
             body: JSON.stringify(newData),
         });
@@ -30,6 +31,7 @@ export const editSale = async (data, id) => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `${localStorage.getItem("eWauthToken")}`,
             },
             body: JSON.stringify(data),
         });
@@ -48,6 +50,10 @@ export const deleteSale = async (id) => {
     try {
         const response = await fetch(`${API_URL_EWS}/api/sales/remove/${id}`, {
             method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `${localStorage.getItem("eWauthToken")}`,
+            },
         });
 
         if (response.ok) {

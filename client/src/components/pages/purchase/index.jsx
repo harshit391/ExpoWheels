@@ -61,7 +61,13 @@ const Purchase = () => {
 
     useEffect(() => {
         const fetchCarData = async () => {
-            const response = await fetch(`${API_URL_EWS}/api/cars/get/${id}`);
+            const response = await fetch(`${API_URL_EWS}/api/cars/get/${id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${localStorage.getItem("eWauthToken")}`,
+                },
+            });
             const data = await response.json();
             console.log("Data", data.data);
 

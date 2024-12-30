@@ -5,6 +5,9 @@ export const sellCar = async (data) => {
         const request = await fetch(`${API_URL_EWS}/api/cars/add`, {
             method: "POST",
             body: data,
+            headers: {
+                "Authorization": `${localStorage.getItem("token")}`,
+            },
         });
 
         const response = await request.json();

@@ -40,14 +40,11 @@ const UserModel = mongoose.model("User", userScheme);
 
 /* GET User */
 UserModel.getUser = async (req, sucessCallBack, errorCallback) => {
-
-    console.log("Request Params :- ", req?.params);
-
     const idFromReq = req?.params?.id;
     const idFromAuthToken = req?.idFromToken;
 
-    console.log("Id From Request :- ", idFromReq);
-    console.log("Id From Token :- ", idFromAuthToken);
+    // console.log("Id From Request :- ", idFromReq);
+    // console.log("Id From Token :- ", idFromAuthToken);
 
     if (idFromAuthToken !== idFromReq) {
         errorCallback("Invalid Credentials");
@@ -97,8 +94,8 @@ UserModel.addUser = async (user, sucessCallBack, errorCallback) => {
             { ...user, password: encryptedPassword },
         ]);
 
-        console.log("Post | SignUp :- ", newUser[0]);
-        console.log("Post | SignUpID :- ", newUser[0]._id);
+        // console.log("Post | SignUp :- ", newUser[0]);
+        // console.log("Post | SignUpID :- ", newUser[0]._id);
 
         const token = jwt.sign(
             {
@@ -110,7 +107,7 @@ UserModel.addUser = async (user, sucessCallBack, errorCallback) => {
             { expiresIn: "7d" }
         );
 
-        console.log("Post | token is: ", token);
+        // console.log("Post | token is: ", token);
         sucessCallBack({ token: token, user: newUser[0] });
     } catch (error) {
         console.error("Post | dbErr is: ", error);
@@ -124,9 +121,9 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
         // Finding the User in the Database
         const dbRes = await UserModel.findOne({ email: user.email });
 
-        console.log("Post | SingIn dbres is: ", dbRes);
+        // console.log("Post | SingIn dbres is: ", dbRes);
 
-        console.log("User Recieved At Sign In :- ", user);
+        // console.log("User Recieved At Sign In :- ", user);
 
         // If User Exists
         if (dbRes) {
@@ -136,7 +133,7 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
                 dbRes.password
             );
 
-            console.log(isPasswordMatch);
+            // console.log(isPasswordMatch);
 
             if (isPasswordMatch) {
                 // Creating a JWT Token if Password Matches
@@ -146,7 +143,7 @@ UserModel.signIn = async (user, sucessCallBack, errorCallback) => {
                     { expiresIn: "7d" }
                 );
 
-                console.log("Post | authToken is: ", token);
+                // console.log("Post | authToken is: ", token);
 
                 sucessCallBack({ token: token, user: dbRes });
             } else {

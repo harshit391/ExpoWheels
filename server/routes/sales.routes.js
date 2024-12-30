@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Sale from "../models/sale.model.js";
+import { verifyToken } from "../utils/auth.utils.js";
 
 const router = Router();
 
@@ -27,7 +28,7 @@ router.get("/get", (req, res) => {
 
 /* ============================= POST ROUTES FOR SALES MODEL ============================= */
 
-router.post("/set", (req, res) => {
+router.post("/set", verifyToken, (req, res) => {
     const data = req.body;
 
     Sale.addSale(
@@ -49,7 +50,7 @@ router.post("/set", (req, res) => {
 
 /* ============================= PUT ROUTES FOR SALES MODEL ============================= */
 
-router.put("/set/:id", (req, res) => {
+router.put("/set/:id", verifyToken, (req, res) => {
     const id = req.params.id;
     const data = req.body;
 
@@ -73,7 +74,7 @@ router.put("/set/:id", (req, res) => {
 
 /* ============================= DELETE ROUTES FOR SALES MODEL ============================= */
 
-router.delete("/remove/:id", (req, res) => {
+router.delete("/remove/:id", verifyToken, (req, res) => {
     const id = req.params.id;
 
     Sale.removeSale(

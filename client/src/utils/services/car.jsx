@@ -5,6 +5,9 @@ export const editCar = async (data, id) => {
         const request = await fetch(`${API_URL_EWS}/api/cars/edit/${id}`, {
             method: "PUT",
             body: data,
+            headers: {
+                "Authorization": `${localStorage.getItem("token")}`,
+            },
         });
 
         const response = await request.json();
@@ -19,6 +22,9 @@ export const deleteCar = async (carId) => {
     try {
         const request = await fetch(`${API_URL_EWS}/api/cars/remove/${carId}`, {
             method: "DELETE",
+            headers: {
+                "Authorization": `${localStorage.getItem("token")}`,
+            },
         });
 
         const response = await request.json();

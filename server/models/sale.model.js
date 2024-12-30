@@ -84,7 +84,7 @@ Sale.editSale = async (id, data, successCallBack, errorCallBack) => {
             errorCallBack(404, "Sale Not Found");
             return;
         }
-        
+
         const dbres = await Sale.findByIdAndUpdate(id, data, {
             new: true,
         });

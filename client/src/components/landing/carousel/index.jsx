@@ -8,7 +8,13 @@ const Carousel = () => {
     useEffect(() => {
         const fetchSalesData = async () => {
             try {
-                const response = await fetch(`${API_URL_EWS}/api/sales/get`);
+                const response = await fetch(`${API_URL_EWS}/api/sales/get`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${localStorage.getItem("eWauthToken")}`,
+                    },
+                });
                 const data = await response.json();
                 console.log("Data", data.data);
                 setSalesData(data.data);

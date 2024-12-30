@@ -1,6 +1,7 @@
 import { Router } from "express";
 import CarModel from "../models/car.model.js";
 import upload from "../utils/multer.utils.js";
+import { verifyToken } from "../utils/auth.utils.js";
 
 const router = Router();
 
@@ -48,7 +49,7 @@ router.get("/get/:id", (req, res) => {
     );
 });
 
-router.get("/user/:id", (req, res) => {
+router.get("/user/:id", verifyToken, (req, res) => {
     const id = req.params.id;
 
     CarModel.getUserSales(
@@ -72,7 +73,7 @@ router.get("/user/:id", (req, res) => {
 
 /* ============================= POST ROUTES FOR CARS MODEL ============================= */
 
-router.post("/add", upload.single("image"), (req, res) => {
+router.post("/add", verifyToken, upload.single("image"), (req, res) => {
     const data = req.body;
     const file = req.file;
 
@@ -100,7 +101,7 @@ router.post("/add", upload.single("image"), (req, res) => {
 
 /* ============================= PUT ROUTES FOR CARS MODEL ============================= */
 
-router.put("/edit/:id", upload.single("image"), (req, res) => {
+router.put("/edit/:id", verifyToken, upload.single("image"), (req, res) => {
     const data = req.body;
     const id = req.params.id;
     const file = req.file;
@@ -129,7 +130,7 @@ router.put("/edit/:id", upload.single("image"), (req, res) => {
 
 /* ============================= DELETE ROUTES FOR CARS MODEL ============================= */
 
-router.delete("/remove/:id", (req, res) => {
+router.delete("/remove/:id", verifyToken, (req, res) => {
     const id = req.params.id;
 
     CarModel.deleteCar(
