@@ -266,13 +266,29 @@ CarModel.editCar = async (data, id, file, successCallBack, errorCallBack) => {
 
 CarModel.deleteCar = async (id, successCallBack, errorCallBack) => {
     try {
-        const carToDelete = CarModel.findById(id);
+        console.log("Delete Car ID :- ", id);
+
+        const carToDelete = await CarModel.findById(id);
 
         if (!carToDelete) {
             throw new Error("Car Doesn't Exists");
         }
 
-        carToDelete.delete();
+        const __dirname = path.resolve();
+
+        console.log("Dir Name :- ", __dirname);
+
+        console.log("File Name :- ", carToDelete);
+
+        const currPath = path.join(__dirname, "uploads", carToDelete.image);
+
+        console.log("Current Path :- ", currPath);
+
+        // fs.rmSync(currPath);
+
+        const res = await CarModel.findByIdAndDelete(id);
+
+        successCallBack(res);
     } catch (error) {
         errorCallBack(error);
     }

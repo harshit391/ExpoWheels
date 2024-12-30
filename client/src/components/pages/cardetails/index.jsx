@@ -1,18 +1,35 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { deleteSale } from "../../../utils/sales";
 import { useAuth } from "../../../context/context";
 import Loading from "../../loading";
+import { deleteCar } from "../../../utils/services/car";
 
 const CarDetails = () => {
     const { id } = useParams();
     const [carData, setCarData] = useState(null);
     const [timeRemaining, setTimeRemaining] = useState(null);
 
+    const navigate = useNavigate();
+
     const { user, loading } = useAuth();
 
     const [userId, setUserId] = useState(null);
+
+    const handleDelete = async (carId) => {
+        if (!window.confirm("Are you sure you want to delete this car?")) {
+            return;
+        }
+
+        const response = await deleteCar(carId);
+        if (response.ok) {
+            alert("Car Deleted Successfully");
+            navigate("/car/buy");
+        } else {
+            alert("Error Deleting Car");
+        }
+    };
 
     useEffect(() => {
         if (!loading) {
@@ -28,7 +45,12 @@ const CarDetails = () => {
         const fetchCarData = async () => {
             const response = await fetch(`${API_URL_EWS}/api/cars/get/${id}`);
             const data = await response.json();
-            console.log("Data", data.data);
+
+            if (!response.ok) {
+                alert("Error Fetching Car Data");
+                window.history.back();
+                return;
+            }
 
             setCarData(data.data);
 
@@ -102,29 +124,51 @@ const CarDetails = () => {
                                     letterSpacing: "0.1rem",
                                 }}
                             >
-                                {carData.isAvailableForSale && (
+                                {!userId && (
                                     <Link
-                                        to={`/car/purchase/${carData._id}?type=Buy`}
+                                        to={`/login`}
                                         className="font-bold bg-black w-full text-center text-white p-4 rounded-md"
                                     >
-                                        Buy Now
+                                        Please Login to Buy or Rent
                                     </Link>
                                 )}
-                                {carData.isAvailableForRent && (
-                                    <Link
-                                        to={`/car/purchase/${carData._id}?type=Rent`}
-                                        className="font-bold w-full bg-black text-center text-white p-4 rounded-md"
-                                    >
-                                        Rent Now
-                                    </Link>
-                                )}
+                                {userId &&
+                                    userId !== carData.owner._id &&
+                                    carData.isAvailableForSale && (
+                                        <Link
+                                            to={`/car/purchase/${carData._id}?type=Buy`}
+                                            className="font-bold bg-black w-full text-center text-white p-4 rounded-md"
+                                        >
+                                            Buy Now
+                                        </Link>
+                                    )}
+                                {userId &&
+                                    userId !== carData.owner._id &&
+                                    carData.isAvailableForRent && (
+                                        <Link
+                                            to={`/car/purchase/${carData._id}?type=Rent`}
+                                            className="font-bold w-full bg-black text-center text-white p-4 rounded-md"
+                                        >
+                                            Rent Now
+                                        </Link>
+                                    )}
                                 {userId && userId === carData.owner._id && (
                                     <Link
                                         to={`/car/edit/${carData._id}`}
-                                        className="italic text-white p-4 bg-blue-700 font-semibold rounded text-center"
+                                        className="italic hover:bg-blue-900 text-white p-4 bg-blue-700 font-semibold rounded text-center"
                                     >
                                         Edit Details
                                     </Link>
+                                )}
+                                {userId && userId === carData.owner._id && (
+                                    <div
+                                        onClick={() =>
+                                            handleDelete(carData._id)
+                                        }
+                                        className="italic text-white hover:bg-red-900 p-4 bg-red-700 font-semibold rounded cursor-pointer text-center"
+                                    >
+                                        Delete Car
+                                    </div>
                                 )}
                             </div>
                         </div>

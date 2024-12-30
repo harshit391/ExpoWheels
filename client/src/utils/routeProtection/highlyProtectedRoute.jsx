@@ -20,6 +20,7 @@ const HighlyProtectedRoute = ({ children }) => {
     }
 
     if (!user && !admin) {
+        alert("You are not authorized to view this page");
         return null;
     }
 

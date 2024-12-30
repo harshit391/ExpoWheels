@@ -165,10 +165,18 @@ const Car = ({ car, buyOrRent }) => {
                 {
                     <Link
                         to={`/car/edit/${car._id}`}
-                        className="italic text-2xl text-white px-4 py-2 bg-blue-700 font-semibold rounded text-center"
+                        className="w-full bg-blue-700 text-white font-semibold py-2 rounded hover:bg-blue-900 text-center transition"
                     >
                         Edit Details
                     </Link>
+                }
+                {
+                    <div
+                        onClick={() => handleDelete(car._id)}
+                        className="w-full bg-red-700 text-white font-semibold py-2 rounded hover:bg-red-900 text-center transition"
+                    >
+                        Delete Car
+                    </div>
                 }
                 {buyOrRent &&
                     (car.isAvailableForSale ? (

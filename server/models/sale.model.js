@@ -84,32 +84,7 @@ Sale.editSale = async (id, data, successCallBack, errorCallBack) => {
             errorCallBack(404, "Sale Not Found");
             return;
         }
-
-        const car = await CarModel.findById(sale.car);
-
-        if (!car) {
-            errorCallBack(404, "Car Not Found");
-            return;
-        }
-
-        const newCarData = {
-            ...car._doc,
-            onDiscountSale: null,
-        };
-
-        const updatedCar = await CarModel.findByIdAndUpdate(
-            sale.car,
-            newCarData,
-            {
-                new: true,
-            }
-        );
-
-        if (!updatedCar) {
-            errorCallBack(500, "Failed to Update Car");
-            return;
-        }
-
+        
         const dbres = await Sale.findByIdAndUpdate(id, data, {
             new: true,
         });

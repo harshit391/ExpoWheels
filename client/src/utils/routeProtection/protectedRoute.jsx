@@ -20,6 +20,7 @@ const ProtectedRoute = ({ children }) => {
     }
 
     if (!user) {
+        alert("Please login to view this page");
         return null;
     }
 

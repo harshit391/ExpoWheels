@@ -246,6 +246,12 @@ const Sell = () => {
                     );
                     const data = await response.json();
 
+                    if (!response.ok) {
+                        alert("Failed to fetch car details.");
+                        window.history.back();
+                        return;
+                    }
+
                     for (let key in formData) {
                         if (key === "location") {
                             for (const locKey in formData.location) {

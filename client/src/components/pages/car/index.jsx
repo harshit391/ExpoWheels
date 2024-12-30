@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
+import { deleteCar } from "../../../utils/services/car";
 
 const Car = ({ car, buyOrRent, userId }) => {
     const formatDate = (date) => {
         const dateObj = new Date(date);
+
+        const navigate = useNavigate();
 
         const day = dateObj.getDate();
         const month = dateObj.getMonth() + 1;
@@ -35,6 +38,20 @@ const Car = ({ car, buyOrRent, userId }) => {
             return (price - price * (discount / 100)).toFixed(2);
         }
         return price;
+    };
+
+    const handleDelete = async (carId) => {
+        if (!window.confirm("Are you sure you want to delete this car?")) {
+            return;
+        }
+
+        const response = await deleteCar(carId);
+        if (response.ok) {
+            alert("Car Deleted Successfully");
+            navigate("/car/buy");
+        } else {
+            alert("Error Deleting Car");
+        }
     };
 
     return (
@@ -167,9 +184,20 @@ const Car = ({ car, buyOrRent, userId }) => {
                     </div>
                 </div>
                 {userId && userId === car.owner._id && (
-                    <Link to={`/car/edit/${car._id}`} className="italic text-2xl text-white px-4 py-2 bg-blue-700 font-semibold rounded text-center">
+                    <Link
+                        to={`/car/edit/${car._id}`}
+                        className="w-full bg-blue-700 text-white font-semibold py-2 rounded hover:bg-blue-900 text-center transition"
+                    >
                         Edit Details
                     </Link>
+                )}
+                {userId && userId === car.owner._id && (
+                    <div
+                        onClick={() => handleDelete(car._id)}
+                        className="w-full bg-red-700 text-white font-semibold py-2 rounded hover:bg-red-900 text-center transition"
+                    >
+                        Delete Car
+                    </div>
                 )}
                 {buyOrRent &&
                     (car.isAvailableForSale ? (

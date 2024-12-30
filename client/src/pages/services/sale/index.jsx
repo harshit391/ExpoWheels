@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { addSale, deleteSale, editSale } from "../../../utils/sales";
+import { useNavigate } from "react-router-dom";
 
 const Sale = ({ saleData, car }) => {
     const [formData, setFormData] = useState({
@@ -60,11 +61,11 @@ const Sale = ({ saleData, car }) => {
         try {
             const response = !saleData
                 ? await addSale(formData, car)
-                : await editSale(saleData._id, formData);
+                : await editSale(formData, saleData._id);
 
             if (response.ok) {
                 alert(response.message);
-                window.location.reload();
+                navigate(`/car/${car}`);
             } else {
                 alert(response.error);
             }
@@ -74,13 +75,19 @@ const Sale = ({ saleData, car }) => {
         }
     };
 
+    const navigate = useNavigate();
+
     const handleDelete = async () => {
+        if (!window.confirm("Are you sure you want to delete this sale?")) {
+            return;
+        }
+
         try {
             const response = await deleteSale(saleData._id);
 
             if (response.ok) {
                 alert(response.message);
-                window.location.reload();
+                navigate(`/car/${car}`);
             } else {
                 alert(response.error);
             }

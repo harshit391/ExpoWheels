@@ -10,7 +10,6 @@ const Navbar = () => {
 
     const navLinks = [
         { name: "Home", path: "/" },
-        { name: "About Us", path: "/about" },
         { name: "Buy Cars", path: "/car/buy" },
         { name: "Sell Cars", path: "/car/sell" },
         { name: "Rent Cars", path: "/car/rent" },
