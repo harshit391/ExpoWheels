@@ -166,7 +166,7 @@ const Sell = () => {
                         alert("Please Fill The Price For Sale");
                         return;
                     }
-                } else if (!formData[key] && key != "imageError") {
+                } else if (!formData[key] && key != "imageError" && key != "onDiscountSale") {
                     console.log("4");
                     console.log(key);
                     alert(
