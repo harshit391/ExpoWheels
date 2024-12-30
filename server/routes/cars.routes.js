@@ -8,12 +8,17 @@ const router = Router();
 /* ============================= GET ROUTES FOR CARS MODEL ============================= */
 
 router.get("/get", async (req, res) => {
+    const queries = req.query;
+
     await CarModel.getAll(
+        queries,
+
         // Success Callback
         (dbres) => {
             res.status(200).send({
                 message: "Cars Fetched Successfully",
-                data: dbres,
+                data: dbres.cars,
+                brands: dbres.brands,
             });
         },
 

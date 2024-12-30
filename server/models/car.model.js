@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Sale from "./sale.model.js";
 import fs from "fs";
 import path from "path";
+import e from "express";
 
 const carSchema = new mongoose.Schema({
     title: {
@@ -109,14 +110,79 @@ const carSchema = new mongoose.Schema({
 const CarModel = mongoose.model("Car", carSchema);
 
 /* ============================= GET ROUTES FOR CARS MODEL ============================= */
-CarModel.getAll = async (successCallBack, errorCallBack) => {
+CarModel.getAll = async (queries, successCallBack, errorCallBack) => {
     try {
-        const cars = await CarModel.find({})
+        const filter = {};
+
+        if (queries.type === "rent") {
+            filter.isAvailableForRent = true;
+        } else {
+            filter.isAvailableForRent = false;
+        }
+        if (queries.type === "buy") {
+            filter.isAvailableForSale = true;
+        } else {
+            filter.isAvailableForSale = false;
+        }
+
+        if (queries.brand && queries.brand !== "all") {
+            filter.brand = queries.brand;
+        }
+
+        if (queries.fuelType && queries.fuelType !== "all") {
+            filter.fuelType = queries.fuelType;
+        }
+
+        if (queries.transmission && queries.transmission !== "all") {
+            filter.transmission = queries.transmission;
+        }
+
+        if (queries.minRentPrice || queries.maxRentPrice) {
+            filter.rentPrice = {};
+            if (queries.minRentPrice) {
+                filter.rentPrice.$gte = Number(queries.minRentPrice);
+            }
+            if (queries.maxRentPrice) {
+                filter.rentPrice.$lte = Number(queries.maxRentPrice);
+            }
+        }
+
+        if (queries.minPrice || queries.maxPrice) {
+            filter.price = {};
+            if (queries.minPrice) {
+                filter.price.$gte = Number(queries.minPrice);
+            }
+            if (queries.maxPrice) {
+                filter.price.$lte = Number(queries.maxPrice);
+            }
+        }
+
+        if (queries.minYear || queries.maxYear) {
+            filter.year = {};
+            if (queries.minYear) {
+                filter.year.$gte = Number(queries.minYear);
+            }
+            if (queries.maxYear) {
+                filter.year.$lte = Number(queries.maxYear);
+            }
+        }
+
+        const cars = await CarModel.find(filter)
             .populate("onDiscountSale")
             .populate("owner", "name email");
 
+        const brands = await CarModel.find({
+            isAvailableForRent: filter.isAvailableForRent,
+            isAvailableForSale: filter.isAvailableForSale,
+        }).distinct("brand");
+
+        console.log("Cars :- ", brands);
+
         if (cars && cars.length > 0) {
-            successCallBack(cars);
+            successCallBack({
+                cars,
+                brands,
+            });
         } else {
             errorCallBack(204, "No Cars Found");
         }
