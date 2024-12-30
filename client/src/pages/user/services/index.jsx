@@ -11,7 +11,7 @@ const User = () => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const profile = await getUser(user.id);
+            const profile = await getUser(user._id);
 
             console.log("Profile", profile.user);
 

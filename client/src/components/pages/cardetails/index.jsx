@@ -17,7 +17,7 @@ const CarDetails = () => {
     useEffect(() => {
         if (!loading) {
             if (user) {
-                setUserId(user.id);
+                setUserId(user._id);
             } else {
                 setUserId(null);
             }

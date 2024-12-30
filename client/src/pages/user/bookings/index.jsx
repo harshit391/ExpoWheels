@@ -11,7 +11,7 @@ const Bookings = () => {
 
     useEffect(() => {
         const fetchBookings = async () => {
-            const data = await userBookings(user.id);
+            const data = await userBookings(user._id);
 
             if (data.ok) setBookings(data.bookings);
         };

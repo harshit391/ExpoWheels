@@ -11,7 +11,7 @@ const Sell = () => {
 
     const [showSaleBox, setShowSaleBox] = useState(false);
 
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
 
     const [formData, setFormData] = useState({
         title: "",
@@ -188,7 +188,10 @@ const Sell = () => {
         }
 
         try {
-            formDataToSubmit.append("owner", user.id);
+
+            console.log(user);
+
+            formDataToSubmit.append("owner", user._id);
 
             const response = id
                 ? await editCar(formDataToSubmit, id)

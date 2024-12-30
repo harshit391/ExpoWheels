@@ -11,7 +11,7 @@ const Sales = () => {
 
     useEffect(() => {
         const fetchSales = async () => {
-            const data = await userSales(user.id);
+            const data = await userSales(user._id);
 
             console.log("Data", data.sales);
 
@@ -25,7 +25,7 @@ const Sales = () => {
 
     return (
         <div>
-            <Layout data={sales} title="Sales" userId={user.id} />
+            <Layout data={sales} title="Sales" userId={user._id} />
         </div>
     );
 };
