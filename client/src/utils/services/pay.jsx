@@ -88,7 +88,10 @@ const PaymentButton = ({ amount, type, user, owner, endDate, carId }) => {
 
             if (booking.ok) {
                 alert("Booking created successfully");
-                navigate("/profile/bookings");
+
+                if (type === "buy") navigate("/profile/bookings");
+
+                if (type === "rent") navigate("/profile/rentals");
             }
 
             // const options = {
