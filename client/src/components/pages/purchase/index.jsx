@@ -195,7 +195,7 @@ const Purchase = () => {
                         {carData.brand} {carData.model}
                     </h1>
                     <div className="flex flex-col gap-16">
-                        <div className="flex flex-col lg:flex-row gap-4">
+                        <div className="flex flex-col gap-4">
                             <img
                                 src={`${API_URL_EWS}/${carData.image}`}
                                 alt={carData.title}
