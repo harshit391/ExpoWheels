@@ -200,7 +200,7 @@ const Car = ({ car, buyOrRent }) => {
                                     <div className="text-green-600 text-2xl lg:text-4xl font-bold">
                                         ${car.pricePaid}
                                     </div>
-                                    <div className="flex flex-col italic text-red-500 font-semibold">
+                                    <div className="flex flex-col items-center italic text-red-500 font-semibold">
                                         <div>Time Remaining For Rent End: </div>
                                         <div>
                                             {timeRemaining || "Calculating..."}
