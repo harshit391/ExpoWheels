@@ -77,7 +77,7 @@ const PaymentButton = ({ amount, type, user, owner, endDate, carId }) => {
                 buyer: userDetails._id,
                 seller: owner,
                 bookType: type,
-                bookingEndDate: endDate,
+                bookingEndDate: type === "Rent" ? endDate : null,
                 car: carId,
                 pricePaid: amount,
             });

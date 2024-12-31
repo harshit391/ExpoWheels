@@ -123,7 +123,7 @@ const Car = ({ car, buyOrRent }) => {
                     className="flex flex-col h-full justify-center gap-2"
                     style={{ fontFamily: "Poppins" }}
                 >
-                    <div className="flex flex-col justify-between items-center">
+                    <div className="flex flex-col justify-between gap-4 items-center">
                         <div className="flex justify-between gap-4 items-center w-full">
                             <div className="flex flex-col">
                                 {buyOrRent &&
@@ -201,14 +201,16 @@ const Car = ({ car, buyOrRent }) => {
                                 <div className="text-green-600 text-2xl w-full text-center lg:text-4xl font-bold">
                                     ${car.pricePaid}
                                 </div>
-                                <div className="flex flex-col items-center w-full italic text-red-500 font-semibold">
-                                    <div className="text-center">
-                                        Time Remaining For Rent End:{" "}
+                                {car.endDate && (
+                                    <div className="flex flex-col items-center w-full italic text-red-500 font-semibold">
+                                        <div className="text-center">
+                                            Time Remaining For Rent End:{" "}
+                                        </div>
+                                        <div className="text-center">
+                                            {timeRemaining || "Calculating..."}
+                                        </div>
                                     </div>
-                                    <div className="text-center">
-                                        {timeRemaining || "Calculating..."}
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         )}
                         <div className="flex gap-2 items-center justify-between w-full">
