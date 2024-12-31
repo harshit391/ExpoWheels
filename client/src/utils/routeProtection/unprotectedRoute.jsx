@@ -20,7 +20,6 @@ const UnProtectedRoute = ({ children }) => {
     }
 
     if (user) {
-        alert("You are already logged in");
         return null;
     }
 

@@ -1,11 +1,6 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Card = ({ item }) => {
-    useEffect(() => {
-        console.log("Item", item);
-    }, []);
-
     return (
         <Link
             style={{

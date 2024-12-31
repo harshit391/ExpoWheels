@@ -17,7 +17,7 @@ const Buy = () => {
         fuelType: "all",
         transmission: "all",
         minPrice: 0,
-        maxPrice: 1000000,
+        maxPrice: 10000000,
         minYear: 2000,
         maxYear: new Date().getFullYear(),
     });

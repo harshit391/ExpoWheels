@@ -19,12 +19,13 @@ const ProtectedRoute = ({ children }) => {
         return <Loading />;
     }
 
-    if (!user) {
-        alert("Please login to view this page");
+    if (!user && !loading) {
         return null;
     }
 
-    return children;
+    if (user) return children;
+
+    return null;
 };
 
 export default ProtectedRoute;

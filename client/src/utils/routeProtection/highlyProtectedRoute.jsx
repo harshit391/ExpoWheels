@@ -20,11 +20,14 @@ const HighlyProtectedRoute = ({ children }) => {
     }
 
     if (!user && !admin) {
-        alert("You are not authorized to view this page");
         return null;
     }
 
-    return children;
+    if (admin) {
+        return children;
+    }
+
+    return null;
 };
 
 export default HighlyProtectedRoute;

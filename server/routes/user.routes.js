@@ -58,7 +58,7 @@ router.post("/signin", (req, res) => {
 
         // Success Callback
         (dbres) => {
-            console.log("The User Object :- ", dbres);
+            // console.log("The User Object :- ", dbres);
             res.status(201).send({
                 message: "User Authenticated Successfully",
                 data: dbres,

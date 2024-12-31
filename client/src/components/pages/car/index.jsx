@@ -62,6 +62,9 @@ const Car = ({ car, buyOrRent, userId }) => {
                     style={{
                         fontFamily: "SuperBrigadeTitle",
                         letterSpacing: "-0.1rem",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
                     }}
                 >
                     {car.title}
@@ -162,7 +165,16 @@ const Car = ({ car, buyOrRent, userId }) => {
                             </div>
                         </div>
                         <div className="flex gap-2 items-center justify-between w-full">
-                            <p className="italic">{car.description}</p>
+                            <p
+                                style={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                }}
+                                className="italic"
+                            >
+                                {car.description}
+                            </p>
                             <span className="text-2xl">{car.fuelType}</span>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import { API_URL_EWS } from "../../../utils/constants";
 import { deleteSale } from "../../../utils/sales";
 import { useAuth } from "../../../context/context";
 import Loading from "../../loading";
+import PaymentButton from "../../../utils/services/pay";
 
 const Purchase = () => {
     const { id } = useParams();
@@ -35,6 +36,16 @@ const Purchase = () => {
         priceAfterDiscount: 0,
         commission: 0,
         finalPrice: 0,
+        finalPriceForRent: 0,
+        rentDays: 0,
+    });
+
+    const [endDate, setEndDate] = useState(() => {
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 1);
+        const finalDate = currentDate.getTime() + 1;
+        setPrices({ ...prices, rentDays: 1 });
+        return finalDate;
     });
 
     const finalPrice = (curr) => {
@@ -48,14 +59,18 @@ const Purchase = () => {
 
         const commission = priceAfterDiscount * 0.05;
 
+        // console.log(priceAfterDiscount, commission);
+
         const finalPrice = priceAfterDiscount + commission;
 
         setPrices({
+            ...prices,
             originalPrice: orginalPrice,
             discountedPrice: dicountedPrice,
             priceAfterDiscount,
             commission,
             finalPrice,
+            finalPriceForRent: priceAfterDiscount,
         });
     };
 
@@ -65,11 +80,11 @@ const Purchase = () => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `${localStorage.getItem("eWauthToken")}`,
+                    Authorization: `${localStorage.getItem("eWauthToken")}`,
                 },
             });
             const data = await response.json();
-            console.log("Data", data.data);
+            // console.log("Data", data.data);
 
             setCarData(data.data);
 
@@ -118,6 +133,54 @@ const Purchase = () => {
         timerId = setInterval(() => calculateTimeRemaining(saleEndDate), 1000);
     };
 
+    const convert = (currDate) => {
+        if (!currDate) return "";
+
+        const date = new Date(currDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    };
+
+    const calcPrice = (currEndDate) => {
+        const now = new Date();
+        const end = new Date(currEndDate || endDate);
+
+        const diff = end - now;
+
+        if (diff <= 0) {
+            return 0;
+        }
+
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+        setPrices({
+            ...prices,
+            commission: days * prices.priceAfterDiscount * 0.05,
+            finalPriceForRent: days * prices.priceAfterDiscount,
+            rentDays: days,
+        });
+    };
+
+    const handleDateChange = (e) => {
+        const selectedDate = new Date(e.target.value);
+        const currentDate = new Date();
+
+        selectedDate.setHours(0, 0, 0, 0);
+        currentDate.setHours(0, 0, 0, 0);
+
+        if (selectedDate <= currentDate) {
+            alert("Rent Expiry Date should be greater than the current date.");
+            return;
+        }
+
+        setEndDate(selectedDate.getTime());
+
+        calcPrice(selectedDate.getTime());
+    };
+
     return (
         <div>
             {carData ? (
@@ -132,7 +195,7 @@ const Purchase = () => {
                         {carData.brand} {carData.model}
                     </h1>
                     <div className="flex flex-col gap-16">
-                        <div className="flex gap-4">
+                        <div className="flex flex-col lg:flex-row gap-4">
                             <img
                                 src={`${API_URL_EWS}/${carData.image}`}
                                 alt={carData.title}
@@ -221,27 +284,88 @@ const Purchase = () => {
                                                     </td>
                                                 </tr>
                                             )}
-                                        {type === "Rent" && (
-                                            <tr>
-                                                <td className="border p-4 font-semibold">
-                                                    Discounted Rent Price
-                                                </td>
-                                                <td className="border p-4">
-                                                    <div className="flex flex-col md:flex-row md:items-center n gap-2">
-                                                        <div className="flex items-center text-green-600 text-2xl font-bold">
-                                                            <div>
-                                                                $
-                                                                {prices.priceAfterDiscount.toFixed(
-                                                                    2
-                                                                )}
-                                                            </div>
-                                                            <div className="text-sm text-gray-600 ml-2">
-                                                                {"Per Day"}
+                                        {type === "Rent" &&
+                                            carData.onDiscountSale && (
+                                                <tr>
+                                                    <td className="border p-4 font-semibold">
+                                                        Discounted Rent Price
+                                                    </td>
+                                                    <td className="border p-4">
+                                                        <div className="flex flex-col md:flex-row md:items-center n gap-2">
+                                                            <div className="flex items-center text-green-600 text-2xl font-bold">
+                                                                <div>
+                                                                    $
+                                                                    {prices.priceAfterDiscount.toFixed(
+                                                                        2
+                                                                    )}
+                                                                </div>
+                                                                <div className="text-sm text-gray-600 ml-2">
+                                                                    {"Per Day"}
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        {type === "Rent" && (
+                                            <>
+                                                <tr>
+                                                    <td className="border p-4 font-semibold">
+                                                        Rent Expiry Date
+                                                    </td>
+                                                    <td className="border p-4">
+                                                        <input
+                                                            name="description"
+                                                            type="date"
+                                                            value={convert(
+                                                                endDate
+                                                            )}
+                                                            onChange={
+                                                                handleDateChange
+                                                            }
+                                                            className="w-full border p-2"
+                                                        ></input>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td className="border p-4 font-semibold">
+                                                        Total Days
+                                                    </td>
+                                                    <td className="border p-4">
+                                                        <div className="flex flex-col md:flex-row md:items-center n gap-2">
+                                                            <div className="flex items-center text-2xl font-bold">
+                                                                <div>
+                                                                    {`${
+                                                                        prices.rentDays
+                                                                    } ${
+                                                                        prices.rentDays ===
+                                                                        1
+                                                                            ? "Day"
+                                                                            : "Days"
+                                                                    }`}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border p-4 font-semibold">
+                                                        Price To Pay
+                                                    </td>
+                                                    <td className="border p-4">
+                                                        <div className="flex flex-col md:flex-row md:items-center n gap-2">
+                                                            <div className="flex items-center text-green-600 text-2xl font-bold">
+                                                                <div>
+                                                                    {`$${prices.finalPriceForRent.toFixed(
+                                                                        2
+                                                                    )}`}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </>
                                         )}
                                         <tr>
                                             <td className="border p-4 font-semibold">
@@ -270,29 +394,63 @@ const Purchase = () => {
                                             >
                                                 Final Price To Pay
                                             </td>
-                                            <td className="border p-4">
-                                                <div
-                                                    style={{
-                                                        fontFamily:
-                                                            "SuperBrigadeCondensed",
-                                                        letterSpacing: "0.1rem",
-                                                    }}
-                                                    className="text-green-600 text-4xl font-bold"
-                                                >
-                                                    $
-                                                    {prices.finalPrice.toFixed(
-                                                        2
-                                                    )}
-                                                </div>
-                                            </td>
+                                            {type === "Buy" && (
+                                                <td className="border p-4">
+                                                    <div
+                                                        style={{
+                                                            fontFamily:
+                                                                "Roboto",
+                                                            letterSpacing:
+                                                                "-0.04rem",
+                                                        }}
+                                                        className="text-green-600 text-4xl font-bold"
+                                                    >
+                                                        $
+                                                        {prices.finalPrice.toFixed(
+                                                            2
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            )}
+                                            {type === "Rent" && (
+                                                <td className="border p-4">
+                                                    <div
+                                                        style={{
+                                                            fontFamily:
+                                                                "Roboto",
+                                                            letterSpacing:
+                                                                "-0.04rem",
+                                                        }}
+                                                        className="italic text-green-600 text-4xl font-bold"
+                                                    >
+                                                        $
+                                                        {(
+                                                            prices.finalPriceForRent +
+                                                            prices.commission
+                                                        ).toFixed(2)}
+                                                    </div>
+                                                </td>
+                                            )}
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div className="flex w-full justify-center p-4">
-                                    <div className="w-full rounded-md text-center border p-4 font-bold bg-blue-500 text-white hover:bg-blue-600 cursor-pointer">
-                                        Proceed To Checkout
+                                {carData.owner._id !== user._id && (
+                                    <div className="flex w-full justify-center p-4">
+                                        <PaymentButton
+                                            amount={
+                                                type === "Buy"
+                                                    ? prices.finalPrice
+                                                    : prices.finalPriceForRent +
+                                                      prices.commission
+                                            }
+                                            type={type}
+                                            user={user._id}
+                                            carId={carData._id}
+                                            owner={carData.owner._id}
+                                            endDate={endDate}
+                                        />
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </div>
 

@@ -40,7 +40,7 @@ const Rent = () => {
             maxYear: filters.maxYear,
         });
 
-        console.log(query);
+        // console.log(query);
 
         const response = await fetch(`${API_URL_EWS}/api/cars/get?${query}`);
 

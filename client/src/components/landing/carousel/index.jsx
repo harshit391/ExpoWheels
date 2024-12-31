@@ -16,7 +16,7 @@ const Carousel = () => {
                     },
                 });
                 const data = await response.json();
-                console.log("Data", data.data);
+                // console.log("Data", data.data);
                 setSalesData(data.data);
             } catch (err) {
                 console.error(err);

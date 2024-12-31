@@ -20,6 +20,7 @@ import Sales from "./pages/user/sales";
 import Profile from "./pages/user";
 import Rentals from "./pages/user/rentals";
 import Purchase from "./components/pages/purchase";
+import AdminProfile from "./pages/admin/services";
 
 const routes = [
     {
@@ -53,6 +54,16 @@ const routes = [
                         <Admin />
                     </HighlyProtectedRoute>
                 ),
+                children: [
+                    {
+                        path: "/admin",
+                        element: (
+                            <HighlyProtectedRoute>
+                                <AdminProfile />
+                            </HighlyProtectedRoute>
+                        ),
+                    },
+                ],
             },
             {
                 path: "/car",

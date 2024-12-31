@@ -4,7 +4,7 @@ import { useAuth } from "../../../context/context";
 import { getUser } from "../../../utils/services/user";
 import Loading from "../../../components/loading";
 
-const User = () => {
+const AdminProfile = () => {
     const { user } = useAuth();
 
     const [userProfile, setUserProfile] = useState(null);
@@ -87,4 +87,4 @@ const User = () => {
     );
 };
 
-export default User;
+export default AdminProfile;

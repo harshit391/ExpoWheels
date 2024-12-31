@@ -13,7 +13,6 @@ const Navbar = () => {
         { name: "Buy Cars", path: "/car/buy" },
         { name: "Sell Cars", path: "/car/sell" },
         { name: "Rent Cars", path: "/car/rent" },
-        { name: "Contact Us", path: "/contact" },
     ];
 
     const handleNavigate = (path) => {
@@ -78,12 +77,20 @@ const Navbar = () => {
                     </Link>
                 ))}
                 {user && (
-                    <div className="cursor-pointer" onClick={() => handleNavigate("/profile")}>
+                    <div
+                        className="cursor-pointer"
+                        onClick={() => handleNavigate("/profile")}
+                    >
                         Profile
                     </div>
                 )}
                 {admin && (
-                    <div className="cursor-pointer" onClick={() => handleNavigate("/admin")}>Admin</div>
+                    <div
+                        className="cursor-pointer"
+                        onClick={() => handleNavigate("/admin")}
+                    >
+                        Admin
+                    </div>
                 )}
             </div>
 

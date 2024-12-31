@@ -7,22 +7,23 @@ import carRoutes from "./routes/cars.routes.js";
 import randomRoutes from "./routes/random.routes.js";
 import saleRoutes from "./routes/sales.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
+
+// Constants
+import { CLIENT_URL, PORT } from "./connection/db.constants.js";
 
 const app = express();
 
 connectDB();
 
-app.use("*", (req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "*");
+// Middleware to allow cross-origin requests
+app.use("/", (req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", `${CLIENT_URL}`);
     res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, DELETE, OPTIONS"
+        "Access-Control-Allow-Headers",
+        "Content-type, Authorization"
     );
-
-    if (req.method === "OPTIONS") {
-        return res.status(200).end();
-    }
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 
     next();
 });
@@ -37,10 +38,12 @@ app.use("/api/random", randomRoutes);
 app.use("/api/sales", saleRoutes);
 app.use("/api/bookings", bookingRoutes);
 
+app.use("/api/payment", paymentRoutes);
+
 app.get("/", (req, res) => {
     res.send({ message: "Hello World!" });
 });
 
-app.listen(8081, () => {
-    console.log("Server is running on port http://localhost:8081");
+app.listen(PORT, () => {
+    console.log(`Server is running on port http://localhost:${PORT}`);
 });

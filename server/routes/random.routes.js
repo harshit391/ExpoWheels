@@ -22,7 +22,7 @@ router.get("/users/add", async (req, res) => {
 
     try {
         const data = await UserModel.insertMany(dummyUsers);
-        console.log("30 dummy users have been created successfully.");
+        // console.log("30 dummy users have been created successfully.");
         res.status(201).send({
             message: "30 dummy users have been created successfully.",
             data,

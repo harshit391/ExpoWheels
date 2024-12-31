@@ -9,7 +9,7 @@ export const getUser = async (id) => {
             },
         }).then((res) => res.json());
 
-        console.log("Response", response);
+        // console.log("Response", response);
 
         return {
             user: response.user,
@@ -34,7 +34,7 @@ export const userBookings = async (id) => {
             }
         ).then((res) => res.json());
 
-        console.log("Response", response);
+        // console.log("Response", response);
 
         return {
             bookings: response.bookings,
@@ -59,7 +59,7 @@ export const userRentals = async (id) => {
             }
         ).then((res) => res.json());
 
-        console.log("Response", response);
+        // console.log("Response", response);
 
         return {
             rentals: response.bookings,
@@ -81,7 +81,7 @@ export const userSales = async (id) => {
             },
         }).then((res) => res.json());
 
-        console.log("Response", response);
+        // console.log("Response", response);
 
         return {
             sales: response.sales,

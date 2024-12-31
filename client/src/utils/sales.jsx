@@ -4,7 +4,7 @@ export const addSale = async (data, car) => {
     try {
         const newData = { ...data, car };
 
-        console.log("Data :- ", newData);
+        // console.log("Data :- ", newData);
 
         const response = await fetch(`${API_URL_EWS}/api/sales/set`, {
             method: "POST",

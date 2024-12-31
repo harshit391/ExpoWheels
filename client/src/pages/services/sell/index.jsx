@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { sellCar } from "../../../utils/services/sell";
 import { useAuth } from "../../../context/context";
@@ -8,6 +8,8 @@ import Sale from "../sale";
 
 const Sell = () => {
     const { id } = useParams();
+
+    const navigate = useNavigate();
 
     const [showSaleBox, setShowSaleBox] = useState(false);
 
@@ -93,7 +95,7 @@ const Sell = () => {
                 const currWidth = (width / 16).toFixed(0);
                 const currHeight = (height / 9).toFixed(0);
 
-                console.log(currWidth, currHeight);
+                // console.log(currWidth, currHeight);
 
                 if (currHeight !== currWidth) {
                     setFormData((prev) => ({
@@ -142,7 +144,7 @@ const Sell = () => {
             if (key === "location") {
                 for (const locKey in formData.location) {
                     if (!formData.location[locKey]) {
-                        console.log("1");
+                        // console.log("1");
                         alert(
                             "Please Fill The Field " +
                                 locKey.charAt(0).toUpperCase() +
@@ -156,14 +158,26 @@ const Sell = () => {
             } else {
                 if (key === "isAvailableForRent" || key === "rentPrice") {
                     if (formData.isAvailableForRent && !formData.rentPrice) {
-                        console.log("2");
+                        // console.log("2");
                         alert("Please Fill The Price For Rent");
+                        return;
+                    }
+
+                    if (formData.rentPrice > 5000) {
+                        alert(
+                            "Rent Price should be less than Equal to 5000 Per Day"
+                        );
                         return;
                     }
                 } else if (key === "isAvailableForSale" || key === "price") {
                     if (formData.isAvailableForSale && !formData.price) {
-                        console.log("3");
+                        // console.log("3");
                         alert("Please Fill The Price For Sale");
+                        return;
+                    }
+
+                    if (formData.price > 10000000) {
+                        alert("Rent Price should be less than 10 Million");
                         return;
                     }
                 } else if (
@@ -171,14 +185,26 @@ const Sell = () => {
                     key != "imageError" &&
                     key != "onDiscountSale"
                 ) {
-                    console.log("4");
-                    console.log(key);
+                    // console.log("4");
+                    // console.log(key);
                     alert(
                         "Please Fill The Field " +
                             key.charAt(0).toUpperCase() +
                             key.slice(1)
                     );
                     return;
+                } else if (key === "year") {
+                    if (formData.year < 2000) {
+                        alert("Year should be greater than 2000");
+                        return;
+                    }
+
+                    if (formData.year > new Date().getFullYear()) {
+                        alert(
+                            "Year should be less than or equal to current year"
+                        );
+                        return;
+                    }
                 }
 
                 if (key != "imageError" && key != "onDiscountSale") {
@@ -194,13 +220,15 @@ const Sell = () => {
                 ? await editCar(formDataToSubmit, id)
                 : await sellCar(formDataToSubmit);
 
-            console.log(response);
+            // console.log(response);
 
             if (response.ok) {
                 if (id) {
                     alert("Car edited successfully!");
+                    navigate(`/car/${response.data._id}`);
                 } else {
                     alert("Car added successfully!");
+                    navigate(`/car/${response.data._id}`);
                 }
                 setFormData({
                     title: "",

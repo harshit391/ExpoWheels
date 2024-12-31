@@ -114,7 +114,7 @@ const CarDetails = () => {
                         }}
                         className="text-2xl md:text-5xl text-center py-8 col-div-1 md:col-div-3 uppercase"
                     >
-                        {carData.brand} {carData.model}
+                        {carData.title}
                     </h1>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                         <div className="flex flex-col gap-4">
@@ -158,24 +158,30 @@ const CarDetails = () => {
                                             Rent Now
                                         </Link>
                                     )}
-                                {userId && userId === carData.owner._id && (
-                                    <Link
-                                        to={`/car/edit/${carData._id}`}
-                                        className="italic hover:bg-blue-900 text-white p-4 bg-blue-700 font-semibold rounded text-center"
-                                    >
-                                        Edit Details
-                                    </Link>
-                                )}
-                                {userId && userId === carData.owner._id && (
-                                    <div
-                                        onClick={() =>
-                                            handleDelete(carData._id)
-                                        }
-                                        className="italic text-white hover:bg-red-900 p-4 bg-red-700 font-semibold rounded cursor-pointer text-center"
-                                    >
-                                        Delete Car
-                                    </div>
-                                )}
+                                {userId &&
+                                    userId === carData.owner._id &&
+                                    (carData.isAvailableForSale ||
+                                        carData.isAvailableForRent) && (
+                                        <Link
+                                            to={`/car/edit/${carData._id}`}
+                                            className="italic hover:bg-blue-900 text-white p-4 bg-blue-700 font-semibold rounded text-center"
+                                        >
+                                            Edit Details
+                                        </Link>
+                                    )}
+                                {userId &&
+                                    userId === carData.owner._id &&
+                                    (carData.isAvailableForSale ||
+                                        carData.isAvailableForRent) && (
+                                        <div
+                                            onClick={() =>
+                                                handleDelete(carData._id)
+                                            }
+                                            className="italic text-white hover:bg-red-900 p-4 bg-red-700 font-semibold rounded cursor-pointer text-center"
+                                        >
+                                            Delete Car
+                                        </div>
+                                    )}
                             </div>
                         </div>
 
@@ -322,6 +328,22 @@ const CarDetails = () => {
                                         </td>
                                         <td className="border p-4">
                                             {carData.fuelType}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Brand
+                                        </td>
+                                        <td className="border p-4">
+                                            {carData.brand}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
+                                            Model
+                                        </td>
+                                        <td className="border p-4">
+                                            {carData.model}
                                         </td>
                                     </tr>
                                     <tr>

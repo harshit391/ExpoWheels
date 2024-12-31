@@ -13,6 +13,8 @@ const Bookings = () => {
         const fetchBookings = async () => {
             const data = await userBookings(user._id);
 
+            // console.log("Data", data.bookings);
+
             if (data.ok) setBookings(data.bookings);
         };
 

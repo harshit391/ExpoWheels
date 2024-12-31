@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
+import { useEffect, useState } from "react";
 
 const Car = ({ car, buyOrRent }) => {
+    const [timeRemaining, setTimeRemaining] = useState(null);
+
+    const [priceDetails, setPriceDetails] = useState({
+        price: car.price,
+        rentPrice: car.rentPrice,
+    });
+
     const formatDate = (date) => {
         const dateObj = new Date(date);
 
@@ -27,8 +35,41 @@ const Car = ({ car, buyOrRent }) => {
         return `${months[month - 1]} ${day}, ${year}`;
     };
 
-    const getDiscountedPrice = () => {
-        const price = buyOrRent ? car.price : car.rentPrice;
+    let timerId;
+
+    const calculateTimeRemaining = async (saleEndDate) => {
+        const now = new Date().getTime();
+        const difference = saleEndDate - now;
+
+        if (difference > 0) {
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor(
+                (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+            );
+            const minutes = Math.floor(
+                (difference % (1000 * 60 * 60)) / (1000 * 60)
+            );
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            setTimeRemaining(
+                `${days}d : ${hours}h : ${minutes}m : ${seconds}s`
+            );
+        } else {
+            clearInterval(timerId);
+            setTimeRemaining("Rent End Date Passed");
+        }
+    };
+
+    const startTimer = (saleEndDate) => {
+        timerId = setInterval(() => calculateTimeRemaining(saleEndDate), 1000);
+    };
+
+    const getDiscountedPrice = (currPrice) => {
+        if (!currPrice) {
+            currPrice = car.price;
+        }
+
+        const price = currPrice;
 
         if (car.onDiscountSale) {
             const discount = car.onDiscountSale.discountPercentage || 0;
@@ -36,6 +77,19 @@ const Car = ({ car, buyOrRent }) => {
         }
         return price;
     };
+
+    useEffect(() => {
+        if (car.endDate) {
+            const saleEndDate = new Date(car.endDate).getTime();
+            calculateTimeRemaining(saleEndDate);
+            startTimer(saleEndDate);
+        }
+
+        setPriceDetails({
+            price: getDiscountedPrice(car.price),
+            rentPrice: getDiscountedPrice(car.rentPrice),
+        });
+    }, []);
 
     return (
         <div className="flex flex-col gap-4 rounded-md p-4 shadow-2xl md:hover:scale-105 cursor-pointer transition">
@@ -45,10 +99,14 @@ const Car = ({ car, buyOrRent }) => {
                     style={{
                         fontFamily: "SuperBrigadeTitle",
                         letterSpacing: "-0.1rem",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
                     }}
                 >
                     {car.title}
                 </h1>
+
                 <img
                     src={`${API_URL_EWS}/${car.image}`}
                     alt={car.title}
@@ -71,53 +129,19 @@ const Car = ({ car, buyOrRent }) => {
                                 {buyOrRent &&
                                     car.isAvailableForSale &&
                                     (car.onDiscountSale ? (
-                                        <>
-                                            <span className="text-green-600 text-2xl lg:text-3xl font-bold">
-                                                ${getDiscountedPrice()}
-                                            </span>
-                                            <span className="text-gray-600 text-sm line-through">
-                                                $
-                                                {buyOrRent
-                                                    ? car.price
-                                                    : car.rentPrice}
-                                            </span>
-                                        </>
-                                    ) : (
-                                        <span className="text-green-600 text-2xl lg:text-3xl font-bold">
-                                            $
-                                            {buyOrRent
-                                                ? car.price
-                                                : car.rentPrice}
-                                        </span>
-                                    ))}
-                                {!buyOrRent &&
-                                    car.isAvailableForRent &&
-                                    (car.onDiscountSale ? (
-                                        <>
-                                            <div className="flex gap-2 items-center">
-                                                <span className="text-green-600 text-2xl lg:text-3xl font-bold">
-                                                    ${getDiscountedPrice()}
-                                                </span>
-                                                <span className="text-sm">
-                                                    Per Day
-                                                </span>
+                                        <div>
+                                            <div className="text-green-600 text-2xl lg:text-3xl font-bold">
+                                                ${priceDetails.price}
                                             </div>
-                                            <span className="text-gray-600 text-sm line-through">
-                                                ${car.rentPrice}
-                                            </span>
-                                        </>
+                                            <div className="text-gray-600 text-sm line-through">
+                                                ${car.price}
+                                            </div>
+                                        </div>
                                     ) : (
-                                        <div className="flex gap-2 items-center">
-                                            <span className="text-green-600 text-2xl lg:text-3xl font-bold">
-                                                ${car.rentPrice}
-                                            </span>
-                                            <span className="text-sm">
-                                                Per Day
-                                            </span>
+                                        <div className="text-green-600 text-2xl lg:text-3xl font-bold">
+                                            ${car.price}
                                         </div>
                                     ))}
-                            </div>
-                            <div>
                                 {buyOrRent &&
                                     car.isAvailableForSale &&
                                     car.onDiscountSale !== null && (
@@ -130,7 +154,35 @@ const Car = ({ car, buyOrRent }) => {
                                             % Off)
                                         </div>
                                     )}
-                                {!buyOrRent &&
+                            </div>
+                            <div className="flex flex-col gap-2 items-center">
+                                {buyOrRent &&
+                                    car.isAvailableForRent &&
+                                    (car.onDiscountSale ? (
+                                        <div className="flex flex-col">
+                                            <div className="flex gap-2 items-center">
+                                                <span className="text-green-600 text-2xl lg:text-3xl font-bold">
+                                                    ${priceDetails.rentPrice}
+                                                </span>
+                                                <span className="text-sm">
+                                                    Per Day
+                                                </span>
+                                            </div>
+                                            <div className="text-gray-600 text-sm line-through">
+                                                ${car.rentPrice}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="flex gap-2 items-center">
+                                            <span className="text-green-600 text-2xl lg:text-3xl font-bold">
+                                                ${car.rentPrice}
+                                            </span>
+                                            <span className="text-sm">
+                                                Per Day
+                                            </span>
+                                        </div>
+                                    ))}
+                                {buyOrRent &&
                                     car.isAvailableForRent &&
                                     car.onDiscountSale !== null && (
                                         <div className="bg-blue-500 text-white font-semibold px-4 py-2 rounded text-center">
@@ -143,9 +195,31 @@ const Car = ({ car, buyOrRent }) => {
                                         </div>
                                     )}
                             </div>
+                            {car.pricePaid && (
+                                <div className="flex flex-col gap-2">
+                                    <div className="text-green-600 text-2xl lg:text-4xl font-bold">
+                                        ${car.pricePaid}
+                                    </div>
+                                    <div className="flex flex-col italic text-red-500 font-semibold">
+                                        <div>Time Remaining For Rent End: </div>
+                                        <div>
+                                            {timeRemaining || "Calculating..."}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <div className="flex gap-2 items-center justify-between w-full">
-                            <p className="italic">{car.description}</p>
+                            <p
+                                className="italic"
+                                style={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                }}
+                            >
+                                {car.description}
+                            </p>
                             <span className="text-2xl">{car.fuelType}</span>
                         </div>
                     </div>
@@ -162,56 +236,32 @@ const Car = ({ car, buyOrRent }) => {
                         <span>{formatDate(car.dateListed)}</span>
                     </div>
                 </div>
-                {
+                {buyOrRent && (
                     <Link
                         to={`/car/edit/${car._id}`}
                         className="w-full bg-blue-700 text-white font-semibold py-2 rounded hover:bg-blue-900 text-center transition"
                     >
                         Edit Details
                     </Link>
-                }
-                {
+                )}
+                {buyOrRent && (
                     <div
                         onClick={() => handleDelete(car._id)}
                         className="w-full bg-red-700 text-white font-semibold py-2 rounded hover:bg-red-900 text-center transition"
                     >
                         Delete Car
                     </div>
+                )}
+                {
+                    <Link
+                        to={`/car/${car._id}`}
+                        className="flex flex-col gap-4"
+                    >
+                        <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
+                            View Details
+                        </button>
+                    </Link>
                 }
-                {buyOrRent &&
-                    (car.isAvailableForSale ? (
-                        <Link
-                            to={`/car/${car._id}`}
-                            className="flex flex-col gap-4"
-                        >
-                            <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
-                                View Details
-                            </button>
-                        </Link>
-                    ) : (
-                        <div className="flex flex-col gap-4">
-                            <button className="w-full bg-gray-500 text-white font-semibold py-2 rounded hover:cursor-not-allowed transition">
-                                Already Sold !
-                            </button>
-                        </div>
-                    ))}
-                {!buyOrRent &&
-                    (car.isAvailableForRent ? (
-                        <Link
-                            to={`/car/${car._id}`}
-                            className="flex flex-col gap-4"
-                        >
-                            <button className="w-full bg-green-700 text-white font-semibold py-2 rounded hover:bg-green-900 transition">
-                                View Details
-                            </button>
-                        </Link>
-                    ) : (
-                        <div className="flex flex-col gap-4">
-                            <button className="w-full bg-gray-500 text-white font-semibold py-2 rounded hover:cursor-not-allowed transition">
-                                Already Rented !
-                            </button>
-                        </div>
-                    ))}
             </div>
         </div>
     );

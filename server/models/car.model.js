@@ -114,16 +114,7 @@ CarModel.getAll = async (queries, successCallBack, errorCallBack) => {
     try {
         const filter = {};
 
-        if (queries.type === "rent") {
-            filter.isAvailableForRent = true;
-        } else {
-            filter.isAvailableForRent = false;
-        }
-        if (queries.type === "buy") {
-            filter.isAvailableForSale = true;
-        } else {
-            filter.isAvailableForSale = false;
-        }
+        // console.log("Queries :- ", queries);
 
         if (queries.brand && queries.brand !== "all") {
             filter.brand = queries.brand;
@@ -167,16 +158,17 @@ CarModel.getAll = async (queries, successCallBack, errorCallBack) => {
             }
         }
 
+        // console.log("Filter :- ", filter);
+
         const cars = await CarModel.find(filter)
             .populate("onDiscountSale")
             .populate("owner", "name email");
 
-        const brands = await CarModel.find({
-            isAvailableForRent: filter.isAvailableForRent,
-            isAvailableForSale: filter.isAvailableForSale,
-        }).distinct("brand");
+        // console.log("Cars :- ", cars);
 
-        console.log("Cars :- ", brands);
+        const brands = await CarModel.distinct("brand");
+
+        // console.log("Cars Brands:- ", brands);
 
         if (cars && cars.length > 0) {
             successCallBack({
@@ -193,7 +185,7 @@ CarModel.getAll = async (queries, successCallBack, errorCallBack) => {
 
 CarModel.getById = async (id, successCallBack, errorCallBack) => {
     try {
-        console.log("Request at Get Car By Id :- ", id);
+        // console.log("Request at Get Car By Id :- ", id);
 
         const userRequestedCar = await CarModel.findById(id).populate(
             "owner",
@@ -204,7 +196,7 @@ CarModel.getById = async (id, successCallBack, errorCallBack) => {
             throw new Error("Car Doesn't Exists");
         }
 
-        console.log("User Requested Car :- ", userRequestedCar);
+        // console.log("User Requested Car :- ", userRequestedCar);
 
         if (userRequestedCar.onDiscountSale) {
             const sale = await Sale.findById(userRequestedCar.onDiscountSale);
@@ -222,6 +214,7 @@ CarModel.getById = async (id, successCallBack, errorCallBack) => {
             errorCallBack("Car Doesn't Exists");
         }
     } catch (error) {
+        console.log("Error :- ", error);
         errorCallBack(error);
     }
 };
@@ -230,6 +223,7 @@ CarModel.getUserSales = async (id, successCallBack, errorCallBack) => {
     try {
         const userSales = await CarModel.find({
             owner: id,
+            $or: [{ isAvailableForSale: true }, { isAvailableForRent: true }],
         }).populate("onDiscountSale");
 
         if (userSales && userSales.length > 0) {
@@ -261,7 +255,7 @@ CarModel.addCar = async (data, file, successCallBack, errorCallBack) => {
 
         newCar.save();
 
-        console.log("New Car Added :- ", newCar);
+        // console.log("New Car Added :- ", newCar);
 
         successCallBack(newCar);
     } catch (error) {
@@ -279,29 +273,29 @@ CarModel.editCar = async (data, id, file, successCallBack, errorCallBack) => {
             throw new Error("Car Doesn't Exists");
         }
 
-        console.log("Car To Edit", carToEdit);
+        // console.log("Car To Edit", carToEdit);
 
-        console.log("File Name");
+        // console.log("File Name");
 
         if (file) {
             const __dirname = path.resolve();
 
-            console.log("Dir Name :- ", __dirname);
+            // console.log("Dir Name :- ", __dirname);
 
             const currPath = path.join(__dirname, "uploads", carToEdit.image);
 
-            console.log("Current Path :- ", currPath);
+            // console.log("Current Path :- ", currPath);
 
             fs.rmSync(currPath);
         }
 
-        console.log("2");
+        // console.log("2");
 
-        console.log("File :- ", file);
+        // console.log("File :- ", file);
 
         const fileName = file ? file.filename : carToEdit.image;
 
-        console.log("File Name :- ", fileName);
+        // console.log("File Name :- ", fileName);
 
         const newCarAfterEditing = {
             image: fileName,
@@ -313,14 +307,14 @@ CarModel.editCar = async (data, id, file, successCallBack, errorCallBack) => {
             },
         };
 
-        console.log("3");
+        // console.log("3");
 
         const newCarAfterUpdations = await CarModel.findByIdAndUpdate(
             id,
             newCarAfterEditing
         );
 
-        console.log("4", newCarAfterUpdations);
+        // console.log("4", newCarAfterUpdations);
 
         successCallBack(newCarAfterUpdations);
     } catch (error) {
@@ -332,7 +326,7 @@ CarModel.editCar = async (data, id, file, successCallBack, errorCallBack) => {
 
 CarModel.deleteCar = async (id, successCallBack, errorCallBack) => {
     try {
-        console.log("Delete Car ID :- ", id);
+        // console.log("Delete Car ID :- ", id);
 
         const carToDelete = await CarModel.findById(id);
 
@@ -342,15 +336,15 @@ CarModel.deleteCar = async (id, successCallBack, errorCallBack) => {
 
         const __dirname = path.resolve();
 
-        console.log("Dir Name :- ", __dirname);
+        // console.log("Dir Name :- ", __dirname);
 
-        console.log("File Name :- ", carToDelete);
+        // console.log("File Name :- ", carToDelete);
 
         const currPath = path.join(__dirname, "uploads", carToDelete.image);
 
-        console.log("Current Path :- ", currPath);
+        // console.log("Current Path :- ", currPath);
 
-        // fs.rmSync(currPath);
+        fs.rmSync(currPath);
 
         const res = await CarModel.findByIdAndDelete(id);
 

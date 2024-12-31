@@ -54,25 +54,8 @@ router.get("/user/:id", verifyToken, (req, res) => {
     );
 });
 
-router.post("/buy", verifyToken, (req, res) => {
+router.post("/create", verifyToken, (req, res) => {
     Booking.createBooking(
-        req.body,
-
-        (dbRes) => {
-            res.status(201).send({
-                message: "Request Success",
-                booking: dbRes,
-            });
-        },
-
-        (dbRes) => {
-            res.status(500).send({ message: "InValid Request", error: dbRes });
-        }
-    );
-});
-
-router.post("/rent", verifyToken, (req, res) => {
-    Booking.createRentBooking(
         req.body,
 
         (dbRes) => {

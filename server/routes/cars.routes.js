@@ -95,7 +95,7 @@ router.post("/add", verifyToken, upload.single("image"), (req, res) => {
 
         // Error Callback
         (dbres) => {
-            console.log(dbres);
+            // console.log(dbres);
             res.status(500).send({
                 message: "Failed to Add Car",
                 error: dbres,

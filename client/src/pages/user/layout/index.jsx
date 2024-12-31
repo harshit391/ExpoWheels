@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import SalesCard from "../../../components/pages/user/sales";
 
-const Layout = ({ title, data, userId }) => {
+const Layout = ({ title, data, showDetails }) => {
     const [currData, setCurrData] = useState([]);
 
     useEffect(() => {
@@ -26,10 +26,14 @@ const Layout = ({ title, data, userId }) => {
                 )}
             </h2>
 
-            {currData && currData.length > 0 && (
+            {data && data.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                     {currData.map((item, index) => (
-                        <SalesCard key={item._id} car={item} buyOrRent={true} />
+                        <SalesCard
+                            key={item._id}
+                            car={item}
+                            buyOrRent={showDetails}
+                        />
                     ))}
                 </div>
             )}
