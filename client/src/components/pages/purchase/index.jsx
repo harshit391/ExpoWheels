@@ -593,6 +593,14 @@ const Purchase = () => {
                                     </tr>
                                     <tr>
                                         <td className="border p-4 font-semibold">
+                                            Car Type
+                                        </td>
+                                        <td className="border p-4">
+                                            {carData.title}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-4 font-semibold">
                                             Fuel Type
                                         </td>
                                         <td className="border p-4">

@@ -114,8 +114,17 @@ const Slides = ({ slides }) => {
                                             fontFamily: "SuperBrigadeTitle",
                                         }}
                                     >
-                                        {s.car.title}
+                                        {s.car.brand}{" "}{s.car.model}
                                     </h1>
+                                    <h2
+                                        className="text-white text-xl italic md:text-2xl lg:text-3xl"
+                                        style={{
+                                            fontFamily: "Montserrat",
+                                            letterSpacing: "-0.05rem",
+                                        }}
+                                    >
+                                        {s.car.title}
+                                    </h2>
                                     <h3
                                         className="text-white text-xl italic md:text-2xl lg:text-3xl"
                                         style={{

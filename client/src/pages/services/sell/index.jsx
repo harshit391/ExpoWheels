@@ -426,7 +426,7 @@ const Sell = () => {
                                 <tbody style={{ fontFamily: "Montserrat" }}>
                                     <tr>
                                         <td className="border p-4 font-semibold">
-                                            Title
+                                            Car Type
                                         </td>
                                         <td className="border p-4">
                                             <input

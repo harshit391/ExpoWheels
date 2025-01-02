@@ -104,7 +104,7 @@ const Car = ({ car, buyOrRent }) => {
                         whiteSpace: "nowrap",
                     }}
                 >
-                    {car.title}
+                    {car.brand} {car.model}
                 </h1>
 
                 <img
@@ -226,6 +226,10 @@ const Car = ({ car, buyOrRent }) => {
                             </p>
                             <span className="text-2xl">{car.fuelType}</span>
                         </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                        <span className="font-semibold">Car Type:</span>
+                        <span>{car.title}</span>
                     </div>
                     <div className="flex justify-between items-center">
                         <span className="font-semibold">Mileage:</span>

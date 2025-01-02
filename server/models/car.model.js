@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import Sale from "./sale.model.js";
 import fs from "fs";
 import path from "path";
-import e from "express";
 
 const carSchema = new mongoose.Schema({
     title: {

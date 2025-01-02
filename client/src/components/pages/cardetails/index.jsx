@@ -114,7 +114,7 @@ const CarDetails = () => {
                         }}
                         className="text-2xl md:text-5xl text-center py-8 col-div-1 md:col-div-3 uppercase"
                     >
-                        {carData.title}
+                        {carData.brand}{" "}{carData.model}
                     </h1>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                         <div className="flex flex-col gap-4">
@@ -332,18 +332,10 @@ const CarDetails = () => {
                                     </tr>
                                     <tr>
                                         <td className="border p-4 font-semibold">
-                                            Brand
+                                            Car Type
                                         </td>
                                         <td className="border p-4">
-                                            {carData.brand}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="border p-4 font-semibold">
-                                            Model
-                                        </td>
-                                        <td className="border p-4">
-                                            {carData.model}
+                                            {carData.title}
                                         </td>
                                     </tr>
                                     <tr>
