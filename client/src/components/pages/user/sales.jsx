@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { useEffect, useState } from "react";
+import { deleteBooking } from "../../../utils/booking";
 
 const Car = ({ car, buyOrRent }) => {
     const [timeRemaining, setTimeRemaining] = useState(null);
@@ -57,6 +58,7 @@ const Car = ({ car, buyOrRent }) => {
         } else {
             clearInterval(timerId);
             setTimeRemaining("Rent End Date Passed");
+            alert("Rent End Date Passed");
         }
     };
 
@@ -90,6 +92,21 @@ const Car = ({ car, buyOrRent }) => {
             rentPrice: getDiscountedPrice(car.rentPrice),
         });
     }, []);
+
+    const handleDeleteBooking = async (id) => {
+        window.alert("Please Wait for Verifying the Car Delivery");
+
+        try {
+            const response = await deleteBooking(id);
+
+            if (response.ok) {
+                alert("Booking Deleted Successfully");
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error("Error Deleting Booking: ", error);
+        }
+    };
 
     return (
         <div className="flex flex-col gap-4 rounded-md p-4 shadow-2xl md:hover:scale-105 cursor-pointer transition">
@@ -258,6 +275,14 @@ const Car = ({ car, buyOrRent }) => {
                         className="w-full bg-red-700 text-white font-semibold py-2 rounded hover:bg-red-900 text-center transition"
                     >
                         Delete Car
+                    </div>
+                )}
+                {car.bookType === "Rent" && (
+                    <div
+                        onClick={() => handleDeleteBooking(car.booking)}
+                        className="w-full bg-yellow-700 text-white font-semibold py-2 rounded hover:bg-yellow-900 text-center transition"
+                    >
+                        Car Delivered
                     </div>
                 )}
                 {

@@ -22,3 +22,22 @@ export const createBooking = async (data) => {
         return { error: error.message };
     }
 };
+
+export const deleteBooking = async (id) => {
+    try {
+        const response = await fetch(`${API_URL_EWS}/api/bookings/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `${localStorage.getItem("eWauthToken")}`,
+            },
+        });
+
+        if (response.ok) {
+            return { message: "Booking Deleted Successfully", ok: true };
+        }
+
+        throw Error("Failed to delete booking");
+    } catch (error) {
+        return { error: error.message };
+    }
+};

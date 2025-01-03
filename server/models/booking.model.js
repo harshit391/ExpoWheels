@@ -90,6 +90,7 @@ Booking.getByUserId = async (id, type, sucessCallBack, errorCallBack) => {
                 ...booking.car._doc,
                 pricePaid: booking.pricePaid,
                 endDate: booking.bookingEndDate ? booking.bookingEndDate : null,
+                bookType: booking.bookType,
             };
 
             // console.log("Car: ", car);
@@ -122,7 +123,6 @@ Booking.createBooking = async function (data, sucessCallBack, errorCallBack) {
 
         car.isAvailableForRent = false;
         car.isAvailableForSale = false;
-        car.booking = newBooking._id;
 
         if (car.onDiscountSale) {
             const sale = await Sale.findByIdAndDelete(car.onDiscountSale);
@@ -146,10 +146,15 @@ Booking.createBooking = async function (data, sucessCallBack, errorCallBack) {
 
         user.bookings.push(newBooking._id);
 
-        car.owner = user._id;
+        if (data.type === "Buy") {
+            car.owner = user._id;
+        }
+
+        car.booking = newBooking._id;
 
         await car.save();
         await newBooking.save();
+        await user.save();
         sucessCallBack(newBooking);
     } catch (error) {
         console.log("Error: ", error);
@@ -190,10 +195,37 @@ Booking.deleteBooking = async function (id, sucessCallBack, errorCallBack) {
             throw new Error("No booking found");
         }
 
-        await booking.remove();
+        const user = await UserModel.findById(booking.buyer);
 
-        sucessCallBack(booking);
+        if (!user) {
+            throw new Error("No user found");
+        }
+
+        const car = await CarModel.findById(booking.car);
+
+        if (!car) {
+            throw new Error("No car found");
+        }
+
+        if (booking.bookType === "Rent") {
+            car.isAvailableForRent = true;
+        } else {
+            car.isAvailableForSale = true;
+        }
+
+        const index = user.bookings.indexOf(booking._id);
+
+        if (index > -1) {
+            user.bookings.splice(index, 1);
+        }
+
+        const deletedBooking = await Booking.findByIdAndDelete(id);
+        await car.save();
+        await user.save();
+
+        sucessCallBack(deletedBooking);
     } catch (error) {
+        console.log("Error: ", error);
         errorCallBack(error);
     }
 };
