@@ -100,9 +100,9 @@ const carSchema = new mongoose.Schema({
         default: Date.now,
     },
     booking: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: [mongoose.Schema.Types.ObjectId],
         ref: "User",
-        default: null,
+        default: [],
     },
 });
 

@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { deleteCar } from "../../../utils/services/car";
+import { useAuth } from "../../../context/context";
 
 const Car = ({ car, buyOrRent, userId }) => {
+    const { admin } = useAuth();
+
     const formatDate = (date) => {
         const dateObj = new Date(date);
-
-        const navigate = useNavigate();
 
         const day = dateObj.getDate();
         const month = dateObj.getMonth() + 1;
@@ -67,7 +68,7 @@ const Car = ({ car, buyOrRent, userId }) => {
                         whiteSpace: "nowrap",
                     }}
                 >
-                    {car.brand}{" "}{car.model}
+                    {car.brand} {car.model}
                 </h1>
                 <img
                     src={`${API_URL_EWS}/${car.image}`}
@@ -199,7 +200,7 @@ const Car = ({ car, buyOrRent, userId }) => {
                         <span>{car.owner.name}</span>
                     </div>
                 </div>
-                {userId && userId === car.owner._id && (
+                {((userId && userId === car.owner._id) || admin) && (
                     <Link
                         to={`/car/edit/${car._id}`}
                         className="w-full bg-blue-700 text-white font-semibold py-2 rounded hover:bg-blue-900 text-center transition"
@@ -207,7 +208,7 @@ const Car = ({ car, buyOrRent, userId }) => {
                         Edit Details
                     </Link>
                 )}
-                {userId && userId === car.owner._id && (
+                {((userId && userId === car.owner._id) || admin) && (
                     <div
                         onClick={() => handleDelete(car._id)}
                         className="w-full bg-red-700 text-white font-semibold py-2 rounded hover:bg-red-900 text-center transition"

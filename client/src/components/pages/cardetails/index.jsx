@@ -13,7 +13,7 @@ const CarDetails = () => {
 
     const navigate = useNavigate();
 
-    const { user, loading } = useAuth();
+    const { user, loading, admin } = useAuth();
 
     const [userId, setUserId] = useState(null);
 
@@ -114,7 +114,7 @@ const CarDetails = () => {
                         }}
                         className="text-2xl md:text-5xl text-center py-8 col-div-1 md:col-div-3 uppercase"
                     >
-                        {carData.brand}{" "}{carData.model}
+                        {carData.brand} {carData.model}
                     </h1>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                         <div className="flex flex-col gap-4">
@@ -148,8 +148,8 @@ const CarDetails = () => {
                                             Buy Now
                                         </Link>
                                     )}
-                                {userId &&
-                                    userId !== carData.owner._id &&
+                                {((userId && userId !== carData.owner._id) ||
+                                    admin) &&
                                     carData.isAvailableForRent && (
                                         <Link
                                             to={`/car/purchase/${carData._id}?type=Rent`}
@@ -158,8 +158,8 @@ const CarDetails = () => {
                                             Rent Now
                                         </Link>
                                     )}
-                                {userId &&
-                                    userId === carData.owner._id &&
+                                {((userId && userId === carData.owner._id) ||
+                                    admin) &&
                                     (carData.isAvailableForSale ||
                                         carData.isAvailableForRent) && (
                                         <Link
@@ -169,8 +169,8 @@ const CarDetails = () => {
                                             Edit Details
                                         </Link>
                                     )}
-                                {userId &&
-                                    userId === carData.owner._id &&
+                                {((userId && userId === carData.owner._id) ||
+                                    admin) &&
                                     (carData.isAvailableForSale ||
                                         carData.isAvailableForRent) && (
                                         <div

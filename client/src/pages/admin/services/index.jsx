@@ -53,7 +53,7 @@ const AdminProfile = () => {
                     }}
                     className="text-5xl md:text-6xl text-center font-bold"
                 >
-                    User Profile
+                    Admin Panel
                 </h1>
                 <h4
                     style={{
@@ -61,8 +61,7 @@ const AdminProfile = () => {
                     }}
                     className="text-center italic"
                 >
-                    Welcome to your profile. Here you can view all the cars you
-                    have bought and added for sale.
+                    Welcome to Admin Page of ExpoWheels.
                 </h4>
                 <div
                     className="flex flex-col gap-2 font-bold border-2 py-4 m-4 text-2xl italic border-solid bolder-black rounded-md items-center"
@@ -72,10 +71,6 @@ const AdminProfile = () => {
                 >
                     <div>Name :- {userProfile?.name}</div>
                     <div>Email :- {userProfile?.email}</div>
-                    <div>
-                        Bookings :-{" "}
-                        {userProfile.bookings ? userProfile.bookings.length : 0}
-                    </div>
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
