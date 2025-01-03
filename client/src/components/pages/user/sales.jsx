@@ -58,7 +58,6 @@ const Car = ({ car, buyOrRent }) => {
         } else {
             clearInterval(timerId);
             setTimeRemaining("Rent End Date Passed");
-            alert("Rent End Date Passed");
         }
     };
 
