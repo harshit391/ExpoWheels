@@ -225,12 +225,11 @@ CarModel.getUserSales = async (id, successCallBack, errorCallBack) => {
             $or: [{ isAvailableForSale: true }, { isAvailableForRent: true }],
         }).populate("onDiscountSale");
 
-        if (userSales && userSales.length > 0) {
-            successCallBack(userSales);
-        } else {
-            errorCallBack(204, "No Cars Found");
-        }
+        console.log(userSales);
+
+        successCallBack(userSales);
     } catch (error) {
+        console.log(error);
         errorCallBack(500, error.message);
     }
 };

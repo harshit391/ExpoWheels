@@ -67,8 +67,8 @@ router.get("/user/:id", verifyToken, (req, res) => {
         },
 
         // Error Callback
-        (dbres) => {
-            res.status(500).send({
+        (status, dbres) => {
+            res.status(status).send({
                 message: "Failed to Fetch Car Details",
                 error: dbres,
             });

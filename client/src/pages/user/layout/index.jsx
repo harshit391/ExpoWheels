@@ -7,6 +7,7 @@ const Layout = ({ title, data, showDetails }) => {
 
     useEffect(() => {
         if (data) setCurrData(data);
+        console.log("Sales", data);
     }, [data]);
 
     return (
@@ -26,7 +27,7 @@ const Layout = ({ title, data, showDetails }) => {
                 )}
             </h2>
 
-            {data && data.length > 0 && (
+            {currData && currData.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                     {currData.map((item, index) => (
                         <SalesCard

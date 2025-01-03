@@ -31,7 +31,7 @@ const Sale = ({ saleData, car }) => {
     const handleInputChange = (e) => {
         setFormData((prevData) => ({
             ...prevData,
-            discountPercentage: e.target.value,
+            discountPercentage: e.target.value.trim(),
         }));
     };
 

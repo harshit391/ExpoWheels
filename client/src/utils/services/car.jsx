@@ -6,7 +6,7 @@ export const editCar = async (data, id) => {
             method: "PUT",
             body: data,
             headers: {
-                "Authorization": `${localStorage.getItem("token")}`,
+                "Authorization": `${localStorage.getItem("eWauthToken")}`,
             },
         });
 
@@ -23,7 +23,7 @@ export const deleteCar = async (carId) => {
         const request = await fetch(`${API_URL_EWS}/api/cars/remove/${carId}`, {
             method: "DELETE",
             headers: {
-                "Authorization": `${localStorage.getItem("token")}`,
+                "Authorization": `${localStorage.getItem("eWauthToken")}`,
             },
         });
 

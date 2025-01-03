@@ -13,7 +13,7 @@ const Sales = () => {
         const fetchSales = async () => {
             const data = await userSales(user._id);
 
-            // console.log("Data", data.sales);
+            console.log("Data", data.sales);
 
             if (data.ok) setSales(data.sales);
         };

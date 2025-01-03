@@ -135,7 +135,7 @@ const Sell = () => {
 
         if (!formData.isAvailableForRent && !formData.isAvailableForSale) {
             alert(
-                "Please select atleast 'Available For Sale' or 'Available For Rent'."
+                "Please select at least 'Available For Sale' or 'Available For Rent'."
             );
             return;
         }
@@ -144,7 +144,6 @@ const Sell = () => {
             if (key === "location") {
                 for (const locKey in formData.location) {
                     if (!formData.location[locKey]) {
-                        // console.log("1");
                         alert(
                             "Please Fill The Field " +
                                 locKey.charAt(0).toUpperCase() +
@@ -153,40 +152,39 @@ const Sell = () => {
                         );
                         return;
                     }
-                    formDataToSubmit.append(locKey, formData.location[locKey]);
+                    formDataToSubmit.append(
+                        locKey,
+                        formData.location[locKey].trim()
+                    );
                 }
             } else {
                 if (key === "isAvailableForRent" || key === "rentPrice") {
                     if (formData.isAvailableForRent && !formData.rentPrice) {
-                        // console.log("2");
                         alert("Please Fill The Price For Rent");
                         return;
                     }
 
                     if (formData.rentPrice > 5000) {
                         alert(
-                            "Rent Price should be less than Equal to 5000 Per Day"
+                            "Rent Price should be less than or equal to 5000 Per Day"
                         );
                         return;
                     }
                 } else if (key === "isAvailableForSale" || key === "price") {
                     if (formData.isAvailableForSale && !formData.price) {
-                        // console.log("3");
                         alert("Please Fill The Price For Sale");
                         return;
                     }
 
                     if (formData.price > 10000000) {
-                        alert("Rent Price should be less than 10 Million");
+                        alert("Sale Price should be less than 10 Million");
                         return;
                     }
                 } else if (
                     !formData[key] &&
-                    key != "imageError" &&
-                    key != "onDiscountSale"
+                    key !== "imageError" &&
+                    key !== "onDiscountSale"
                 ) {
-                    // console.log("4");
-                    // console.log(key);
                     alert(
                         "Please Fill The Field " +
                             key.charAt(0).toUpperCase() +
@@ -207,8 +205,12 @@ const Sell = () => {
                     }
                 }
 
-                if (key != "imageError" && key != "onDiscountSale") {
-                    formDataToSubmit.append(key, formData[key]);
+                if (key !== "imageError" && key !== "onDiscountSale") {
+                    const value =
+                        typeof formData[key] === "string"
+                            ? formData[key].trim()
+                            : formData[key];
+                    formDataToSubmit.append(key, value);
                 }
             }
         }

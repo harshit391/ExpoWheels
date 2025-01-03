@@ -72,10 +72,6 @@ const User = () => {
                 >
                     <div>Name :- {userProfile?.name}</div>
                     <div>Email :- {userProfile?.email}</div>
-                    <div>
-                        Bookings :-{" "}
-                        {userProfile.bookings ? userProfile.bookings.length : 0}
-                    </div>
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
