@@ -38,20 +38,6 @@ const Car = ({ car, buyOrRent }) => {
         return price;
     };
 
-    const handleDelete = async (carId) => {
-        if (!window.confirm("Are you sure you want to delete this car?")) {
-            return;
-        }
-
-        const response = await deleteCar(carId);
-        if (response.ok) {
-            alert("Car Deleted Successfully");
-            navigate("/car/buy");
-        } else {
-            alert("Error Deleting Car");
-        }
-    };
-
     return (
         <div className="flex flex-col gap-4 rounded-md p-4 shadow-2xl md:hover:scale-105 cursor-pointer transition">
             <div className="flex flex-col gap-4 w-full">
