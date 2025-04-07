@@ -6,7 +6,7 @@ const router = Router();
 
 /* ============================= GET ROUTES FOR SALES MODEL ============================= */
 
-router.get("/get", (req, res) => {
+router.get("/", (req, res) => {
     Sale.getAll(
         // Success Callback
         (dbres) => {
@@ -28,7 +28,7 @@ router.get("/get", (req, res) => {
 
 /* ============================= POST ROUTES FOR SALES MODEL ============================= */
 
-router.post("/set", verifyToken, (req, res) => {
+router.post("/", verifyToken, (req, res) => {
     const data = req.body;
 
     Sale.addSale(
@@ -50,7 +50,7 @@ router.post("/set", verifyToken, (req, res) => {
 
 /* ============================= PUT ROUTES FOR SALES MODEL ============================= */
 
-router.put("/set/:id", verifyToken, (req, res) => {
+router.put("/:id", verifyToken, (req, res) => {
     const id = req.params.id;
     const data = req.body;
 
@@ -74,7 +74,7 @@ router.put("/set/:id", verifyToken, (req, res) => {
 
 /* ============================= DELETE ROUTES FOR SALES MODEL ============================= */
 
-router.delete("/remove/:id", verifyToken, (req, res) => {
+router.delete("/:id", verifyToken, (req, res) => {
     const id = req.params.id;
 
     Sale.removeSale(

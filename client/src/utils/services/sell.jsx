@@ -2,7 +2,7 @@ import { API_URL_EWS } from "../constants";
 
 export const sellCar = async (data) => {
     try {
-        const request = await fetch(`${API_URL_EWS}/api/cars/add`, {
+        const request = await fetch(`${API_URL_EWS}/api/cars/`, {
             method: "POST",
             body: data,
             headers: {

@@ -74,7 +74,7 @@ export const userRentals = async (id) => {
 
 export const userSales = async (id) => {
     try {
-        const response = await fetch(`${API_URL_EWS}/api/cars/user/${id}`, {
+        const response = await fetch(`${API_URL_EWS}/api/cars/${id}`, {
             method: "GET",
             headers: {
                 Authorization: `${localStorage.getItem("eWauthToken")}`,

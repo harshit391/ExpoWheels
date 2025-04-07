@@ -16,7 +16,7 @@ const router = Router();
 //     key_secret: RAZORPAY_SECRET_KEY,
 // });
 
-router.post("/order", verifyToken, async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
     try {
         const { amount } = req.body;
 

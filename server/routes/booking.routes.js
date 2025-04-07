@@ -54,7 +54,7 @@ router.get("/user/:id", verifyToken, (req, res) => {
     );
 });
 
-router.post("/create", verifyToken, (req, res) => {
+router.post("/", verifyToken, (req, res) => {
     Booking.createBooking(
         req.body,
 

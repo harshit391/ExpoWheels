@@ -4,7 +4,7 @@ export const createBooking = async (data) => {
     try {
         // console.log("Booking Data: ", data);
 
-        const response = await fetch(`${API_URL_EWS}/api/bookings/create`, {
+        const response = await fetch(`${API_URL_EWS}/api/bookings/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -7,7 +7,7 @@ const router = Router();
 
 /* ============================= GET ROUTES FOR CARS MODEL ============================= */
 
-router.get("/get", async (req, res) => {
+router.get("/", async (req, res) => {
     const queries = req.query;
 
     await CarModel.getAll(
@@ -32,7 +32,7 @@ router.get("/get", async (req, res) => {
     );
 });
 
-router.get("/get/:id", (req, res) => {
+router.get("/:id", (req, res) => {
     const id = req.params.id;
 
     CarModel.getById(
@@ -78,7 +78,7 @@ router.get("/user/:id", verifyToken, (req, res) => {
 
 /* ============================= POST ROUTES FOR CARS MODEL ============================= */
 
-router.post("/add", verifyToken, upload.single("image"), (req, res) => {
+router.post("/", verifyToken, upload.single("image"), (req, res) => {
     const data = req.body;
     const file = req.file;
 
@@ -106,7 +106,7 @@ router.post("/add", verifyToken, upload.single("image"), (req, res) => {
 
 /* ============================= PUT ROUTES FOR CARS MODEL ============================= */
 
-router.put("/edit/:id", verifyToken, upload.single("image"), (req, res) => {
+router.put("/:id", verifyToken, upload.single("image"), (req, res) => {
     const data = req.body;
     const id = req.params.id;
     const file = req.file;
@@ -135,7 +135,7 @@ router.put("/edit/:id", verifyToken, upload.single("image"), (req, res) => {
 
 /* ============================= DELETE ROUTES FOR CARS MODEL ============================= */
 
-router.delete("/remove/:id", verifyToken, (req, res) => {
+router.delete("/:id", verifyToken, (req, res) => {
     const id = req.params.id;
 
     CarModel.deleteCar(

@@ -2,7 +2,7 @@ import { API_URL_EWS } from "../constants";
 
 export const editCar = async (data, id) => {
     try {
-        const request = await fetch(`${API_URL_EWS}/api/cars/edit/${id}`, {
+        const request = await fetch(`${API_URL_EWS}/api/cars/${id}`, {
             method: "PUT",
             body: data,
             headers: {
@@ -20,7 +20,7 @@ export const editCar = async (data, id) => {
 
 export const deleteCar = async (carId) => {
     try {
-        const request = await fetch(`${API_URL_EWS}/api/cars/remove/${carId}`, {
+        const request = await fetch(`${API_URL_EWS}/api/cars/${carId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `${localStorage.getItem("eWauthToken")}`,

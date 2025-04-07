@@ -272,7 +272,7 @@ const Sell = () => {
             const fetchCarDetails = async () => {
                 try {
                     const response = await fetch(
-                        `${API_URL_EWS}/api/cars/get/${id}`
+                        `${API_URL_EWS}/api/cars/${id}`
                     );
                     const data = await response.json();
 

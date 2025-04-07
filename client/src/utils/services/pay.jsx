@@ -57,7 +57,7 @@ const PaymentButton = ({ amount, type, user, owner, endDate, carId }) => {
 
             // console.log("Amount to pay: ", amountToPay);
 
-            const res = await fetch(`${API_URL_EWS}/api/payment/order`, {
+            const res = await fetch(`${API_URL_EWS}/api/payment/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

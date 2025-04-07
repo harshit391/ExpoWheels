@@ -6,7 +6,7 @@ export const addSale = async (data, car) => {
 
         // console.log("Data :- ", newData);
 
-        const response = await fetch(`${API_URL_EWS}/api/sales/set`, {
+        const response = await fetch(`${API_URL_EWS}/api/sales/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export const addSale = async (data, car) => {
 
 export const editSale = async (data, id) => {
     try {
-        const response = await fetch(`${API_URL_EWS}/api/sales/set/${id}`, {
+        const response = await fetch(`${API_URL_EWS}/api/sales/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const editSale = async (data, id) => {
 
 export const deleteSale = async (id) => {
     try {
-        const response = await fetch(`${API_URL_EWS}/api/sales/remove/${id}`, {
+        const response = await fetch(`${API_URL_EWS}/api/sales/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

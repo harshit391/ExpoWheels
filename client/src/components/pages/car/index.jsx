@@ -1,11 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API_URL_EWS } from "../../../utils/constants";
 import { deleteCar } from "../../../utils/services/car";
-import { useAuth } from "../../../context/context";
 
-const Car = ({ car, buyOrRent, userId }) => {
-    const { admin } = useAuth();
-
+const Car = ({ car, buyOrRent }) => {
     const formatDate = (date) => {
         const dateObj = new Date(date);
 
@@ -200,7 +197,7 @@ const Car = ({ car, buyOrRent, userId }) => {
                         <span>{car.owner.name}</span>
                     </div>
                 </div>
-                {((userId && userId === car.owner._id) || admin) && (
+                {/* {((userId && userId === car.owner._id) || admin) && (
                     <Link
                         to={`/car/edit/${car._id}`}
                         className="w-full bg-blue-700 text-white font-semibold py-2 rounded hover:bg-blue-900 text-center transition"
@@ -215,7 +212,7 @@ const Car = ({ car, buyOrRent, userId }) => {
                     >
                         Delete Car
                     </div>
-                )}
+                )} */}
                 {buyOrRent &&
                     (car.isAvailableForSale ? (
                         <Link

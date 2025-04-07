@@ -42,7 +42,7 @@ const Rent = () => {
 
         // console.log(query);
 
-        const response = await fetch(`${API_URL_EWS}/api/cars/get?${query}`);
+        const response = await fetch(`${API_URL_EWS}/api/cars/?${query}`);
 
         if (response.ok && response.status === 204) {
             setCarsData([]);

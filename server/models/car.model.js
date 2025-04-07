@@ -342,7 +342,11 @@ CarModel.deleteCar = async (id, successCallBack, errorCallBack) => {
 
         // console.log("Current Path :- ", currPath);
 
-        fs.rmSync(currPath);
+        try {
+            fs.rmSync(currPath);
+        } catch (error) {
+            console.log("Error While Deleting File :- ", error);
+        }
 
         const res = await CarModel.findByIdAndDelete(id);
 

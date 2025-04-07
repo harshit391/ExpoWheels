@@ -8,7 +8,7 @@ const Carousel = () => {
     useEffect(() => {
         const fetchSalesData = async () => {
             try {
-                const response = await fetch(`${API_URL_EWS}/api/sales/get`, {
+                const response = await fetch(`${API_URL_EWS}/api/sales/`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

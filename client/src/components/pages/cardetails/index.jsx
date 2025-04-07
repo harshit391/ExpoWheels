@@ -43,7 +43,7 @@ const CarDetails = () => {
 
     useEffect(() => {
         const fetchCarData = async () => {
-            const response = await fetch(`${API_URL_EWS}/api/cars/get/${id}`, {
+            const response = await fetch(`${API_URL_EWS}/api/cars/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
